@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/nav_color">
+
+        <ImageView
+            android:id="@+id/Address_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/item_back"
+            android:layout_margin="5dp"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="30dp"
+            android:text="选择地址"
+            style="@style/nav_text"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20sp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:text="请选择您所在的区域："
+            style="@style/default_text" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/area_spinner"
+                style="@style/spinner_bar"
+                android:background="@color/transparent"/>
+
+            <ImageView
+                android:layout_alignBottom="@+id/area_spinner"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="24dp"
+                style="@style/spinner_btn"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5sp"
+                android:background="@drawable/sp_line"
+                android:layout_alignBottom="@+id/area_spinner"
+                ></View>
+
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:text="请选择您的楼号："
+            style="@style/default_text" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Spinner
+                android:id="@+id/building_spinner"
+                style="@style/spinner_bar"
+                android:background="@color/transparent"/>
+
+            <ImageView
+                android:layout_alignBottom="@+id/building_spinner"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="4dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="24dp"
+                style="@style/spinner_btn" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5sp"
+                android:background="@drawable/sp_line"
+                android:layout_alignBottom="@+id/building_spinner"
+                ></View>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20sp"
+            android:text="请输入您的宿舍号："
+            style="@style/default_text"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/room_et"
+                android:layout_height="25dp"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="20sp"
+                android:textSize="14dp"
+                android:background="@color/transparent"
+                android:hint="如：118"
+                android:paddingTop="3sp"
+                android:paddingLeft="7sp"
+                android:paddingBottom="2sp"
+                android:inputType="number"
+                android:singleLine="true"/>
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="5sp"
+                android:background="@drawable/sp_line"
+                android:layout_alignBottom="@+id/room_et"
+                ></View>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/rb_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20sp"/>
+            <TextView
+                android:id="@+id/iagree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我同意"
+                android:layout_toRightOf="@id/rb_agree"
+                android:layout_alignBaseline="@id/rb_agree"
+                />
+            <TextView
+                android:id="@+id/agreement"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/i_agree"
+                android:layout_toRightOf="@id/iagree"
+                android:layout_alignBaseline="@id/rb_agree"
+                />
+
+        </RelativeLayout>
+
+
+            style="@style/default_text"
+            />
+        <Button
+            android:id="@+id/btnAddress"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/btn_send_bg"
+            android:text="提交"
+            style="@style/default_text"
+            android:textColor="@color/white"
+            android:layout_marginTop="0sp"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

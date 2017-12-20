@@ -1,0 +1,51 @@
+<resources>
+    <!-- &#160; 是空格-->
+    <string name="app_name">UD</string>
+    <string name="welcome">Welcome!</string>
+    <string name="home">主页</string>
+    <string name="get">订单</string>
+    <string name="post">社区</string>
+    <string name="me">我的</string>
+    <string name="search_qryHint">搜索订单</string>
+    <string name="want_to_get">取快递</string>
+    <string name="want_to_post">我要寄快递</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="code">验证码</string>
+    <string name="phone">手机号</string>
+    <string name="get_code">获取验证码</string>
+    <string name="login">登录</string>
+    <string name="publish_message">publish message</string>
+    <string name="phone_num_cannot_be_empty">手机号不能为空！</string>
+    <string name="username_cannot_be_empty">请输入用户名</string>
+    <string name="password_cannot_be_empty">请输入密码</string>
+    <string name="password_cannot_be_dismatch">两次输入的密码不一致</string>
+    <string name="code_cannot_be_empty">验证码不能为空！</string>
+    <string name="fail_to_get_code">获取验证码失败！</string>
+    <string name="fail_to_login">登录失败，请稍后再试</string>
+    <string name="fail_to_commit">提交失败，请稍后再试</string>
+    <string name="fail_to_load_timeline_data">Fail to load messages,please try later</string>
+    <string name="suc_to_get_code">验证码已发送，请及时查看信息</string>
+    <string name="suc_to_regist">注册成功</string>
+    <string name="login_already">您已登录</string>
+    <string name="login_notyet">您尚未登录</string>
+    <string name="fail_to_regist">用户名已存在</string>
+    <string name="connecting">连接中...</string>
+    <string name="connecting_to_server">正在连接服务器，请稍后...</string>
+    <string name="confirm_order">确认收货</string>
+    <string name="extend_order">延长收货</string>
+    <string name="complain">投诉</string>
+    <string name="locate_school">学校位置定位</string>
+    <string name="user_current_location">您当前的位置是：</string>
+    <string name="i_agree"><b><u>《UD平台业务用户协议》</u></b></string>
+    <string name="agreemt">
+        \t\t本服务条款是您与同城互助信息服务平台（包含同城互助网站、同城互助手机终端软件）的所有者-----科技有限公司及其关联公司之间就同城互助提供的信息服务等相关事宜所订立的合约或合同。
+        \n
+        \t\t请您仔细阅读本条款，您勾选"我已了解并接受《注册服务条款》"并点击【立即注册】按钮注册成功后成为同城互助的正式会员，本服务条款即构成了对双方具有法律约束力的文件。
+        \n
+        \t\t同城互助信息服务平台，为提供及维护信息发布的服务平台。其为平台注册用户（信息发布方和接收方）免费提供信息中介管理服务，为用户发布和搜索帮助信息提供便利与支持。
+        \n
+        \t\t用户，包含注册用户和非注册用户。注册用户是指通过同城互助移动端APP完成全部注册程序后，使用同城互助平台服务的用户。非注册用户是指未进行注册、直接登录同城互助移动端APP使用同城互助平台服务的用户。
+    </string>
+    <string name="check_agreement">请阅读用户协议并勾选我同意</string>
+</resources>

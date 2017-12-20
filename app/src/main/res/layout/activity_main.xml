@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+    <LinearLayout
+        android:id="@+id/tab_menu"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/txt_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/tab_menu_deal"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_deal_text"
+            style="@style/min_text"
+            android:text="@string/home"/>
+
+        <TextView
+            android:id="@+id/txt_get"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/tab_menu_deal"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_deal_text"
+            style="@style/min_text"
+            android:text="@string/get"/>
+
+        <!--<TextView-->
+            <!--android:id="@+id/txt_post"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:drawablePadding="3dp"-->
+            <!--android:drawableTop="@drawable/tab_menu_deal"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@drawable/tab_menu_deal_text"-->
+            <!--style="@style/min_text"-->
+            <!--android:text="@string/post"/>-->
+
+        <TextView
+            android:id="@+id/txt_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/tab_menu_deal"
+            android:gravity="center"
+            android:textColor="@drawable/tab_menu_deal_text"
+            style="@style/min_text"
+            android:text="@string/me"/>
+
+    </LinearLayout>
+    <View
+        android:id="@+id/blank_bar"
+        android:layout_width="match_parent"
+        android:layout_height="10px"
+        android:background="@android:color/transparent"
+        android:layout_above="@id/tab_menu"/>
+    <View
+        android:id="@+id/div_tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:background="#BEBEBE"
+        android:layout_above="@id/blank_bar"/>
+
+
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/div_tab_bar"
+        android:background="@android:color/transparent">
+    </FrameLayout>
+
+</RelativeLayout>

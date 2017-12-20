@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/nav_color"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/Agree_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/item_back" />
+
+        <TextView
+            style="@style/nav_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="用户协议"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <TextView
+        style="@style/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20sp"
+        android:layout_marginTop="20sp"
+        android:text="《UD平台业务用户协议》" />
+
+    <TextView
+        style="default_text"
+        android:layout_width="300sp"
+        android:layout_height="380sp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/agreemt" />
+
+</LinearLayout>
