@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.bottom.R;
@@ -22,10 +23,10 @@ import com.example.administrator.bottom.frag.FragOrder;
 
 public class AtyMainFrame extends Activity implements View.OnClickListener {
 
-    private TextView tabHome;
-    private TextView tabGet;
-    private TextView tabPost;
-    private TextView tabMe;
+    private LinearLayout tabHome;
+    private LinearLayout tabGet;
+    private LinearLayout tabPost;
+    private LinearLayout tabMe;
 
     private FrameLayout ly_content;
 
@@ -75,10 +76,10 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     //UI组件初始化与事件绑定
     private void bindView() {
 //        topBar = (TextView)this.findViewById(R.id.txt_top);
-        tabHome = (TextView) this.findViewById(R.id.txt_home);
-        tabGet = (TextView) this.findViewById(R.id.txt_get);
+        tabHome = (LinearLayout) this.findViewById(R.id.txt_home);
+        tabGet = (LinearLayout) this.findViewById(R.id.txt_get);
 //        tabPost = (TextView) this.findViewById(R.id.txt_post);
-        tabMe = (TextView) this.findViewById(R.id.txt_me);
+        tabMe = (LinearLayout) this.findViewById(R.id.txt_me);
         ly_content = (FrameLayout) findViewById(R.id.fragment_container);
 
         tabHome.setOnClickListener(this);
