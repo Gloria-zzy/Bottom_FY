@@ -61,7 +61,6 @@ public class FragOrder extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!loginstatus=" + Config.loginStatus);
         if (Config.loginStatus == 0) {
             view = inflater.inflate(R.layout.aty_unlog, container, false);
             view.findViewById(R.id.to_login).setOnClickListener(new View.OnClickListener() {
@@ -151,6 +150,8 @@ public class FragOrder extends Fragment {
                         newov.setOrder_status("已结束");
                         history.addView(newov);
                         newov.getOrder_change().setVisibility(View.GONE);
+                        newov.getDischarge_order().setVisibility(View.GONE);
+                        newov.getOrder_code().setVisibility(View.GONE);
                     } else if (status.equals("1")) {
                         newov.setOrder_status("正在送货");
                         ll.addView(newov);
