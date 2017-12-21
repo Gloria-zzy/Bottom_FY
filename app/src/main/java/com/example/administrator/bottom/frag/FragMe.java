@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
+import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyAddressMng;
 import com.example.administrator.bottom.atys.AtyLogin;
@@ -79,11 +80,12 @@ public class FragMe extends Fragment {
                 @Override
                 public void onClick(View view) {
                     Config.loginStatus = 0;
-                    Intent intent = new Intent(getActivity(), AtyLogin.class);
+                    Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+                    intent.putExtra("page","me");
                     startActivity(intent);
-                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                    mTextView.setText("登录");
-                    showPhoneNumber();
+//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                    mTextView.setText("登录");
+//                    showPhoneNumber();
                     Config.cacheToken(getActivity(), "");
                 }
             });
