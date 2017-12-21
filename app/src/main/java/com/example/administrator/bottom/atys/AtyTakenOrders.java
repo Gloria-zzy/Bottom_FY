@@ -104,7 +104,7 @@ public class AtyTakenOrders extends AppCompatActivity {
                         newov.setOrder_status("订单异常");
                         sv.addView(newov);
                     }
-                    newov.setOnClickListener(new View.OnClickListener() {
+                    newov.getDischarge_order().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             new UpdateOrder(publisher,taker,order_num,point,takenum,loc, note,date,"2", new UpdateOrder.SuccessCallback() {
@@ -113,7 +113,7 @@ public class AtyTakenOrders extends AppCompatActivity {
                                 public void onSuccess() {
 
 
-//                                    Toast.makeText(AtyTakenOrders.this, "修改成功", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(AtyTakenOrders.this, "已放弃订单", Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(AtyTakenOrders.this, AtyMainFrame.class);
                                     i.putExtra("page","order");
                                     startActivity(i);

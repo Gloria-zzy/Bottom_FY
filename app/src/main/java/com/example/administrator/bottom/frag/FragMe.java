@@ -58,7 +58,8 @@ public class FragMe extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_me, container, false);
-
+        phone_num = (TextView) view.findViewById(R.id.textView);
+        showPhoneNumber();
         avatar = (ImageView) view.findViewById(R.id.iv_avatar);
         //login btn
         mTextView = (TextView) view.findViewById(R.id.func_btn);
@@ -82,6 +83,7 @@ public class FragMe extends Fragment {
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                     mTextView.setText("登录");
+                    showPhoneNumber();
                     Config.cacheToken(getActivity(), "");
                 }
             });
@@ -115,15 +117,7 @@ public class FragMe extends Fragment {
             }
         });
 
-        //show phone number!!!!
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-        String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-        phone_num = (TextView) view.findViewById(R.id.textView);
-        if (Config.loginStatus == 1) {
-            phone_num.setText(phone);
-        } else {
-            phone_num.setText("未登录");
-        }
+
 
         //scanner!!!!
 //        result = view.findViewById(R.id.result_tv);
@@ -210,7 +204,17 @@ public class FragMe extends Fragment {
         return view;
     }
 
+    public void showPhoneNumber(){
+        //show phone number!!!!
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
+        String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
 
+        if (Config.loginStatus == 1) {
+            phone_num.setText(phone);
+        } else {
+            phone_num.setText("未登录");
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -227,9 +231,9 @@ public class FragMe extends Fragment {
                     @Override
                     public void onSuccess() {
 
-                        Toast.makeText(getActivity(),"完成订单！", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "完成订单！", Toast.LENGTH_LONG).show();
                         Intent i = new Intent(getActivity(), AtyMainFrame.class);
-                        i.putExtra("page","me");
+                        i.putExtra("page", "me");
                         startActivity(i);
                     }
                 }, new CompleteOrder.FailCallback() {
