@@ -85,13 +85,13 @@ public class AtyAddressMng extends Activity {
             });
 
             //重新定位学校点击事件
-            findViewById(R.id.btn_Relocate).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent i = new Intent(AtyAddressMng.this,AtyLocateSchool.class);
-                    startActivity(i);
-                }
-            });
+//            findViewById(R.id.btn_Relocate).setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    Intent i = new Intent(AtyAddressMng.this,AtyLocateSchool.class);
+//                    startActivity(i);
+//                }
+//            });
 
             //数据
             data_list = new ArrayList<String>();

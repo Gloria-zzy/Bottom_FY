@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -263,6 +264,8 @@ public class FragOrder extends Fragment {
 
         PagerAdapter adapter = new FragOrder.MyPagerAdapter();
         pager.setAdapter(adapter);
+        tvs.get(0).setTextColor(Color.WHITE);
+        tvs.get(0).setBackgroundResource(R.drawable.item_sublime_text);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -270,9 +273,11 @@ public class FragOrder extends Fragment {
                 // TODO Auto-generated method stub
                 for (int i = 0; i < tvs.size(); i++) {
                     if (i == index) {
-                        tvs.get(i).setTextColor(Color.BLUE);
+                        tvs.get(i).setTextColor(Color.WHITE);
+                        tvs.get(i).setBackgroundResource(R.drawable.item_sublime_text);
                     } else {
                         tvs.get(i).setTextColor(Color.rgb(55, 55, 55));
+                        tvs.get(i).setBackgroundColor(Color.rgb(250, 250, 250));
                     }
                 }
             }

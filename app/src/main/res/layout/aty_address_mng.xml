@@ -166,16 +166,16 @@
             android:orientation="horizontal"
             android:layout_gravity="center">
 
-            <Button
-                android:id="@+id/btn_Relocate"
-                android:layout_width="120sp"
-                android:layout_height="30sp"
-                android:layout_margin="10dp"
-                android:text="定位学校"
-                android:layout_gravity="center"
-                android:background="@drawable/btn_send_bg"
-                style="@style/default_text"
-                android:textColor="@color/white"/>
+            <!--<Button-->
+                <!--android:id="@+id/btn_Relocate"-->
+                <!--android:layout_width="120sp"-->
+                <!--android:layout_height="30sp"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:text="定位学校"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:background="@drawable/btn_send_bg"-->
+                <!--style="@style/default_text"-->
+                <!--android:textColor="@color/white"/>-->
 
             <Button
                 android:id="@+id/btn_change_Address"

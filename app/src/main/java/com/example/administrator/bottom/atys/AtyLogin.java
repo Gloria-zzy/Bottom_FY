@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.net.DownloadAddress;
 import com.example.administrator.bottom.net.GetCode;
 import com.example.administrator.bottom.net.Login;
 import com.example.administrator.bottom.tools.MD5Tool;
@@ -100,6 +101,21 @@ public class AtyLogin extends Activity {
                         Config.loginStatus = Config.RESULT_STATUS_SUCCESS;
 
                         if(isvalid==Config.RESULT_STATUS_SUCCESS){
+
+                            new DownloadAddress(etPhone.getText().toString(), new DownloadAddress.SuccessCallback() {
+
+                                @Override
+                                public void onSuccess(String school, String area, String building, String room) {
+                                    Config.cacheAddress(AtyLogin.this, area + building + room);
+                                }
+                            }, new DownloadAddress.FailCallback() {
+
+                                @Override
+                                public void onFail() {
+                                    Toast.makeText(AtyLogin.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+                                }
+                            });
+
                             Toast.makeText(AtyLogin.this, "您已注册", Toast.LENGTH_LONG).show();
                             Intent i = new Intent(AtyLogin.this, AtyMainFrame.class);
                             i.putExtra("page","me");

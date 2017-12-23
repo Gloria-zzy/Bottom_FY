@@ -9,7 +9,7 @@
         android:id="@+id/current_order_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/border_clo"
+        android:background="#FFFAFAFA"
         android:orientation="vertical">
 
     </LinearLayout>

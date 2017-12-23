@@ -114,10 +114,11 @@ public class AtyTakenOrders extends AppCompatActivity {
 
 
                                     Toast.makeText(AtyTakenOrders.this, "已放弃订单", Toast.LENGTH_LONG).show();
-                                    Intent i = new Intent(AtyTakenOrders.this, AtyMainFrame.class);
-                                    i.putExtra("page","order");
+                                    Intent i = new Intent(AtyTakenOrders.this, AtyTakenOrders.class);
                                     startActivity(i);
-                                    AtyTakenOrders.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                                    finish();
+                                    
+//                                    AtyTakenOrders.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
 
                                 }
                             }, new UpdateOrder.FailCallback() {

@@ -10,13 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/border_clo">
+        android:background="#FFFAFAFA">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/order_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/border_clo"
+            android:background="#FFFAFAFA"
             android:orientation="vertical">
 
 
@@ -24,8 +24,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:orientation="horizontal"
-                android:background="@color/white"
-                android:gravity="center">
+                android:paddingTop="11sp"
+                android:background="@color/white">
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="#68AE94"/>
+                android:background="#3636ff"/>
             <android.support.v4.view.ViewPager
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +55,8 @@
                 <ScrollView
                     android:id="@+id/frag_order_scrollview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="#FFFAFAFA">
 
                 </ScrollView>
 
