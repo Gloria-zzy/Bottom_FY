@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
@@ -23,13 +22,11 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyGenCode;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
-import com.example.administrator.bottom.atys.AtyTakenOrders;
 import com.example.administrator.bottom.atys.AtyUpdateOrder;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.net.DeleteOrder;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
-import com.example.administrator.bottom.net.UpdateOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -153,21 +150,45 @@ public class FragOrder extends Fragment {
                         newov.getOrder_change().setVisibility(View.GONE);
                         newov.getDischarge_order().setVisibility(View.GONE);
                         newov.getOrder_code().setVisibility(View.GONE);
+                        newov.getOrder_cancel().setVisibility(View.GONE);
                     } else if (status.equals("1")) {
                         newov.setOrder_status("正在送货");
                         ll.addView(newov);
-                        newov.getOrder_cancel().setVisibility(View.GONE);
+                        newov.getOrder_delete().setVisibility(View.GONE);
                         newov.getOrder_change().setVisibility(View.GONE);
                         newov.getDischarge_order().setVisibility(View.GONE);
+                        newov.getOrder_cancel().setVisibility(View.GONE);
                     } else if (status.equals("2")) {
                         newov.setOrder_status("待接单");
                         ll.addView(newov);
-                        newov.getOrder_cancel().setVisibility(View.GONE);
+                        newov.getOrder_delete().setVisibility(View.GONE);
                         newov.getDischarge_order().setVisibility(View.GONE);
+                        newov.getOrder_cancel().setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                new DeleteOrder(newov.getOrder_num().getText().toString(), new DeleteOrder.SuccessCallback() {
+
+                                    @Override
+                                    public void onSuccess() {
+
+                                        Toast.makeText(getActivity(), "已取消", Toast.LENGTH_LONG).show();
+                                        fresh();
+
+                                    }
+                                }, new DeleteOrder.FailCallback() {
+
+                                    @Override
+                                    public void onFail() {
+                                        Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+                        });
                     } else if (status.equals("3")) {
                         newov.setOrder_status("订单异常");
                         ll.addView(newov);
                         newov.getDischarge_order().setVisibility(View.GONE);
+                        newov.getOrder_cancel().setVisibility(View.GONE);
                     }
 
                     newov.setCancelButtonListener(new View.OnClickListener() {

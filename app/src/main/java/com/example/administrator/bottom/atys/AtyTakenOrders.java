@@ -8,13 +8,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.custom.OrderView;
-import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.DownloadTakenOrders;
 import com.example.administrator.bottom.net.Order;
 import com.example.administrator.bottom.net.UpdateOrder;
@@ -88,9 +86,10 @@ public class AtyTakenOrders extends AppCompatActivity {
                         note = "无";
                     }
                     newov.setOrder_note(note);
-                    newov.getOrder_cancel().setVisibility(View.GONE);
+                    newov.getOrder_delete().setVisibility(View.GONE);
                     newov.getOrder_change().setVisibility(View.GONE);
                     newov.getOrder_code().setVisibility(View.GONE);
+                    newov.getOrder_cancel().setVisibility(View.GONE);
                     if (status.equals("0")) {
                         newov.setOrder_status("已结束");
                         sv.addView(newov);

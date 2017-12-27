@@ -23,8 +23,8 @@ public class OrderView extends RelativeLayout {
     private TextView order_loc;
     private TextView order_note;
     private TextView order_status;
+    private Button order_delete;
     private Button order_cancel;
-    private Button order_contact;
     private Button order_change;
     private Button order_code;
     private Button discharge_order;
@@ -48,6 +48,7 @@ public class OrderView extends RelativeLayout {
         order_loc = (TextView) findViewById(R.id.order_loc);
         order_note = (TextView) findViewById(R.id.order_note);
         order_status = (TextView) findViewById(R.id.order_status);
+        order_delete = (Button) findViewById(R.id.order_delete);
         order_cancel = (Button) findViewById(R.id.order_cancel);
         order_change = (Button) findViewById(R.id.order_change);
         order_code = (Button) findViewById(R.id.order_code);
@@ -72,6 +73,7 @@ public class OrderView extends RelativeLayout {
         order_loc = (TextView) findViewById(R.id.order_loc);
         order_note = (TextView) findViewById(R.id.order_note);
         order_status = (TextView) findViewById(R.id.order_status);
+        order_delete = (Button) findViewById(R.id.order_delete);
         order_cancel = (Button) findViewById(R.id.order_cancel);
         order_change = (Button) findViewById(R.id.order_change);
         order_code = (Button) findViewById(R.id.order_code);
@@ -80,6 +82,10 @@ public class OrderView extends RelativeLayout {
         tv_order_ordernum =(TextView) findViewById(R.id.tv_order_ordernum);
         tvshow_order_ordernum=(TextView)findViewById(R.id.tvshow_order_ordernum);
         ll_order_picknum_status=(LinearLayout)findViewById(R.id.ll_order_picknum_status);
+    }
+
+    public Button getOrder_cancel() {
+        return order_cancel;
     }
 
     public Button getDischarge_order() {
@@ -186,13 +192,10 @@ public class OrderView extends RelativeLayout {
         return order_status;
     }
 
-    public Button getOrder_cancel() {
-        return order_cancel;
+    public Button getOrder_delete() {
+        return order_delete;
     }
 
-    public Button getOrder_contact() {
-        return order_contact;
-    }
 
     public Button getOrder_change() {
         return order_change;
@@ -211,7 +214,7 @@ public class OrderView extends RelativeLayout {
     }
 
     public void setCancelButtonListener(OnClickListener listener) {
-        order_cancel.setOnClickListener(listener);
+        order_delete.setOnClickListener(listener);
     }
 
     public void setChangeButtonListener(OnClickListener listener){

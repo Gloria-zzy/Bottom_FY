@@ -253,13 +253,23 @@
                     android:textSize="12sp" />
 
                 <Button
-                    android:id="@+id/order_cancel"
+                    android:id="@+id/order_delete"
                     android:layout_width="70sp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/btn_func_border"
                     android:text="删除订单"
                     android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/order_cancel"
+                    android:layout_width="70sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/btn_func_border"
+                    android:text="取消订单"
+                    android:textSize="12sp" />
+
                 <Button
                     android:id="@+id/order_code"
                     android:layout_width="75sp"
