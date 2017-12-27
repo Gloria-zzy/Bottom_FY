@@ -26,6 +26,7 @@ import com.example.administrator.bottom.atys.AtyAddressMng;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyTakenOrders;
+import com.example.administrator.bottom.atys.AtyTeam;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.zxinglibrary.android.CaptureActivity;
@@ -200,6 +201,15 @@ public class FragMe extends Fragment {
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 }
 
+            }
+        });
+
+        view.findViewById(R.id.team).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyTeam.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
         });
 
