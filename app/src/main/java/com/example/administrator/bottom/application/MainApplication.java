@@ -1,4 +1,4 @@
-package com.example.administrator.bottom.alipush;
+package com.example.administrator.bottom.application;
 import android.app.Application;
 import android.content.Context;
 import android.util.Log;
