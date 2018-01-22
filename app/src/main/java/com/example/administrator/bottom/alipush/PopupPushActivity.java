@@ -20,8 +20,8 @@ public class PopupPushActivity extends Activity {
      * @param summary   内容
      * @param extMap    额外参数
      */
-    @Override
-    protected void onSysNoticeOpened(String title, String summary, Map<String, String> extMap) {
-        Log.d("OnMiPushSysNoticeOpened, title: " + title + ", content: " + summary + ", extMap: " + extMap);
-    }
+//    @Override
+//    protected void onSysNoticeOpened(String title, String summary, Map<String, String> extMap) {
+//        Log.d("OnMiPushSysNoticeOpened, title: " + title + ", content: " + summary + ", extMap: " + extMap);
+//    }
 }
