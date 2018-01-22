@@ -17,6 +17,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
 }
 
 dependencies {
@@ -33,4 +38,6 @@ dependencies {
     implementation project(':zxinglibrary')
     implementation files('libs/BaiduLBS_Android.jar')
 //    implementation files('libs/javase-3.3.1.jar')
+    compile 'com.aliyun.ams:alicloud-android-push:2.3.7'
+//    compile 'com.aliyun.ams:alicloud-android-push:2.+'
 }

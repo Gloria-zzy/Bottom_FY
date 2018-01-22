@@ -56,6 +56,27 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/txt_community"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <ImageView
+                android:layout_width="33sp"
+                android:layout_height="33sp"
+                android:layout_margin="2sp"
+                android:src="@drawable/tab_menu_community"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@drawable/tab_menu_deal_text"
+                style="@style/min_text"
+                android:text="@string/community"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/txt_me"
             android:layout_width="0dp"
             android:layout_height="match_parent"

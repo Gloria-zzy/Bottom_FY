@@ -93,6 +93,10 @@ public class FragCommunity extends Fragment {
 
     }
 
+    public void fresh(){
+
+    }
+
     private class MyClickListener implements View.OnClickListener {
 
         private int index;

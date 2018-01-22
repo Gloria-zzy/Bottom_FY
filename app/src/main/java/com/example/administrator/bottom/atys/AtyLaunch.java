@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.alipush.MainApplication;
 import com.example.administrator.bottom.net.UploadToken;
 
 import static com.example.administrator.bottom.Config.APP_ID;

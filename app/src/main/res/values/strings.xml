@@ -4,7 +4,7 @@
     <string name="welcome">Welcome!</string>
     <string name="home">主页</string>
     <string name="get">订单</string>
-    <string name="post">社区</string>
+    <string name="community">社区</string>
     <string name="me">我的</string>
     <string name="search_qryHint">搜索订单</string>
     <string name="want_to_get">取快递</string>

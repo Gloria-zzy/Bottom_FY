@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.frag.FragCommunity;
@@ -24,8 +23,8 @@ import com.example.administrator.bottom.frag.FragOrder;
 public class AtyMainFrame extends Activity implements View.OnClickListener {
 
     private LinearLayout tabHome;
-    private LinearLayout tabGet;
-    private LinearLayout tabPost;
+    private LinearLayout tabOrder;
+    private LinearLayout tabCommunity;
     private LinearLayout tabMe;
 
     private FrameLayout ly_content;
@@ -63,7 +62,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
             } else if (page.equals("order")) {
                 showFragOrder();
             } else if (page.equals("community")) {
-//                showFragCommunity();
+                showFragCommunity();
             } else if (page.equals("me")) {
                 showFragMe();
             } else {
@@ -77,14 +76,14 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     private void bindView() {
 //        topBar = (TextView)this.findViewById(R.id.txt_top);
         tabHome = (LinearLayout) this.findViewById(R.id.txt_home);
-        tabGet = (LinearLayout) this.findViewById(R.id.txt_get);
-//        tabPost = (TextView) this.findViewById(R.id.txt_post);
+        tabOrder = (LinearLayout) this.findViewById(R.id.txt_get);
+        tabCommunity = (LinearLayout) this.findViewById(R.id.txt_community);
         tabMe = (LinearLayout) this.findViewById(R.id.txt_me);
         ly_content = (FrameLayout) findViewById(R.id.fragment_container);
 
         tabHome.setOnClickListener(this);
-        tabGet.setOnClickListener(this);
-//        tabPost.setOnClickListener(this);
+        tabOrder.setOnClickListener(this);
+        tabCommunity.setOnClickListener(this);
         tabMe.setOnClickListener(this);
 
     }
@@ -92,8 +91,8 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     //重置所有文本的选中状态
     public void selected() {
         tabHome.setSelected(false);
-        tabGet.setSelected(false);
-//        tabPost.setSelected(false);
+        tabOrder.setSelected(false);
+        tabCommunity.setSelected(false);
         tabMe.setSelected(false);
     }
 
@@ -133,7 +132,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
 
             case R.id.txt_get:
                 selected();
-                tabGet.setSelected(true);
+                tabOrder.setSelected(true);
                 if (fragOrder == null) {
                     fragOrder = new FragOrder();
                     fragOrder.fresh();
@@ -141,6 +140,20 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                 } else {
                     fragOrder.fresh();
                     transaction.show(fragOrder);
+
+                }
+                break;
+
+            case R.id.txt_community:
+                selected();
+                tabCommunity.setSelected(true);
+                if (fragCommunity == null) {
+                    fragCommunity = new FragCommunity();
+                    fragCommunity.fresh();
+                    transaction.add(R.id.fragment_container, fragCommunity);
+                } else {
+                    fragCommunity.fresh();
+                    transaction.show(fragCommunity);
 
                 }
                 break;
@@ -180,23 +193,23 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         selected();
-        tabGet.setSelected(true);
+        tabOrder.setSelected(true);
         fragOrder = new FragOrder();
         transaction.add(R.id.fragment_container, fragOrder);
         transaction.show(fragOrder);
         transaction.commit();
     }
 
-//    public void showFragCommunity() {
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        hideAllFragment(transaction);
-//        selected();
-//        tabPost.setSelected(true);
-//        fragCommunity = new FragCommunity();
-//        transaction.add(R.id.fragment_container, fragCommunity);
-//        transaction.show(fragCommunity);
-//        transaction.commit();
-//    }
+    public void showFragCommunity() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        hideAllFragment(transaction);
+        selected();
+        tabCommunity.setSelected(true);
+        fragCommunity = new FragCommunity();
+        transaction.add(R.id.fragment_container, fragCommunity);
+        transaction.show(fragCommunity);
+        transaction.commit();
+    }
 
     public void showFragMe() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
