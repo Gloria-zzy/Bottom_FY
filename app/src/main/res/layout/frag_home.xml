@@ -38,7 +38,7 @@
                 android:id="@+id/take_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_pink_round"
+                android:background="@drawable/bg_round_home"
                 android:orientation="vertical"
                 android:layout_marginTop="15sp"
                 android:layout_marginLeft="5sp"

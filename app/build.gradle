@@ -5,6 +5,10 @@ android {
     buildToolsVersion "27.0.0"
     defaultConfig {
         applicationId "com.example.administrator.bottom"
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'x86'
+        }
         minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
@@ -38,6 +42,11 @@ dependencies {
     implementation project(':zxinglibrary')
     implementation files('libs/BaiduLBS_Android.jar')
 //    implementation files('libs/javase-3.3.1.jar')
-    compile 'com.aliyun.ams:alicloud-android-push:2.3.7'
-//    compile 'com.aliyun.ams:alicloud-android-push:2.+'
+//    compile 'com.aliyun.ams:alicloud-android-push:2.3.7'
+    compile 'com.aliyun.ams:alicloud-android-push:3.1.0'
+    compile 'com.aliyun:aliyun-java-sdk-push:3.8.0'
+    compile 'com.aliyun:aliyun-java-sdk-core:3.2.5'
+    compile 'com.aliyun.ams:alicloud-android-push:3.0.11@aar'
+    compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
+    compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
 }

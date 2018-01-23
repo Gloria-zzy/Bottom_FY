@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.net.UploadToken;
 
 import static com.example.administrator.bottom.Config.APP_ID;

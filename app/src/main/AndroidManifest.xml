@@ -98,10 +98,10 @@
 
         <meta-data
             android:name="com.alibaba.app.appkey"
-            android:value="24778262" /> <!-- 请填写你自己的- appKey -->
+            android:value="24779890" /> <!-- 请填写你自己的- appKey -->
         <meta-data
             android:name="com.alibaba.app.appsecret"
-            android:value="9a47d7600925103622f00ffa7aa52bfb" /> <!-- 请填写你自己的appSecret -->
+            android:value="a1cd71f9bb0232b709d171e509e48866" /> <!-- 请填写你自己的appSecret -->
 
         <!-- 通道保持服务 -->
         <service android:name="com.alibaba.sdk.android.push.ChannelService"

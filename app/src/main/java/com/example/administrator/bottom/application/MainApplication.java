@@ -23,6 +23,7 @@ public class MainApplication extends Application {
             @Override
             public void onSuccess(String response) {
                 Log.d(TAG, "init cloudchannel success");
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
             @Override
             public void onFailed(String errorCode, String errorMessage) {
