@@ -1,11 +1,17 @@
 package com.example.administrator.bottom.application;
+import android.Manifest;
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.yanzhenjie.permission.AndPermission;
+
 public class MainApplication extends Application {
     private static final String TAG = "Init";
     @Override
@@ -24,9 +30,6 @@ public class MainApplication extends Application {
             @Override
             public void onSuccess(String response) {
                 Log.d(TAG, "init cloudchannel success");
-                TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-                String DEVICE_ID = tm.getDeviceId();
-                System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
             @Override
             public void onFailed(String errorCode, String errorMessage) {

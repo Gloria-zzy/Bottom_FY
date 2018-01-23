@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Bottom_1.iml" filepath="$PROJECT_DIR$/Bottom_1.iml" />
+      <module fileurl="file://G:\AStudio\GitHub\Bottom_FY\Bottom_1.iml" filepath="G:\AStudio\GitHub\Bottom_FY\Bottom_1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Bottom_FY.iml" filepath="$PROJECT_DIR$/Bottom_FY.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/zxinglibrary/zxinglibrary.iml" filepath="$PROJECT_DIR$/zxinglibrary/zxinglibrary.iml" />
     </modules>

@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyAddressMng;
 import com.example.administrator.bottom.atys.AtyLogin;
@@ -131,6 +131,9 @@ public class FragMe extends Fragment {
                         .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
                     @Override
                     public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+
+
+
                         Intent intent = new Intent(getActivity(), CaptureActivity.class);
 
                                 /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能

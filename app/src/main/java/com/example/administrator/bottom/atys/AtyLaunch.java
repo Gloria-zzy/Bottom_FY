@@ -1,20 +1,25 @@
 package com.example.administrator.bottom.atys;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.widget.Toast;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.net.UploadToken;
 
 import static com.example.administrator.bottom.Config.APP_ID;
+import static com.example.administrator.bottom.Config.REQUEST_READ_PHONE_STATE;
 
 public class AtyLaunch extends Activity {
 
@@ -25,6 +30,8 @@ public class AtyLaunch extends Activity {
         //加载启动图片
         setContentView(R.layout.aty_launch);
         Integer time = 3000;    //设置等待时间，单位为毫秒
+
+
 
         // 判断该用户是否已经登录
         {
@@ -56,7 +63,7 @@ public class AtyLaunch extends Activity {
             public void run() {
                 Intent intent = new Intent();
                 intent.setClass(AtyLaunch.this, AtyMainFrame.class);
-                intent.putExtra("page","home");
+                intent.putExtra("page", "home");
                 startActivity(intent);
                 AtyLaunch.this.finish();
             }

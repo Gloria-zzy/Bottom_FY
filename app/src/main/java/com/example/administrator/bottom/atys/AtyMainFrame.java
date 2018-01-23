@@ -1,20 +1,41 @@
 package com.example.administrator.bottom.atys;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.frag.FragCommunity;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
+import com.example.administrator.zxinglibrary.android.CaptureActivity;
+import com.example.administrator.zxinglibrary.bean.ZxingConfig;
+import com.example.administrator.zxinglibrary.common.Constant;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
+
+import java.util.List;
+
+import static com.example.administrator.bottom.Config.REQUEST_READ_PHONE_STATE;
 
 /**
  * Created by Administrator on 2017/10/31.
@@ -52,9 +73,6 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         String page = intent.getStringExtra("page");
         bindView();
 
-        // by Charles
-
-
 //        Toast.makeText(AtyMainFrame.this, page, Toast.LENGTH_LONG).show();
         if (page != null) {
             if (page.equals("home")) {
@@ -70,6 +88,42 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                 showFragHome();
             }
         }
+
+        // 申请 读取手机状态 权限
+
+        AndPermission.with(this)
+                .permission(Manifest.permission.READ_PHONE_STATE).callback(new PermissionListener() {
+            @Override
+            public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+
+                String permission = Manifest.permission.READ_PHONE_STATE;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    int i = ContextCompat.checkSelfPermission(getApplicationContext(), permission);
+                    if (i != PackageManager.PERMISSION_GRANTED) {
+
+                    } else {
+                        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                        String DEVICE_ID = tm.getDeviceId();
+                        Config.cacheDeviceID(AtyMainFrame.this, DEVICE_ID);
+                        Toast.makeText(AtyMainFrame.this, DEVICE_ID, Toast.LENGTH_LONG).show();
+                        System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                        System.out.println(DEVICE_ID);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+                System.out.println("-------------------------------no permission--------------------------------");
+            }
+
+        }).start();
+
+
+//        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+//        String DEVICE_ID = tm.getDeviceId();
+//        System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//        System.out.println(DEVICE_ID);
     }
 
     //UI组件初始化与事件绑定

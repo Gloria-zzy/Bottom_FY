@@ -11,6 +11,7 @@ public class Config {
 
 //    public static final String SERVER_URL = "http://172.20.10.8:8080/TestServer/api.jsp";
 
+    public static final String DEVICEID = "deviceid";
     public static final String KEY_TOKEN = "token";
     public static final String KEY_ACTION = "action";
     public static final String KEY_PHONE_NUM = "item_phone";
@@ -45,6 +46,7 @@ public class Config {
     public static final String KEY_ORDER_DATE = "order_date";
     public static final String KEY_ORDER_STATUS = "order_status";
 
+    public static final int REQUEST_READ_PHONE_STATE = 1;
     public static final int RESULT_STATUS_SUCCESS = 1;
     public static final int RESULT_STATUS_FAIL = 0;
     public static final int RESULT_STATUS_INVALID_TOKEN = 2;
@@ -108,5 +110,19 @@ public class Config {
                 .edit();
         e.putString(KEY_PHONE_NUM, phoneNum);
         e.commit();
+    }
+
+    public static void cacheDeviceID(Context context, String DeviceID)
+    {
+        Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+                .edit();
+        e.putString(DEVICEID, DeviceID);
+        e.commit();
+    }
+
+    public static String getCachedDeviceID(Context context)
+    {
+        return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+                .getString(DEVICEID, null);
     }
 }
