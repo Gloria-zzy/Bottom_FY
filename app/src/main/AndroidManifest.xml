@@ -52,6 +52,9 @@
     <!-- 允许task重排序 -->
     <uses-permission android:name="android.permission.REORDER_TASKS" />
 
+    <!-- 获取DEVICE_ID -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <!-- android:icon="@mipmap/ic_launcher" -->
     <application android:name=".application.MainApplication"
         android:allowBackup="true"

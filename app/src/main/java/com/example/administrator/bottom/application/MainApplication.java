@@ -1,6 +1,7 @@
 package com.example.administrator.bottom.application;
 import android.app.Application;
 import android.content.Context;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
@@ -23,7 +24,9 @@ public class MainApplication extends Application {
             @Override
             public void onSuccess(String response) {
                 Log.d(TAG, "init cloudchannel success");
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                String DEVICE_ID = tm.getDeviceId();
+                System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
             @Override
             public void onFailed(String errorCode, String errorMessage) {
