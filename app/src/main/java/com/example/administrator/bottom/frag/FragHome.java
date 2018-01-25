@@ -74,12 +74,14 @@ public class FragHome extends Fragment {
                             PushMessage pushMessage = new PushMessage();
                             try {
                                 pushMessage.Push();
+                                System.out.println("??????????????????????????????????????????????????????????????????????????");
                             } catch (ClientException e) {
                                 e.printStackTrace();
                             }
                         }
                     };
-
+                    Thread thread = new Thread(networkTask);
+                    thread.start();
 
                     startActivityForResult(new Intent(getActivity(), AtyFetch.class), Activity.RESULT_FIRST_USER);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);

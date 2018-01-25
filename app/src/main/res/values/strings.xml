@@ -48,4 +48,9 @@
         \t\t用户，包含注册用户和非注册用户。注册用户是指通过移动端APP完成全部注册程序后，使用平台服务的用户。非注册用户是指未进行注册、直接登录移动端APP使用UD平台服务的用户。
     </string>
     <string name="check_agreement">请阅读用户协议并勾选我同意</string>
+    <string name="qq_header_reset">下拉刷新</string>
+    <string name="qq_header_pull">下拉刷新</string>
+    <string name="qq_header_pull_over">释放立即刷新</string>
+    <string name="qq_header_refreshing">正在刷新...</string>
+    <string name="qq_header_completed">刷新成功</string>
 </resources>

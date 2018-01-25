@@ -29,7 +29,7 @@ public class MainApplication extends Application {
         pushService.register(applicationContext, new CommonCallback() {
             @Override
             public void onSuccess(String response) {
-                Log.d(TAG, "init cloudchannel success");
+                Log.d(TAG, "init cloudchannel success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
             @Override
             public void onFailed(String errorCode, String errorMessage) {

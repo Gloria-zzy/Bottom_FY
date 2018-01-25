@@ -21,6 +21,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.frag.FragCommunity;
@@ -102,12 +104,12 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                     if (i != PackageManager.PERMISSION_GRANTED) {
 
                     } else {
-                        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-                        String DEVICE_ID = tm.getDeviceId();
-                        Config.cacheDeviceID(AtyMainFrame.this, DEVICE_ID);
-                        Toast.makeText(AtyMainFrame.this, DEVICE_ID, Toast.LENGTH_LONG).show();
+                        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+                        String deviceId = pushService.getDeviceId();
+                        Config.cacheDeviceID(AtyMainFrame.this, deviceId);
+                        Toast.makeText(AtyMainFrame.this, deviceId, Toast.LENGTH_LONG).show();
                         System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        System.out.println(DEVICE_ID);
+                        System.out.println(deviceId);
                     }
                 }
             }

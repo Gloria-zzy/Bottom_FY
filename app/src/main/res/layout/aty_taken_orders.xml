@@ -37,20 +37,27 @@
 
         </LinearLayout>
 
-        <ScrollView
+        <com.example.administrator.bottom.custom.RefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
 
-            <LinearLayout
-                android:id="@+id/sv_taken_orders"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/sv_taken_orders"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
 
-            </LinearLayout>
+                </LinearLayout>
 
 
-        </ScrollView>
+            </ScrollView>
+        </com.example.administrator.bottom.custom.RefreshLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
