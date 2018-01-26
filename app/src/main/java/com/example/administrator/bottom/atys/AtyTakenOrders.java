@@ -53,7 +53,7 @@ public class AtyTakenOrders extends AppCompatActivity {
             }
         });
 
-        final RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout);
+        final RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout_taken_orders);
         if (refreshLayout != null) {
             // 刷新状态的回调
             refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
@@ -157,7 +157,7 @@ public class AtyTakenOrders extends AppCompatActivity {
 
                             //-----------------END-----------------
                         }
-                    }, 2000);
+                    }, Config.DELAYMILLIS);
                 }
             });
         }

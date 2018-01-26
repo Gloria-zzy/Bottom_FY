@@ -51,9 +51,9 @@ public class PushMessage{
         pushRequest.setAndroidNotificationBarPriority(1);//通知栏自定义样式0-100
         pushRequest.setAndroidOpenType("URL"); //点击通知后动作 "APPLICATION" : 打开应用 "ACTIVITY" : 打开AndroidActivity "URL" : 打开URL "NONE" : 无跳转
         pushRequest.setAndroidOpenUrl("http://www.aliyun.com"); //Android收到推送后打开对应的url,仅当AndroidOpenType="URL"有效
-        pushRequest.setAndroidActivity("com.alibaba.push2.demo.XiaoMiPushActivity"); // 设定通知打开的activity，仅当AndroidOpenType="Activity"有效
+        pushRequest.setAndroidActivity("com.example.administrator.bottom.atys.AtyMainFrame"); // 设定通知打开的activity，仅当AndroidOpenType="Activity"有效
         pushRequest.setAndroidMusic("default"); // Android通知音乐
-        pushRequest.setAndroidPopupActivity("com.ali.demo.PopupActivity");//设置该参数后启动辅助弹窗功能, 此处指定通知点击后跳转的Activity（辅助弹窗的前提条件：1. 集成第三方辅助通道；2. StoreOffline参数设为true）
+        pushRequest.setAndroidPopupActivity("com.example.administrator.bottom.atys.AtyMainFram");//设置该参数后启动辅助弹窗功能, 此处指定通知点击后跳转的Activity（辅助弹窗的前提条件：1. 集成第三方辅助通道；2. StoreOffline参数设为true）
         pushRequest.setAndroidPopupTitle("Popup Title");
         pushRequest.setAndroidPopupBody("Popup Body");
         pushRequest.setAndroidExtParameters("{\"k1\":\"android\",\"k2\":\"v2\"}"); //设定通知的扩展属性。(注意 : 该参数要以 json map 的格式传入,否则会解析出错)

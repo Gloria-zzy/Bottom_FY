@@ -24,6 +24,8 @@ import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyUpdateOrder;
 import com.example.administrator.bottom.custom.OrderView;
+import com.example.administrator.bottom.custom.QQRefreshHeader;
+import com.example.administrator.bottom.custom.RefreshLayout;
 import com.example.administrator.bottom.net.DeleteOrder;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
@@ -106,6 +108,30 @@ public class FragOrder extends Fragment {
                 phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
                 fresh();
             }
+
+            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_order);
+            if (refreshLayout != null) {
+                // 刷新状态的回调
+                refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // 延迟3秒后刷新成功
+                        refreshLayout.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.refreshComplete();
+                                //-----------------BEGIN-----------------
+                                fresh();
+                                //-----------------END-----------------
+                            }
+                        }, Config.DELAYMILLIS);
+                    }
+                });
+            }
+            QQRefreshHeader header = new QQRefreshHeader(getActivity());
+            refreshLayout.setRefreshHeader(header);
+            refreshLayout.autoRefresh();
+
         }
         return view;
     }

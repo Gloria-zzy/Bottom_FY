@@ -9,60 +9,71 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#FFFAFAFA">
+        android:background="#FFFAFAFA"
+        android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/order_ll"
+        <com.example.administrator.bottom.custom.RefreshLayout
+            android:id="@+id/refreshLayout_frag_order"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFAFAFA"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:background="@color/transparent">
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:orientation="horizontal"
-                android:paddingTop="11sp"
-                android:background="@color/white">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    style="@style/title_text"
-                    android:layout_weight="1"
-                    android:text="当前订单"
-                    android:id="@+id/page_current"
-                    android:gravity="center"/>
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    style="@style/title_text"
-                    android:layout_weight="1"
-                    android:text="历史订单"
-                    android:id="@+id/page_history"
-                    android:gravity="center"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#3636ff"/>
-            <android.support.v4.view.ViewPager
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/order_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/order_pager" >
+                android:background="#FFFAFAFA"
+                android:orientation="vertical">
 
-                <ScrollView
-                    android:id="@+id/frag_order_scrollview"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#FFFAFAFA">
+                    android:layout_height="40dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="11sp">
 
-                </ScrollView>
+                    <TextView
+                        android:id="@+id/page_current"
+                        style="@style/title_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="当前订单" />
 
-            </android.support.v4.view.ViewPager>
+                    <TextView
+                        android:id="@+id/page_history"
+                        style="@style/title_text"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="历史订单" />
+                </LinearLayout>
 
-        </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#3636ff" />
 
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/order_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <ScrollView
+                        android:id="@+id/frag_order_scrollview"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#FFFAFAFA">
+
+                    </ScrollView>
+
+                </android.support.v4.view.ViewPager>
+
+            </LinearLayout>
+        </com.example.administrator.bottom.custom.RefreshLayout>
     </LinearLayout>
 </ScrollView>

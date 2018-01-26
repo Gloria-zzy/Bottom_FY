@@ -16,6 +16,8 @@ import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
+import com.example.administrator.bottom.custom.QQRefreshHeader;
+import com.example.administrator.bottom.custom.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +80,29 @@ public class FragCommunity extends Fragment {
 //        初始化ViewPager组件
             initView();
             initViewPager();
+
+            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_community);
+            if (refreshLayout != null) {
+                // 刷新状态的回调
+                refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        // 延迟3秒后刷新成功
+                        refreshLayout.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshLayout.refreshComplete();
+                                //-----------------BEGIN-----------------
+                                fresh();
+                                //-----------------END-----------------
+                            }
+                        }, Config.DELAYMILLIS);
+                    }
+                });
+            }
+            QQRefreshHeader header = new QQRefreshHeader(getActivity());
+            refreshLayout.setRefreshHeader(header);
+            refreshLayout.autoRefresh();
         }
         return view;
     }

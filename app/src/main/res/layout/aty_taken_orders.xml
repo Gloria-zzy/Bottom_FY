@@ -38,7 +38,7 @@
         </LinearLayout>
 
         <com.example.administrator.bottom.custom.RefreshLayout
-            android:id="@+id/refreshLayout"
+            android:id="@+id/refreshLayout_taken_orders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent">
