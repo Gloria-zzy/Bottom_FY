@@ -10,10 +10,13 @@ import android.util.Log;
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.example.administrator.bottom.MainActivity;
+import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.yanzhenjie.permission.AndPermission;
 
 public class MainApplication extends Application {
     private static final String TAG = "Init";
+    private static AtyMainFrame mainActivity;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -36,5 +39,15 @@ public class MainApplication extends Application {
                 Log.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
             }
         });
+    }
+
+    public static void setMainActivity(AtyMainFrame activity) {
+        mainActivity = activity;
+    }
+
+    public static void setConsoleText(String text) {
+        if (mainActivity != null && text != null) {
+            mainActivity.appendConsoleText(text);
+        }
     }
 }

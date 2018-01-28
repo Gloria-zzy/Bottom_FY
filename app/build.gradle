@@ -46,7 +46,7 @@ dependencies {
     compile 'com.aliyun.ams:alicloud-android-push:3.1.0'
     compile 'com.aliyun:aliyun-java-sdk-push:3.8.0'
     compile 'com.aliyun:aliyun-java-sdk-core:3.2.5'
-    compile 'com.aliyun.ams:alicloud-android-push:3.0.11@aar'
+    compile 'com.aliyun.ams:alicloud-android-push:3.1.0@aar'
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
 }

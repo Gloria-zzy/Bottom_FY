@@ -25,6 +25,7 @@ import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.application.MainApplication;
 import com.example.administrator.bottom.frag.FragCommunity;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
@@ -62,6 +63,8 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        MainApplication.setMainActivity(this);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         bindView();
@@ -276,5 +279,9 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         transaction.add(R.id.fragment_container, fragMe);
         transaction.show(fragMe);
         transaction.commit();
+    }
+
+    public void appendConsoleText(String text) {
+        Toast.makeText(AtyMainFrame.this, text, Toast.LENGTH_LONG).show();
     }
 }
