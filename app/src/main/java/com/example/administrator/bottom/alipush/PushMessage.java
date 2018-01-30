@@ -14,7 +14,7 @@ import java.util.Date;
 /**
  * 推送的OpenAPI文档 https://help.aliyun.com/document_detail/mobilepush/api-reference/openapi.html
  */
-public class PushMessage{
+public class PushMessage {
     private static String accessKeyId = "LTAI18uxImuh3dfV";
     private static String accessKeySecret = "BhFyAA8Sf346snnQWSoNvpwbaL3zqN";
     private static Long appKey = 24779890L;
@@ -23,7 +23,7 @@ public class PushMessage{
     private DefaultAcsClient client = new DefaultAcsClient(profile);
     private PushRequest pushRequest = new PushRequest();
 
-    public void Push() throws ClientException{
+    public void Push() throws ClientException {
         // 推送目标
         pushRequest.setAppKey(appKey);
 //        pushRequest.setTarget("DEVICE"); //推送目标: DEVICE:按设备推送 ALIAS : 按别名推送 ACCOUNT:按帐号推送  TAG:按标签推送; ALL: 广播推送
@@ -51,12 +51,12 @@ public class PushMessage{
         pushRequest.setAndroidNotificationBarPriority(1);//通知栏自定义样式0-100
         pushRequest.setAndroidOpenType("URL"); //点击通知后动作 "APPLICATION" : 打开应用 "ACTIVITY" : 打开AndroidActivity "URL" : 打开URL "NONE" : 无跳转
         pushRequest.setAndroidOpenUrl("http://www.aliyun.com"); //Android收到推送后打开对应的url,仅当AndroidOpenType="URL"有效
-        pushRequest.setAndroidActivity("com.example.administrator.bottom.atys.AtyMainFrame"); // 设定通知打开的activity，仅当AndroidOpenType="Activity"有效
+//        pushRequest.setAndroidActivity("com.example.administrator.bottom.atys.AtyMainFrame"); // 设定通知打开的activity，仅当AndroidOpenType="Activity"有效
         pushRequest.setAndroidMusic("default"); // Android通知音乐
-        pushRequest.setAndroidPopupActivity("com.example.administrator.bottom.atys.AtyMainFram");//设置该参数后启动辅助弹窗功能, 此处指定通知点击后跳转的Activity（辅助弹窗的前提条件：1. 集成第三方辅助通道；2. StoreOffline参数设为true）
-        pushRequest.setAndroidPopupTitle("Popup Title");
-        pushRequest.setAndroidPopupBody("Popup Body");
-        pushRequest.setAndroidExtParameters("{\"k1\":\"android\",\"k2\":\"v2\"}"); //设定通知的扩展属性。(注意 : 该参数要以 json map 的格式传入,否则会解析出错)
+//        pushRequest.setAndroidPopupActivity("com.example.administrator.bottom.atys.AtyMainFram");//设置该参数后启动辅助弹窗功能, 此处指定通知点击后跳转的Activity（辅助弹窗的前提条件：1. 集成第三方辅助通道；2. StoreOffline参数设为true）
+//        pushRequest.setAndroidPopupTitle("Popup Title");
+//        pushRequest.setAndroidPopupBody("Popup Body");
+//        pushRequest.setAndroidExtParameters("{\"k1\":\"android\",\"k2\":\"v2\"}"); //设定通知的扩展属性。(注意 : 该参数要以 json map 的格式传入,否则会解析出错)
         // 推送控制
         Date pushDate = new Date(System.currentTimeMillis()); // 30秒之间的时间点, 也可以设置成你指定固定时间
         String pushTime = ParameterHelper.getISO8601Time(pushDate);
@@ -66,7 +66,7 @@ public class PushMessage{
         pushRequest.setStoreOffline(true); // 离线消息是否保存,若保存, 在推送时候，用户即使不在线，下一次上线则会收到
         PushResponse pushResponse = client.getAcsResponse(pushRequest);
         System.out.printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!RequestId: %s, MessageID: %s\n",
-                pushResponse.getRequestId(),pushResponse.getMessageId());
+                pushResponse.getRequestId(), pushResponse.getMessageId());
     }
 }
 

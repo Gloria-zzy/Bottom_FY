@@ -28,7 +28,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="制作团队"
+            android:text="关于UD"
             android:textColor="@color/white" />
 
     </LinearLayout>
@@ -60,13 +60,13 @@
             style="@style/team_title"
             android:layout_marginTop="40sp"
             android:layout_marginBottom="5sp"
-            android:text="营销策划"/>
+            android:text="版本号"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="汪诗佳&#160;&#160;马琪瑶"/>
+            android:text="v1.0.0"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -75,13 +75,44 @@
             style="@style/team_title"
             android:layout_marginTop="40sp"
             android:layout_marginBottom="5sp"
-            android:text="美工"/>
+            android:text="联系我们"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="孙路"/>
+            android:text="TEL"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="18795808378"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="18752069878"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15sp"
+            android:gravity="center"
+            android:text="QQ"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="847214223"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="996496374"/>
 
     </LinearLayout>
 
