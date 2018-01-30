@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -282,6 +283,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     }
 
     public void appendConsoleText(String text) {
+        Log.i("MainFrame", text);
         Toast.makeText(AtyMainFrame.this, text, Toast.LENGTH_LONG).show();
     }
 }
