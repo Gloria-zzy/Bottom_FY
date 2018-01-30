@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.administrator.bottom.custom.RefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refreshLayout_frag_home"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/transparent">
+    android:background="#ffffff"
+    android:fillViewport="true">
 
-    <ScrollView
-        android:id="@+id/scroll"
+    <com.example.administrator.bottom.custom.RefreshLayout
+        android:id="@+id/refreshLayout_frag_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
-        android:fillViewport="true">
-
+        android:background="@color/transparent">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -74,6 +74,5 @@
 
 
         </RelativeLayout>
-
-    </ScrollView>
-</com.example.administrator.bottom.custom.RefreshLayout>
+    </com.example.administrator.bottom.custom.RefreshLayout>
+</ScrollView>

@@ -121,7 +121,7 @@
                 <TextView
 
                     style="@style/usertext"
-                    android:text="关于UD" />
+                    android:text="制作团队" />
 
                 <ImageView style="@style/img_arrow" />
             </LinearLayout>
