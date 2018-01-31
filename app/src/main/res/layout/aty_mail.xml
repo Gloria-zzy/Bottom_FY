@@ -5,10 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/nav_color"
-        android:orientation="horizontal">
+        style="@style/TopStatus">
 
         <ImageView
             android:id="@+id/Fetch_back"

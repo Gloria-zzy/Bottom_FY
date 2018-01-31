@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFAFAFA"
+        android:paddingTop="20sp"
         android:orientation="vertical">
 
         <com.example.administrator.bottom.custom.RefreshLayout

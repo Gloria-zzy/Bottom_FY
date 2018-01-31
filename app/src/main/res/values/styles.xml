@@ -95,8 +95,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">25dp</item>
         <item name="android:background">@drawable/spinner_border</item>
-        <item name="android:layout_marginBottom">20sp</item>
-        <item name="android:textSize">14dp</item>
+        <item name="android:layout_marginBottom">10sp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#a9a9a9</item>
     </style>
 
     <!-- spinner btn样式 -->
@@ -125,6 +126,14 @@
     <style name="team_title">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TopStatus">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/item_banner</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingTop">20sp</item>
     </style>
 
 </resources>

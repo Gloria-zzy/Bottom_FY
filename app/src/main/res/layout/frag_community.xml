@@ -3,6 +3,7 @@
     android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="20sp"
     android:fillViewport="true">
 
     <com.example.administrator.bottom.custom.RefreshLayout

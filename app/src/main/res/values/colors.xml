@@ -14,4 +14,6 @@
     <color name="nav_color">#4052b5</color>
     <color name="theme_blue">#2d3653</color>
     <color name="theme_orange">#f7bb42</color>
+    <color name="grey">#a9a9a9</color>
+    <color name="white_grey">#f7f7f9</color>
 </resources>

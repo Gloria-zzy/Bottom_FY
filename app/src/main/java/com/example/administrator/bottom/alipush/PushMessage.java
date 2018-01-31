@@ -82,5 +82,25 @@ public class PushMessage {
         }
 
     }
+
+    public void PushToSelf(String deviceId,String title,String body) throws ClientException{
+        pushRequest.setAppKey(appKey);
+        // 推送配置
+        //推送内容需要保护，使用HTTPS协议
+        pushRequest.setProtocol(ProtocolType.HTTPS);
+        //推送内容较长，使用POST请求
+        pushRequest.setMethod(MethodType.POST);
+        pushRequest.setAppKey(appKey);
+        pushRequest.setTarget("DEVICE");
+        pushRequest.setTargetValue(deviceId);
+        pushRequest.setTitle(title);
+        pushRequest.setBody(body);
+
+        try {
+            PushNoticeToAndroidResponse pushNoticeToAndroidResponse = client.getAcsResponse(pushRequest);
+        } catch (ServerException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

@@ -5,10 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/nav_color"
-        android:orientation="horizontal">
+        style="@style/TopStatus">
 
         <ImageView
             android:id="@+id/Fetch_back"
@@ -25,159 +22,272 @@
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="填写快递信息"
+            android:text="填写订单信息"
             android:textColor="@color/white" />
 
-        <!--<ImageView-->
-        <!--android:id="@+id/usr_head"-->
-        <!--android:layout_width="35sp"-->
-        <!--android:layout_height="35sp"-->
-        <!--android:layout_marginBottom="5sp"-->
-        <!--android:layout_marginLeft="5sp"-->
-        <!--android:layout_marginRight="15sp"-->
-        <!--android:layout_marginTop="5sp"-->
-        <!--android:src="@drawable/item_head" />-->
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20sp">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/default_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:text="请选择快递点：" />
+            android:background="@color/white_grey"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10sp">
 
-            <Spinner
-                android:id="@+id/point_spinner"
-                style="@style/spinner_bar"
-                android:background="@color/transparent" />
+                <TextView
+                    style="@style/default_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:text="请选择下单方式："
+                    android:textColor="@color/text_clo" />
 
-            <ImageView
-                style="@style/spinner_btn"
-                android:layout_alignBottom="@+id/area_spinner_mng"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="24dp" />
+                <RadioGroup
+                    android:id="@+id/rg_aty_fetch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="0sp"
+                    android:orientation="horizontal">
 
-            <View
+                    <RadioButton
+                        android:id="@+id/rb_aty_fetch_old"
+                        style="@style/min_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="老用户"
+                        android:textColor="@color/text_clo" />
+
+                    <RadioButton
+                        android:id="@+id/rb_aty_fetch_temp"
+                        style="@style/min_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="临时下单"
+                        android:textColor="@color/text_clo" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:paddingTop="10sp">
+
+                <TextView
+                    style="@style/default_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:text="请选择您方便的收货地点："
+                    android:textColor="@color/text_clo" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:id="@+id/loc_spinner"
+                        style="@style/spinner_bar"
+                        android:background="@color/transparent" />
+
+                    <ImageView
+                        style="@style/spinner_btn"
+                        android:layout_alignBottom="@+id/area_spinner_mng"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="24dp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="5sp"
+                        android:layout_alignBottom="@+id/loc_spinner"
+                        android:background="@drawable/sp_line"></View>
+
+
+                </RelativeLayout>
+
+                <TextView
+                    style="@style/default_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:text="请选择您方便的收货时间："
+                    android:textColor="@color/text_clo" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:id="@+id/time_spinner"
+                        style="@style/spinner_bar"
+                        android:background="@color/transparent" />
+
+                    <ImageView
+                        style="@style/spinner_btn"
+                        android:layout_alignBottom="@+id/area_spinner_mng"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="24dp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="5sp"
+                        android:layout_alignBottom="@+id/time_spinner"
+                        android:background="@drawable/sp_line"></View>
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_aty_fetch_temp"
                 android:layout_width="wrap_content"
-                android:layout_height="5sp"
-                android:layout_alignBottom="@+id/point_spinner"
-                android:background="@drawable/sp_line"></View>
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="10sp"
+                android:paddingRight="10sp"
+                android:paddingTop="10sp">
+
+                <TextView
+                    style="@style/default_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:text="请选择快递点："
+                    android:textColor="@color/text_clo" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <Spinner
+                        android:id="@+id/point_spinner"
+                        style="@style/spinner_bar"
+                        android:background="@color/transparent" />
+
+                    <ImageView
+                        style="@style/spinner_btn"
+                        android:layout_alignBottom="@+id/area_spinner_mng"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="24dp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="5sp"
+                        android:layout_alignBottom="@+id/point_spinner"
+                        android:background="@drawable/sp_line"></View>
 
 
-        </RelativeLayout>
+                </RelativeLayout>
 
-        <TextView
-            style="@style/default_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:text="请填写取货号：" />
+                <TextView
+                    style="@style/default_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:text="请填写取货号："
+                    android:textColor="@color/text_clo" />
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/tv_order_takenum"
-                style="@style/spinner_bar"
-                android:paddingLeft="7sp"
-                android:hint="如：5601"
-                android:inputType="number"
-                android:singleLine="true"
-                android:background="@color/transparent" />
+                    <EditText
+                        android:id="@+id/tv_order_takenum"
+                        style="@style/spinner_bar"
+                        android:background="@color/transparent"
+                        android:hint="如：5601"
+                        android:inputType="number"
+                        android:paddingLeft="7sp"
+                        android:singleLine="true" />
 
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="5sp"
-                android:layout_alignBottom="@+id/tv_order_takenum"
-                android:background="@drawable/sp_line"></View>
-
-
-        </RelativeLayout>
-
-        <TextView
-            style="@style/default_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20sp"
-            android:text="请选择您方便的收货地点：" />
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <Spinner
-                android:id="@+id/loc_spinner"
-                style="@style/spinner_bar"
-                android:background="@color/transparent" />
-
-            <ImageView
-                style="@style/spinner_btn"
-                android:layout_alignBottom="@+id/area_spinner_mng"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="24dp" />
-
-            <View
-                android:layout_width="wrap_content"
-                android:layout_height="5sp"
-                android:layout_alignBottom="@+id/loc_spinner"
-                android:background="@drawable/sp_line"></View>
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="5sp"
+                        android:layout_alignBottom="@+id/tv_order_takenum"
+                        android:background="@drawable/sp_line"></View>
 
 
-        </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
 
 
-        <TextView
-            style="@style/default_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
-            android:text="备注：" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="10sp">
 
 
-        <EditText
-            android:id="@+id/fetch_note"
-            style="@style/default_text"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_black_round"
-            android:gravity="left|top"
-            android:inputType="textMultiLine"
-            android:minLines="5"
-            android:paddingLeft="7sp"
-            android:paddingTop="4sp"
-            android:hint="若上述列表中没有您的快递点，请在备注中说明"/>
+                <TextView
+                    style="@style/default_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5sp"
+                    android:text="备注："
+                    android:textColor="@color/text_clo" />
 
 
-        <Button
-            android:id="@+id/fetch_summit"
-            style="@style/default_text"
-            android:layout_width="250dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_margin="30dp"
-            android:background="@drawable/btn_send_bg"
-            android:gravity="center"
-            android:text="提交"
-            android:textColor="@color/white" />
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/fetch_note"
+                    style="@style/min_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_black_round"
+                    android:gravity="left|top"
+                    android:hint="若您有其他特殊要求，请在备注中说明"
+                    android:inputType="textMultiLine"
+                    android:minLines="4"
+                    android:paddingLeft="7sp"
+                    android:paddingTop="4sp" />
 
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/fetch_summit"
+                style="@style/default_text"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/item_btn"
+                android:gravity="center"
+                android:text="提交"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -68,22 +68,22 @@ public class FragHome extends Fragment {
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 } else {
 
-                    Runnable networkTask = new Runnable() {
-
-                        @Override
-                        public void run() {
-                            // TODO
-                            // 在这里进行 http request.网络请求相关操作
-                            PushMessage pushMessage = new PushMessage();
-                            try {
-                                pushMessage.Push();
-                            } catch (ClientException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    };
-                    Thread thread = new Thread(networkTask);
-                    thread.start();
+//                    Runnable networkTask = new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+//                            // TODO
+//                            // 在这里进行 http request.网络请求相关操作
+//                            PushMessage pushMessage = new PushMessage();
+//                            try {
+//                                pushMessage.Push();
+//                            } catch (ClientException e) {
+//                                e.printStackTrace();
+//                            }
+//                        }
+//                    };
+//                    Thread thread = new Thread(networkTask);
+//                    thread.start();
 
                     startActivityForResult(new Intent(getActivity(), AtyFetch.class), Activity.RESULT_FIRST_USER);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
