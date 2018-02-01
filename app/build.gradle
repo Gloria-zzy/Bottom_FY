@@ -49,4 +49,5 @@ dependencies {
     compile 'com.aliyun.ams:alicloud-android-push:3.1.0@aar'
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
+    compile files('libs/alipaySDK-20170922.jar')
 }
