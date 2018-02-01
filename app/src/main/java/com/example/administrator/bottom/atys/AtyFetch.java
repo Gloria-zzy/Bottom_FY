@@ -6,10 +6,8 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -40,7 +38,8 @@ public class AtyFetch extends AppCompatActivity {
     private EditText note_edittext;
     private EditText takenum_edittext;
     private RadioGroup radioGroup;
-    private LinearLayout linearLayout;
+    private LinearLayout linearLayout_temp;
+    private LinearLayout linearLayout_amount;
     private List<String> data_list;
     private ArrayAdapter<String> arr_adapter;
     private String point;
@@ -56,8 +55,9 @@ public class AtyFetch extends AppCompatActivity {
         time_spinner = (Spinner) findViewById(R.id.time_spinner);
         note_edittext = (EditText) findViewById(R.id.fetch_note);
         takenum_edittext = (EditText) findViewById(R.id.tv_order_takenum);
-        radioGroup = (RadioGroup) findViewById(R.id.rg_aty_fetch);
-        linearLayout = (LinearLayout) findViewById(R.id.ll_aty_fetch_temp);
+        radioGroup = (RadioGroup) findViewById(R.id.rg_aty_fetch_order);
+        linearLayout_temp = (LinearLayout) findViewById(R.id.ll_aty_fetch_temp);
+        linearLayout_amount = (LinearLayout) findViewById(R.id.ll_aty_fetch_amount);
     }
 
     @Override
@@ -174,10 +174,8 @@ public class AtyFetch extends AppCompatActivity {
         //----------------------------收货时间 end---------------------------------
 
 
+        linearLayout_temp.setVisibility(View.GONE);
 
-
-
-        linearLayout.setVisibility(View.GONE);
 
         findViewById(R.id.fetch_summit).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,10 +247,12 @@ public class AtyFetch extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
                     case R.id.rb_aty_fetch_old:
-                        linearLayout.setVisibility(View.GONE);
+                        linearLayout_temp.setVisibility(View.GONE);
+                        linearLayout_amount.setVisibility(View.VISIBLE);
                         break;
                     case R.id.rb_aty_fetch_temp:
-                        linearLayout.setVisibility(View.VISIBLE);
+                        linearLayout_temp.setVisibility(View.VISIBLE);
+                        linearLayout_amount.setVisibility(View.GONE);
                         break;
                 }
             }
