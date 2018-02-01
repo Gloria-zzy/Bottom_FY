@@ -18,7 +18,7 @@ public class AtyTeam extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.aty_team);
+        setContentView(R.layout.aty_details);
         getSupportActionBar().hide();
 
         //---------------------状态栏透明 begin----------------------------------------
@@ -35,12 +35,12 @@ public class AtyTeam extends AppCompatActivity {
         }
         //---------------------状态栏透明 end----------------------------------------
 
-        findViewById(R.id.Team_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
-            }
-        });
+//        findViewById(R.id.Team_back).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//                overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
+//            }
+//        });
     }
 }

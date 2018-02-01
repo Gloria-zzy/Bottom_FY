@@ -22,7 +22,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="填写订单信息"
+            android:text="订单详细信息"
             android:textColor="@color/white" />
 
 
@@ -44,7 +44,8 @@
                 android:layout_marginTop="10sp"
                 android:background="@color/transparent"
                 android:orientation="vertical"
-                android:padding="10sp">
+                android:paddingTop="10sp"
+                android:paddingLeft="10sp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -53,19 +54,19 @@
                     android:paddingBottom="1sp">
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="订单号 :"
+                        android:text="订单号  :  "
                         android:textColor="@color/text_clo" />
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="（订单号）"
+                        android:text="123456789011"
                         android:textColor="@color/text_clo" />
 
                 </LinearLayout>
@@ -77,19 +78,19 @@
                     android:paddingBottom="1sp">
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="下单时间 :"
+                        android:text="下单时间  :  "
                         android:textColor="@color/text_clo" />
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="（下单时间）"
+                        android:text="2018-2-1 16:39"
                         android:textColor="@color/text_clo" />
 
                 </LinearLayout>
@@ -97,95 +98,26 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingBottom="1sp">
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="领取方式 :"
+                        android:text="订单状态  :  "
                         android:textColor="@color/text_clo" />
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="（领取方式）"
+                        android:text="派送中"
                         android:textColor="@color/text_clo" />
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/min_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5sp"
-                        android:text="快递体积 :"
-                        android:textColor="@color/text_clo" />
-
-                    <TextView
-                        style="@style/min_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5sp"
-                        android:text="（快递体积）"
-                        android:textColor="@color/text_clo" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/min_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5sp"
-                        android:text="快递数量 :"
-                        android:textColor="@color/text_clo" />
-
-                    <TextView
-                        style="@style/min_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5sp"
-                        android:text="（快递数量）"
-                        android:textColor="@color/text_clo" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/min_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="5sp"
-                        android:text="备注 :"
-                        android:textColor="@color/text_clo" />
-
-                    <TextView
-                        style="@style/min_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5sp"
-                        android:text="（备注）"
-                        android:textColor="@color/text_clo" />
-
-                </LinearLayout>
-
 
             </LinearLayout>
 
@@ -195,12 +127,13 @@
                 android:layout_marginTop="10sp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="10sp">
+                android:paddingTop="10sp"
+                android:paddingBottom="8sp">
 
                 <RelativeLayout
-                    android:id="@+id/rl_aty_details_order"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp">
 
                     <TextView
                         style="@style/default_text"
@@ -211,11 +144,12 @@
                         android:textColor="@color/text_clo"/>
 
                     <TextView
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5sp"
-                        android:text="（下单方式）"
+                        android:text="临时下单"
+                        android:paddingRight="15sp"
                         android:layout_alignParentRight="true"
                         android:textColor="@color/grey"/>
 
@@ -224,97 +158,230 @@
                 <View
                     android:layout_width="wrap_content"
                     android:layout_height="5sp"
-                    android:layout_marginBottom="4sp"
+                    android:layout_marginBottom="7sp"
+                    android:layout_marginLeft="8sp"
                     android:background="@drawable/sp_line"></View>
 
-                <TextView
-                    style="@style/default_text"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="南京信息工程大学硕园0栋000"
-                    android:textColor="@color/text_clo"/>
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收货地址"
+                        android:textColor="@color/text_clo"/>
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="南京信息工程大学东苑硕园2栋124"
+                        android:paddingRight="15sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/grey"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="5sp"
+                    android:layout_marginBottom="6sp"
+                    android:layout_marginLeft="8sp"
+                    android:layout_marginTop="6sp"
+                    android:background="@drawable/sp_line"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收货时间"
+                        android:textColor="@color/text_clo"/>
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="18：30~20：30"
+                        android:paddingRight="15sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/grey"/>
+
+                </RelativeLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_aty_fetch_temp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10sp"
                 android:background="@color/white"
                 android:orientation="vertical"
-                android:paddingLeft="10sp"
-                android:paddingRight="10sp"
-                android:paddingTop="10sp">
-
-                <TextView
-                    style="@style/default_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5sp"
-                    android:text="请选择快递点"
-                    android:textColor="@color/text_clo" />
+                android:paddingTop="10sp"
+                android:paddingBottom="9sp">
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp">
 
-                    <Spinner
-                        android:id="@+id/point_spinner"
-                        style="@style/spinner_bar"
-                        android:background="@color/transparent" />
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5sp"
+                        android:text="取货方式"
+                        android:textColor="@color/text_clo"/>
 
-                    <ImageView
-                        style="@style/spinner_btn"
-                        android:layout_alignBottom="@+id/area_spinner_mng"
-                        android:layout_alignParentEnd="true"
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5sp"
+                        android:text="信任好友代拿"
+                        android:paddingRight="15sp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="24dp" />
-
-                    <View
-                        android:layout_width="wrap_content"
-                        android:layout_height="5sp"
-                        android:layout_alignBottom="@+id/point_spinner"
-                        android:background="@drawable/sp_line"></View>
-
+                        android:textColor="@color/grey"/>
 
                 </RelativeLayout>
 
-                <TextView
-                    style="@style/default_text"
+                <View
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5sp"
-                    android:text="请填写取货号"
-                    android:textColor="@color/text_clo" />
+                    android:layout_height="5sp"
+                    android:layout_marginBottom="6sp"
+                    android:layout_marginLeft="8sp"
+                    android:background="@drawable/sp_line"></View>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp">
 
-                    <EditText
-                        android:id="@+id/tv_order_takenum"
-                        style="@style/spinner_bar"
-                        android:background="@color/transparent"
-                        android:hint="如：5601"
-                        android:inputType="number"
-                        android:paddingLeft="7sp"
-                        android:singleLine="true" />
-
-                    <View
+                    <TextView
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
-                        android:layout_height="5sp"
-                        android:layout_alignBottom="@+id/tv_order_takenum"
-                        android:background="@drawable/sp_line"></View>
+                        android:layout_height="wrap_content"
+                        android:text="信任好友"
+                        android:textColor="@color/text_clo"/>
 
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CHARLES"
+                        android:paddingRight="15sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/blue"/>
 
                 </RelativeLayout>
+
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10sp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingTop="10sp"
+                android:paddingBottom="9sp">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp">
 
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5sp"
+                        android:text="快递体积"
+                        android:textColor="@color/text_clo"/>
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5sp"
+                        android:text="小"
+                        android:paddingRight="15sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/grey"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="5sp"
+                    android:layout_marginBottom="7sp"
+                    android:layout_marginLeft="8sp"
+                    android:background="@drawable/sp_line"></View>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="快递数量"
+                        android:textColor="@color/text_clo"/>
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        android:paddingRight="17sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/grey"/>
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="5sp"
+                    android:layout_marginBottom="6sp"
+                    android:layout_marginLeft="8sp"
+                    android:layout_marginTop="6sp"
+                    android:background="@drawable/sp_line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="备注"
+                        android:layout_marginBottom="5sp"
+                        android:textColor="@color/text_clo"/>
+
+                    <TextView
+                        style="@style/default_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="感谢UD的优质服务！"
+                        android:paddingRight="10sp"
+                        android:layout_alignParentRight="true"
+                        android:textColor="@color/grey"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/fetch_summit"

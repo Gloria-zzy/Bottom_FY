@@ -63,7 +63,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_old"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -73,7 +73,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_temp"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -96,7 +96,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5sp"
-                    android:text="请选择领取方式（稍后可修改）"
+                    android:text="请选择取货方式（稍后可修改）"
                     android:textColor="@color/text_clo" />
 
                 <RadioGroup
@@ -108,7 +108,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_self"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -118,7 +118,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_friend"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="0sp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -153,7 +153,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_small"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -163,7 +163,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_medium"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -172,7 +172,7 @@
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_large"
-                        style="@style/min_text"
+                        style="@style/default_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -214,6 +214,7 @@
                         android:paddingLeft="7sp"
                         android:singleLine="true"
                         android:gravity="center"
+                        android:textColor="@color/text_clo"
                         android:text="1" />
 
                     <View
@@ -380,6 +381,7 @@
                         style="@style/spinner_bar"
                         android:background="@color/transparent"
                         android:hint="如：5601"
+                        android:textColor="@color/text_clo"
                         android:inputType="number"
                         android:paddingLeft="7sp"
                         android:singleLine="true" />
@@ -415,7 +417,7 @@
 
                 <EditText
                     android:id="@+id/fetch_note"
-                    style="@style/min_text"
+                    style="@style/default_text"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_black_round"
