@@ -129,7 +129,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                         CloudPushService pushService = PushServiceFactory.getCloudPushService();
                         String deviceId = pushService.getDeviceId();
                         Config.cacheDeviceID(AtyMainFrame.this, deviceId);
-                        Toast.makeText(AtyMainFrame.this, deviceId, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(AtyMainFrame.this, deviceId, Toast.LENGTH_LONG).show();
                         System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                         System.out.println(deviceId);
                     }

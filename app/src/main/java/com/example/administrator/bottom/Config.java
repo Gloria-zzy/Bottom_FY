@@ -73,7 +73,7 @@ public class Config {
     public static final String ACTION_REGIST = "regist";
     public static final String ACTION_COMPLETE_ORDER = "complete_order";
 
-    public static final int DELAYMILLIS = 1500;
+    public static final int DELAYMILLIS = 500;
 
     public static String ADDRESS = "";
     public static Bitmap AVATAR;

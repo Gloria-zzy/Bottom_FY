@@ -149,34 +149,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="0sp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_small"
                         style="@style/min_text"
-                        android:layout_width="0sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
-                        android:text="小"
+                        android:text="小（食品、衣物、书籍、饰品等）"
                         android:textColor="@color/text_clo" />
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_medium"
                         style="@style/min_text"
-                        android:layout_width="0sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="中"
+                        android:text="中（纸箱、行李箱等）"
                         android:textColor="@color/text_clo" />
 
                     <RadioButton
                         android:id="@+id/rb_aty_fetch_large"
                         style="@style/min_text"
-                        android:layout_width="0sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="大"
+                        android:text="大（器材、家电、家装等）"
                         android:textColor="@color/text_clo" />
 
                 </RadioGroup>

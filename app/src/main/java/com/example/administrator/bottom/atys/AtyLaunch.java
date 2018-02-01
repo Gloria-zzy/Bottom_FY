@@ -61,13 +61,13 @@ public class AtyLaunch extends Activity {
             new UploadToken(token, new UploadToken.SuccessCallback() {
                 @Override
                 public void onSuccess() {
-                    Toast.makeText(AtyLaunch.this, R.string.login_already, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AtyLaunch.this, R.string.login_already, Toast.LENGTH_LONG).show();
                     Config.loginStatus = 1;
                 }
             }, new UploadToken.FailCallback() {
                 @Override
                 public void onFail() {
-                    Toast.makeText(AtyLaunch.this, R.string.login_notyet, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AtyLaunch.this, R.string.login_notyet, Toast.LENGTH_LONG).show();
                     Config.loginStatus = 0;
                 }
             });
