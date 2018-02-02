@@ -5,7 +5,6 @@ package com.example.administrator.bottom.net;
 //        下单时间 order_time
 //        信任好友 trust_friend
 //        快递体积 size(L M S)
-//        快递数量 amount
 //        收货地点 arrive_address
 //        收货时间 arrive_time
 //        快递点   pick_point
@@ -26,7 +25,6 @@ public class Order {
     private String taker;
     private String trust_friend;
     private String size;
-    private String amount;
     private String arriveTime;
 
     public Order(String phone,
@@ -34,7 +32,6 @@ public class Order {
                  String orderTime,
                  String trustFriend,
                  String size,
-                 String amount,
                  String arriveAddress,
                  String arriveTime,
                  String pickPoint,
@@ -53,7 +50,6 @@ public class Order {
         this.taker = taker;
         this.trust_friend = trustFriend;
         this.size = size;
-        this.amount = amount;
         this.arriveTime = arriveTime;
     }
 
@@ -99,10 +95,6 @@ public class Order {
 
     public String getSize() {
         return size;
-    }
-
-    public String getAmount() {
-        return amount;
     }
 
     public String getArriveTime() {

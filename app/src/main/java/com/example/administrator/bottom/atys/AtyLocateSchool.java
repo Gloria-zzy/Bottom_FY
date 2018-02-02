@@ -70,7 +70,7 @@ public class AtyLocateSchool extends Activity {
         mLocationClient.registerLocationListener(new MyLocationListener());
         setContentView(R.layout.aty_locate_address);
         bindView();
-        findViewById(R.id.iv_atyFetch_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_atyDetails_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

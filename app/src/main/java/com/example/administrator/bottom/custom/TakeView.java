@@ -32,21 +32,21 @@ public class TakeView extends RelativeLayout {
     public TakeView(Context context) {
         super(context);
         // 加载布局
-        LayoutInflater.from(context).inflate(R.layout.mod_order, this);
+        LayoutInflater.from(context).inflate(R.layout.mod_take, this);
 
         // 获取控件
 //        imageView =(ImageView)findViewById(R.id.imageViewHead);
         orderView =(OrderView)findViewById(R.id.order_view);
         btn_ask_to_take = (Button)findViewById(R.id.ask_to_take);
 
-        orderView.getTv_order_ordernum().setVisibility(View.GONE);
-        orderView.getTvshow_order_ordernum().setVisibility(View.GONE);
-        orderView.getLl_order_picknum_status().setVisibility(View.GONE);
-        orderView.getOrder_delete().setVisibility(View.GONE);
-        orderView.getOrder_change().setVisibility(View.GONE);
-        orderView.getOrder_code().setVisibility(View.GONE);
-        orderView.getDischarge_order().setVisibility(View.GONE);
-        orderView.getOrder_cancel().setVisibility(View.GONE);
+//        orderView.getTv_order_ordernum().setVisibility(View.GONE);
+//        orderView.getTvshow_order_ordernum().setVisibility(View.GONE);
+//        orderView.getLl_order_picknum_status().setVisibility(View.GONE);
+//        orderView.getOrder_delete().setVisibility(View.GONE);
+//        orderView.getOrder_change().setVisibility(View.GONE);
+//        orderView.getOrder_code().setVisibility(View.GONE);
+//        orderView.getDischarge_order().setVisibility(View.GONE);
+//        orderView.getOrder_cancel().setVisibility(View.GONE);
     }
 
 
@@ -54,7 +54,7 @@ public class TakeView extends RelativeLayout {
         super(context, attrs);
 
         // 加载布局
-        LayoutInflater.from(context).inflate(R.layout.mod_record, this);
+        LayoutInflater.from(context).inflate(R.layout.mod_order, this);
 
         // 获取控件
 //        imageView =(ImageView)findViewById(R.id.imageViewHead);
@@ -82,23 +82,23 @@ public class TakeView extends RelativeLayout {
     }
 
     public void setOrderView(OrderView orderView) {
-        this.orderView.setOrder_intro(orderView.getOrder_intro().getText().toString());
-//        this.orderView.setOrder_num(orderView.getNum());
-        this.orderView.setOrder_point(orderView.getOrder_point().getText().toString());
-//        this.orderView.setOrder_takenum(orderView.getOrder_takenum().getText().toString());
-        this.orderView.setOrder_loc(orderView.getOrder_loc().getText().toString());
-//        this.orderView.setNum(orderView.getNum());
-        this.orderView.setTime(orderView.getTime().getText().toString());
-        this.orderView.setOrder_note(orderView.getOrder_note().getText().toString());
-
-
-        phone = orderView.getSelfphone();
-        order_num = orderView.getNum();
-        point = orderView.getOrder_point().getText().toString();
-        takenum = orderView.getOrder_takenum().getText().toString();
-        location = orderView.getOrder_loc().getText().toString();
-        note = orderView.getOrder_note().getText().toString();
-        date = orderView.getTime().getText().toString();
+//        this.orderView.setTv_size(orderView.getTv_size().getText().toString());
+////        this.orderView.setTv_order_number(orderView.getOrderNumber());
+//        this.orderView.setOrder_point(orderView.getOrder_point().getText().toString());
+////        this.orderView.setOrder_takenum(orderView.getOrder_takenum().getText().toString());
+//        this.orderView.setTv_arriveAddress(orderView.getTv_arriveAddress().getText().toString());
+////        this.orderView.setOrderNumber(orderView.getOrderNumber());
+//        this.orderView.setTv_orderTime(orderView.getTv_orderTime().getText().toString());
+//        this.orderView.setTv_note(orderView.getTv_note().getText().toString());
+//
+//
+//        phone = orderView.getPhone();
+//        order_num = orderView.getOrderNumber();
+//        point = orderView.getOrder_point().getText().toString();
+//        takenum = orderView.getOrder_takenum().getText().toString();
+//        location = orderView.getTv_arriveAddress().getText().toString();
+//        note = orderView.getTv_note().getText().toString();
+//        date = orderView.getTv_orderTime().getText().toString();
     }
 
     public String getOrder_num() {

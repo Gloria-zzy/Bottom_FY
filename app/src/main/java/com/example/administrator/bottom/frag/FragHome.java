@@ -114,97 +114,97 @@ public class FragHome extends Fragment {
 
     public void fresh() {
 
-        if (linearLayout != null) {
-            linearLayout.removeAllViews();
-        }
-        new DownloadWaitingOrders(new DownloadWaitingOrders.SuccessCallback() {
-
-            @Override
-            public void onSuccess(ArrayList<Order> orders) {
-
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-                phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-                for (Order o : orders) {
-                    if (o.getOrderStatus().equals("2") && (!o.getPhone().equals(phone))) {
-                        String number = o.getOrderNumber();
-                        String point = o.getPickPoint();
-                        String takenum = o.getPickNumber();
-                        String loc = o.getArriveAddress();
-                        String note = o.getNote();
-                        String status = o.getOrderStatus();
-                        String date = o.getOrderTime();
-                        String selfphone = o.getPhone();
-                        final OrderView newov = new OrderView(getActivity());
-                        newov.setOrder_intro("小件快递");
-                        newov.setOrder_num(number);
-                        newov.setOrder_point(point);
-                        newov.setOrder_takenum(takenum);
-                        newov.setOrder_loc(loc);
-                        newov.setNum(number);
-                        newov.setTime(date);
-                        newov.setSelfphone(selfphone);
-                        if (note.equals("none")) {
-                            note = "无";
-                        }
-                        newov.setOrder_note(note);
-                        if (status.equals("0")) {
-                            newov.setOrder_status("已结束");
-                        } else if (status.equals("1")) {
-                            newov.setOrder_status("正在送货");
-                        } else if (status.equals("2")) {
-                            newov.setOrder_status("待接单");
-                        } else if (status.equals("3")) {
-                            newov.setOrder_status("订单异常");
-                        }
-
-                        final TakeView newtv = new TakeView(getActivity());
-                        newtv.setOrderView(newov);
-                        newtv.setOrder_taker(phone);
-                        newtv.getBtn_ask_to_take().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                if (Config.loginStatus == 1) {
-
-                                    new UpdateOrder(newtv.getPhone(),newtv.getOrder_taker(),newtv.getOrder_num(),newtv.getPoint(),newtv.getTakenum(),newtv.getLocation(), newtv.getNote(),newtv.getDate(),"1", new UpdateOrder.SuccessCallback() {
-
-                                        @Override
-                                        public void onSuccess() {
-
-                                            fresh();
-                                            Toast.makeText(getActivity(), "抢单成功！", Toast.LENGTH_LONG).show();
-                                            Intent i = new Intent(getActivity(), AtyTakenOrders.class);
-                                            startActivity(i);
-                                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-
-                                        }
-                                    }, new UpdateOrder.FailCallback() {
-
-                                        @Override
-                                        public void onFail() {
-                                            Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-
-                                } else {
-                                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
-                                    startActivity(intent);
-                                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                                }
-//                                Toast.makeText(getActivity(), newtv.getOrder_num(), Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        linearLayout.addView(newtv);
-                    }
-                }
-            }
-        }, new DownloadWaitingOrders.FailCallback() {
-
-            @Override
-            public void onFail() {
-                Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-            }
-        });
+//        if (linearLayout != null) {
+//            linearLayout.removeAllViews();
+//        }
+//        new DownloadWaitingOrders(new DownloadWaitingOrders.SuccessCallback() {
+//
+//            @Override
+//            public void onSuccess(ArrayList<Order> orders) {
+//
+//                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
+//                phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+//                for (Order o : orders) {
+//                    if (o.getOrderStatus().equals("2") && (!o.getPhone().equals(phone))) {
+//                        String number = o.getOrderNumber();
+//                        String point = o.getPickPoint();
+//                        String takenum = o.getPickNumber();
+//                        String loc = o.getArriveAddress();
+//                        String note = o.getNote();
+//                        String status = o.getOrderStatus();
+//                        String date = o.getOrderTime();
+//                        String selfphone = o.getPhone();
+//                        final OrderView newov = new OrderView(getActivity());
+//                        newov.setTv_size("小件快递");
+//                        newov.setTv_order_number(number);
+//                        newov.setOrder_point(point);
+//                        newov.setOrder_takenum(takenum);
+//                        newov.setTv_arriveAddress(loc);
+//                        newov.setOrderNumber(number);
+//                        newov.setTv_orderTime(date);
+//                        newov.setPhone(selfphone);
+//                        if (note.equals("none")) {
+//                            note = "无";
+//                        }
+//                        newov.setTv_note(note);
+//                        if (status.equals("0")) {
+//                            newov.setOrder_status("已结束");
+//                        } else if (status.equals("1")) {
+//                            newov.setOrder_status("正在送货");
+//                        } else if (status.equals("2")) {
+//                            newov.setOrder_status("待接单");
+//                        } else if (status.equals("3")) {
+//                            newov.setOrder_status("订单异常");
+//                        }
+//
+////                        final TakeView newtv = new TakeView(getActivity());
+//                        newtv.setOrderView(newov);
+//                        newtv.setOrder_taker(phone);
+//                        newtv.getBtn_ask_to_take().setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//
+//                                if (Config.loginStatus == 1) {
+//
+//                                    new UpdateOrder(newtv.getPhone(),newtv.getOrder_taker(),newtv.getOrder_num(),newtv.getPoint(),newtv.getTakenum(),newtv.getLocation(), newtv.getNote(),newtv.getDate(),"1", new UpdateOrder.SuccessCallback() {
+//
+//                                        @Override
+//                                        public void onSuccess() {
+//
+//                                            fresh();
+//                                            Toast.makeText(getActivity(), "抢单成功！", Toast.LENGTH_LONG).show();
+//                                            Intent i = new Intent(getActivity(), AtyTakenOrders.class);
+//                                            startActivity(i);
+//                                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//
+//                                        }
+//                                    }, new UpdateOrder.FailCallback() {
+//
+//                                        @Override
+//                                        public void onFail() {
+//                                            Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//                                        }
+//                                    });
+//
+//                                } else {
+//                                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
+//                                    startActivity(intent);
+//                                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                                }
+////                                Toast.makeText(getActivity(), newtv.getTv_order_number(), Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+//                        linearLayout.addView(newtv);
+//                    }
+//                }
+//            }
+//        }, new DownloadWaitingOrders.FailCallback() {
+//
+//            @Override
+//            public void onFail() {
+//                Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//            }
+//        });
 
     }
 }

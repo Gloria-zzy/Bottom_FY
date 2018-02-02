@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class DownloadOneOrder {
-    public DownloadOneOrder(String order_num, final SuccessCallback successCallback, final FailCallback failCallback) {
+    public DownloadOneOrder(String orderNumber, final SuccessCallback successCallback, final FailCallback failCallback) {
         new NetConnection(Config.SERVER_URL, HttpMethod.POST, new NetConnection.SuccessCallback() {
 
             @Override
@@ -32,7 +32,6 @@ public class DownloadOneOrder {
                                             orderObj.getString(Config.KEY_ORDER_TIME),
                                             orderObj.getString(Config.KEY_TRUST_FRIEND),
                                             orderObj.getString(Config.KEY_SIZE),
-                                            orderObj.getString(Config.KEY_AMOUNT),
                                             orderObj.getString(Config.KEY_ARRIVE_ADDRESS),
                                             orderObj.getString(Config.KEY_ARRIVE_TIME),
                                             orderObj.getString(Config.KEY_PICK_POINT),
@@ -67,7 +66,7 @@ public class DownloadOneOrder {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_DOWNLOAD_ONE_ORDER, Config.KEY_ORDER_NUMBER, order_num);
+        }, Config.KEY_ACTION, Config.ACTION_DOWNLOAD_ONE_ORDER, Config.KEY_ORDER_NUMBER, orderNumber);
     }
 
     public static interface SuccessCallback {

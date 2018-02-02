@@ -50,7 +50,7 @@ public class AtyMail extends AppCompatActivity {
         //---------------------状态栏透明 end----------------------------------------
 
         bindView();
-        findViewById(R.id.iv_atyFetch_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_atyDetails_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.atys.AtyDetails;
 import com.example.administrator.bottom.atys.AtyGenCode;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
@@ -149,114 +150,129 @@ public class FragOrder extends Fragment {
             @Override
             public void onSuccess(ArrayList<Order> orders) {
 
-                for (Order o : orders) {
-                    String number = o.getOrderNumber();
-                    String pickPoint = o.getPickPoint();
-                    String pickNumber = o.getPickNumber();
-                    String arriveAddress = o.getArriveAddress();
-                    String note = o.getNote();
-                    String orderStatus = o.getOrderStatus();
-                    String orderTime = o.getOrderTime();
-                    final OrderView newov = new OrderView(getActivity());
+                //        订单号   order_number
+                //        下单时间 order_time
+                //        快递体积 size(L M S)
+                //        收货地点 arrive_address
+                //        收货时间 arrive_time
+                //        备注     note
 
-                    newov.setOrder_intro("小件快递");
-                    newov.setOrder_num(number);
-                    newov.setOrder_point(pickPoint);
-                    newov.setOrder_takenum(pickNumber);
-                    newov.setOrder_loc(arriveAddress);
-                    newov.setNum(number);
-                    newov.setTime(orderTime);
+                for (Order o : orders) {
+                    final String orderNumber = o.getOrderNumber();
+                    String arriveAddress = o.getArriveAddress();
+                    String arriveTime = o.getArriveTime();
+                    String note = o.getNote();
+                    String size = o.getSize();
+                    String orderTime = o.getOrderTime();
+
+                    final OrderView newov = new OrderView(getActivity());
+                    newov.setTv_size(size);
+                    newov.setTv_order_number(orderNumber);
+                    newov.setTv_arriveAddress(arriveAddress);
+                    newov.setTv_arriveTime(arriveTime);
+                    newov.setTv_orderTime(orderTime);
                     if (note.equals("none")) {
                         note = "无";
                     }
-                    newov.setOrder_note(note);
-                    if (orderStatus.equals("0")) {
-                        newov.setOrder_status("已结束");
-                        history.addView(newov);
-                        newov.getOrder_change().setVisibility(View.GONE);
-                        newov.getDischarge_order().setVisibility(View.GONE);
-                        newov.getOrder_code().setVisibility(View.GONE);
-                        newov.getOrder_cancel().setVisibility(View.GONE);
-                    } else if (orderStatus.equals("1")) {
-                        newov.setOrder_status("正在送货");
-                        ll.addView(newov);
-                        newov.getOrder_delete().setVisibility(View.GONE);
-                        newov.getOrder_change().setVisibility(View.GONE);
-                        newov.getDischarge_order().setVisibility(View.GONE);
-                        newov.getOrder_cancel().setVisibility(View.GONE);
-                    } else if (orderStatus.equals("2")) {
-                        newov.setOrder_status("待接单");
-                        ll.addView(newov);
-                        newov.getOrder_delete().setVisibility(View.GONE);
-                        newov.getDischarge_order().setVisibility(View.GONE);
-                        newov.getOrder_cancel().setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                new DeleteOrder(newov.getOrder_num().getText().toString(), new DeleteOrder.SuccessCallback() {
+                    newov.setTv_note(note);
 
-                                    @Override
-                                    public void onSuccess() {
-
-                                        Toast.makeText(getActivity(), "已取消", Toast.LENGTH_LONG).show();
-                                        fresh();
-
-                                    }
-                                }, new DeleteOrder.FailCallback() {
-
-                                    @Override
-                                    public void onFail() {
-                                        Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                                    }
-                                });
-                            }
-                        });
-                    } else if (orderStatus.equals("3")) {
-                        newov.setOrder_status("订单异常");
-                        ll.addView(newov);
-                        newov.getDischarge_order().setVisibility(View.GONE);
-                        newov.getOrder_cancel().setVisibility(View.GONE);
-                    }
-
-                    newov.setCancelButtonListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            new DeleteOrder(newov.getOrder_num().getText().toString(), new DeleteOrder.SuccessCallback() {
-
-                                @Override
-                                public void onSuccess() {
-
-                                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-                                    fresh();
-
-                                }
-                            }, new DeleteOrder.FailCallback() {
-
-                                @Override
-                                public void onFail() {
-                                    Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                    });
-                    newov.setChangeButtonListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), AtyUpdateOrder.class);
-                            intent.putExtra("order_num",newov.getNum());
-                            startActivity(intent);
-                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                        }
-                    });
-                    newov.setGetCodeButtonListener(new View.OnClickListener() {
+                    newov.getLl_modOrder_allAround().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), AtyGenCode.class);
-                            intent.putExtra("code",newov.getNum());
+                            intent.putExtra("orderNumber", orderNumber);
                             startActivity(intent);
                             getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-
                         }
                     });
+
+//                    if (orderStatus.equals("0")) {
+//                        newov.setOrder_status("已结束");
+//                        history.addView(newov);
+//                        newov.getOrder_change().setVisibility(View.GONE);
+//                        newov.getDischarge_order().setVisibility(View.GONE);
+//                        newov.getOrder_code().setVisibility(View.GONE);
+//                        newov.getOrder_cancel().setVisibility(View.GONE);
+//                    } else if (orderStatus.equals("1")) {
+//                        newov.setOrder_status("正在送货");
+//                        ll.addView(newov);
+//                        newov.getOrder_delete().setVisibility(View.GONE);
+//                        newov.getOrder_change().setVisibility(View.GONE);
+//                        newov.getDischarge_order().setVisibility(View.GONE);
+//                        newov.getOrder_cancel().setVisibility(View.GONE);
+//                    } else if (orderStatus.equals("2")) {
+//                        newov.setOrder_status("待接单");
+//                        ll.addView(newov);
+//                        newov.getOrder_delete().setVisibility(View.GONE);
+//                        newov.getDischarge_order().setVisibility(View.GONE);
+//                        newov.getOrder_cancel().setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                new DeleteOrder(newov.getTv_order_number().getText().toString(), new DeleteOrder.SuccessCallback() {
+//
+//                                    @Override
+//                                    public void onSuccess() {
+//
+//                                        Toast.makeText(getActivity(), "已取消", Toast.LENGTH_LONG).show();
+//                                        fresh();
+//
+//                                    }
+//                                }, new DeleteOrder.FailCallback() {
+//
+//                                    @Override
+//                                    public void onFail() {
+//                                        Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//                                    }
+//                                });
+//                            }
+//                        });
+//                    } else if (orderStatus.equals("3")) {
+//                        newov.setOrder_status("订单异常");
+//                        ll.addView(newov);
+//                        newov.getDischarge_order().setVisibility(View.GONE);
+//                        newov.getOrder_cancel().setVisibility(View.GONE);
+//                    }
+
+//                    newov.setCancelButtonListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            new DeleteOrder(newov.getTv_order_number().getText().toString(), new DeleteOrder.SuccessCallback() {
+//
+//                                @Override
+//                                public void onSuccess() {
+//
+//                                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
+//                                    fresh();
+//
+//                                }
+//                            }, new DeleteOrder.FailCallback() {
+//
+//                                @Override
+//                                public void onFail() {
+//                                    Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//                                }
+//                            });
+//                        }
+//                    });
+//                    newov.setChangeButtonListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Intent intent = new Intent(getActivity(), AtyUpdateOrder.class);
+//                            intent.putExtra("order_num",newov.getOrderNumber());
+//                            startActivity(intent);
+//                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                        }
+//                    });
+//                    newov.setGetCodeButtonListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            Intent intent = new Intent(getActivity(), AtyGenCode.class);
+//                            intent.putExtra("code",newov.getOrderNumber());
+//                            startActivity(intent);
+//                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//
+//                        }
+//                    });
                 }
             }
         }, new DownloadOrders.FailCallback() {

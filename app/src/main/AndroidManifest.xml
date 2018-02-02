@@ -96,6 +96,7 @@
         <activity android:name=".atys.AtyTakenOrders" />
         <activity android:name=".atys.AtyUpdateOrder" />
         <activity android:name=".atys.AtyTeam"></activity>
+        <activity android:name=".atys.AtyDetails"></activity>
 
         <!-- 阿里云推送接收服务 -->
         <service

@@ -84,93 +84,93 @@ public class AtyTakenOrders extends AppCompatActivity {
                             //-----------------BEGIN-----------------
 
 
-                            sv = (LinearLayout) findViewById(R.id.sv_taken_orders);
-                            SharedPreferences sharedPreferences = AtyTakenOrders.this.getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-                            phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-                            if (sv != null) {
-                                sv.removeAllViews();
-                            }
-                            new DownloadTakenOrders(phone, new DownloadTakenOrders.SuccessCallback() {
-
-                                @Override
-                                public void onSuccess(ArrayList<Order> orders) {
-
-                                    for (Order o : orders) {
-                                        number = o.getOrderNumber();
-                                        point = o.getPickPoint();
-                                        takenum = o.getPickNumber();
-                                        loc = o.getArriveAddress();
-                                        note = o.getNote();
-                                        status = o.getOrderStatus();
-                                        date = o.getOrderTime();
-                                        order_num = o.getOrderNumber();
-                                        taker = o.getTaker();
-                                        publisher = o.getPhone();
-                                        final OrderView newov = new OrderView(AtyTakenOrders.this);
-
-                                        newov.setOrder_intro("小件快递");
-                                        newov.setOrder_num(number);
-                                        newov.setOrder_point(point);
-                                        newov.setOrder_takenum(takenum);
-                                        newov.setOrder_loc(loc);
-                                        newov.setNum(number);
-                                        newov.setTime(date);
-                                        if (note.equals("none")) {
-                                            note = "无";
-                                        }
-                                        newov.setOrder_note(note);
-                                        newov.getOrder_delete().setVisibility(View.GONE);
-                                        newov.getOrder_change().setVisibility(View.GONE);
-                                        newov.getOrder_code().setVisibility(View.GONE);
-                                        newov.getOrder_cancel().setVisibility(View.GONE);
-                                        if (status.equals("0")) {
-                                            newov.setOrder_status("已结束");
-                                            sv.addView(newov);
-                                        } else if (status.equals("1")) {
-                                            newov.setOrder_status("正在送货");
-                                            sv.addView(newov);
-                                        } else if (status.equals("2")) {
-                                            newov.setOrder_status("待接单");
-                                            sv.addView(newov);
-                                        } else if (status.equals("3")) {
-                                            newov.setOrder_status("订单异常");
-                                            sv.addView(newov);
-                                        }
-                                        newov.getDischarge_order().setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                new UpdateOrder(publisher, taker, order_num, point, takenum, loc, note, date, "2", new UpdateOrder.SuccessCallback() {
-
-                                                    @Override
-                                                    public void onSuccess() {
-
-
-                                                        Toast.makeText(AtyTakenOrders.this, "已放弃订单", Toast.LENGTH_LONG).show();
-                                                        Intent i = new Intent(AtyTakenOrders.this, AtyTakenOrders.class);
-                                                        startActivity(i);
-                                                        finish();
-
-//                                    AtyTakenOrders.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-
-                                                    }
-                                                }, new UpdateOrder.FailCallback() {
-
-                                                    @Override
-                                                    public void onFail() {
-                                                        Toast.makeText(AtyTakenOrders.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                }
-                            }, new DownloadTakenOrders.FailCallback() {
-
-                                @Override
-                                public void onFail() {
-                                    Toast.makeText(AtyTakenOrders.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                                }
-                            });
+//                            sv = (LinearLayout) findViewById(R.id.sv_taken_orders);
+//                            SharedPreferences sharedPreferences = AtyTakenOrders.this.getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
+//                            phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+//                            if (sv != null) {
+//                                sv.removeAllViews();
+//                            }
+//                            new DownloadTakenOrders(phone, new DownloadTakenOrders.SuccessCallback() {
+//
+//                                @Override
+//                                public void onSuccess(ArrayList<Order> orders) {
+//
+//                                    for (Order o : orders) {
+//                                        number = o.getOrderNumber();
+//                                        point = o.getPickPoint();
+//                                        takenum = o.getPickNumber();
+//                                        loc = o.getArriveAddress();
+//                                        note = o.getNote();
+//                                        status = o.getOrderStatus();
+//                                        date = o.getOrderTime();
+//                                        order_num = o.getOrderNumber();
+//                                        taker = o.getTaker();
+//                                        publisher = o.getPhone();
+//                                        final OrderView newov = new OrderView(AtyTakenOrders.this);
+//
+//                                        newov.setTv_size("小件快递");
+//                                        newov.setTv_order_number(number);
+//                                        newov.setOrder_point(point);
+//                                        newov.setOrder_takenum(takenum);
+//                                        newov.setTv_arriveAddress(loc);
+//                                        newov.setOrderNumber(number);
+//                                        newov.setTv_orderTime(date);
+//                                        if (note.equals("none")) {
+//                                            note = "无";
+//                                        }
+//                                        newov.setTv_note(note);
+//                                        newov.getOrder_delete().setVisibility(View.GONE);
+//                                        newov.getOrder_change().setVisibility(View.GONE);
+//                                        newov.getOrder_code().setVisibility(View.GONE);
+//                                        newov.getOrder_cancel().setVisibility(View.GONE);
+//                                        if (status.equals("0")) {
+//                                            newov.setOrder_status("已结束");
+//                                            sv.addView(newov);
+//                                        } else if (status.equals("1")) {
+//                                            newov.setOrder_status("正在送货");
+//                                            sv.addView(newov);
+//                                        } else if (status.equals("2")) {
+//                                            newov.setOrder_status("待接单");
+//                                            sv.addView(newov);
+//                                        } else if (status.equals("3")) {
+//                                            newov.setOrder_status("订单异常");
+//                                            sv.addView(newov);
+//                                        }
+//                                        newov.getDischarge_order().setOnClickListener(new View.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(View view) {
+//                                                new UpdateOrder(publisher, taker, order_num, point, takenum, loc, note, date, "2", new UpdateOrder.SuccessCallback() {
+//
+//                                                    @Override
+//                                                    public void onSuccess() {
+//
+//
+//                                                        Toast.makeText(AtyTakenOrders.this, "已放弃订单", Toast.LENGTH_LONG).show();
+//                                                        Intent i = new Intent(AtyTakenOrders.this, AtyTakenOrders.class);
+//                                                        startActivity(i);
+//                                                        finish();
+//
+////                                    AtyTakenOrders.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//
+//                                                    }
+//                                                }, new UpdateOrder.FailCallback() {
+//
+//                                                    @Override
+//                                                    public void onFail() {
+//                                                        Toast.makeText(AtyTakenOrders.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//                                                    }
+//                                                });
+//                                            }
+//                                        });
+//                                    }
+//                                }
+//                            }, new DownloadTakenOrders.FailCallback() {
+//
+//                                @Override
+//                                public void onFail() {
+//                                    Toast.makeText(AtyTakenOrders.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//                                }
+//                            });
 
                             //-----------------END-----------------
                         }

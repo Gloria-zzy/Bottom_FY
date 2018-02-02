@@ -77,7 +77,7 @@ public class AtyFetch extends AppCompatActivity {
         getSupportActionBar().hide();
 
         bindView();
-        findViewById(R.id.iv_atyFetch_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_atyDetails_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -198,7 +198,7 @@ public class AtyFetch extends AppCompatActivity {
 //                取货号   pick_number
 //                备注     note
 
-                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String orderTime = sDateFormat.format(new java.util.Date());
 
                 // 获得phoneNum

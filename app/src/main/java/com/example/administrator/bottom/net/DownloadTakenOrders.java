@@ -32,7 +32,6 @@ public class DownloadTakenOrders {
                                             orderObj.getString(Config.KEY_ORDER_TIME),
                                             orderObj.getString(Config.KEY_TRUST_FRIEND),
                                             orderObj.getString(Config.KEY_SIZE),
-                                            orderObj.getString(Config.KEY_AMOUNT),
                                             orderObj.getString(Config.KEY_ARRIVE_ADDRESS),
                                             orderObj.getString(Config.KEY_ARRIVE_TIME),
                                             orderObj.getString(Config.KEY_PICK_POINT),
