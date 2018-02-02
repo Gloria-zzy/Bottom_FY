@@ -2,11 +2,9 @@ package com.example.administrator.bottom.atys;
 
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -26,8 +24,8 @@ public class AtyMail extends AppCompatActivity {
 
     //UI组件初始化
     private void bindView() {
-        time_spinner=(Spinner)findViewById(R.id.point_spinner);
-        loc_spinner=(Spinner)findViewById(R.id.loc_spinner);
+        time_spinner=(Spinner)findViewById(R.id.sp_atyFetch_pickPoint);
+        loc_spinner=(Spinner)findViewById(R.id.sp_atyFetch_arriveAddress);
     }
 
     @Override
@@ -52,7 +50,7 @@ public class AtyMail extends AppCompatActivity {
         //---------------------状态栏透明 end----------------------------------------
 
         bindView();
-        findViewById(R.id.Fetch_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_atyFetch_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();

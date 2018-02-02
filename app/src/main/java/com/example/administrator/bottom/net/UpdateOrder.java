@@ -41,7 +41,7 @@ public class UpdateOrder {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_UPDATE_ORDER, Config.KEY_ORDER_NUMBER, order_num, Config.KEY_ORDER_TAKER, order_taker,Config.KEY_ORDER_POINT, point, Config.KEY_ORDER_TAKENUM, takenum,Config.KEY_ORDER_LOCATION, location, Config.KEY_ORDER_NOTE, note,Config.KEY_ORDER_DATE,date, Config.KEY_PHONE_NUM, phone,Config.KEY_ORDER_STATUS,status);
+        }, Config.KEY_ACTION, Config.ACTION_UPDATE_ORDER, Config.KEY_ORDER_NUMBER, order_num, Config.KEY_TAKER, order_taker,Config.KEY_PICK_POINT, point, Config.KEY_PICK_NUMBER, takenum,Config.KEY_ARRIVE_ADDRESS, location, Config.KEY_NOTE, note,Config.KEY_ORDER_TIME,date, Config.KEY_PHONE_NUM, phone,Config.KEY_ORDER_STATUS,status);
     }
 
     public static interface SuccessCallback {

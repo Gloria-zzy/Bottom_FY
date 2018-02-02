@@ -32,32 +32,41 @@ import static com.example.administrator.bottom.Config.APP_ID;
 
 public class AtyFetch extends AppCompatActivity {
 
-    private Spinner point_spinner;
-    private Spinner loc_spinner;
-    private Spinner time_spinner;
-    private EditText note_edittext;
-    private EditText takenum_edittext;
-    private RadioGroup radioGroup;
-    private LinearLayout linearLayout_temp;
-    private LinearLayout linearLayout_amount;
+    private Spinner sp_pickPoint;
+    private Spinner sp_arriveAddress;
+    private Spinner sp_arriveTime;
+    private EditText et_note;
+    private EditText et_pickNumber;
+    private EditText et_amount;
+    private RadioGroup rg_orderPattern;
+    private RadioGroup rg_pickPattern;
+    private RadioGroup rg_size;
+    private LinearLayout ll_orderPattern_temp;
+    private LinearLayout ll_amount;
     private List<String> data_list;
     private ArrayAdapter<String> arr_adapter;
-    private String point;
-    private String loc;
-    private String time;
+    private String pickPoint;
+    private String size;
+    private String amount;
+    private String arriveTime;
+    private String arriveAddress;
+    private String trustFriend;
     private String note;
-    private String takenum;
+    private String pickNumber;
 
     //UI组件初始化
     private void bindView() {
-        point_spinner = (Spinner) findViewById(R.id.point_spinner);
-        loc_spinner = (Spinner) findViewById(R.id.loc_spinner);
-        time_spinner = (Spinner) findViewById(R.id.time_spinner);
-        note_edittext = (EditText) findViewById(R.id.fetch_note);
-        takenum_edittext = (EditText) findViewById(R.id.tv_order_takenum);
-        radioGroup = (RadioGroup) findViewById(R.id.rg_aty_fetch_order);
-        linearLayout_temp = (LinearLayout) findViewById(R.id.ll_aty_fetch_temp);
-        linearLayout_amount = (LinearLayout) findViewById(R.id.ll_aty_fetch_amount);
+        sp_pickPoint = (Spinner) findViewById(R.id.sp_atyFetch_pickPoint);
+        sp_arriveAddress = (Spinner) findViewById(R.id.sp_atyFetch_arriveAddress);
+        sp_arriveTime = (Spinner) findViewById(R.id.sp_atyFetch_arriveTime);
+        et_note = (EditText) findViewById(R.id.et_atyFetch_note);
+        et_pickNumber = (EditText) findViewById(R.id.tv_atyFetch_pickNumber);
+        et_amount = (EditText) findViewById(R.id.tv_atyFetch_amount);
+        rg_orderPattern = (RadioGroup) findViewById(R.id.rg_atyFetch_orderPattern);
+        rg_pickPattern = (RadioGroup) findViewById(R.id.rg_atyFetch_pickPattern);
+        rg_size = (RadioGroup) findViewById(R.id.rg_atyFetch_size);
+        ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyFetch_orderPattern_temp);
+        ll_amount = (LinearLayout) findViewById(R.id.ll_atyFetch_amount);
     }
 
     @Override
@@ -68,7 +77,7 @@ public class AtyFetch extends AppCompatActivity {
         getSupportActionBar().hide();
 
         bindView();
-        findViewById(R.id.Fetch_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_atyFetch_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -103,11 +112,11 @@ public class AtyFetch extends AppCompatActivity {
         //设置样式 android.R.layout.simple_spinner_dropdown_item
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         //加载适配器
-        point_spinner.setAdapter(arr_adapter);
-        point_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_pickPoint.setAdapter(arr_adapter);
+        sp_pickPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                point = (String) point_spinner.getSelectedItem();
+                pickPoint = (String) sp_pickPoint.getSelectedItem();
             }
 
             @Override
@@ -132,11 +141,11 @@ public class AtyFetch extends AppCompatActivity {
         //设置样式
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         //加载适配器
-        loc_spinner.setAdapter(arr_adapter);
-        loc_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_arriveAddress.setAdapter(arr_adapter);
+        sp_arriveAddress.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                loc = (String) loc_spinner.getSelectedItem();
+                arriveAddress = (String) sp_arriveAddress.getSelectedItem();
             }
 
             @Override
@@ -158,11 +167,11 @@ public class AtyFetch extends AppCompatActivity {
         //设置样式
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         //加载适配器
-        time_spinner.setAdapter(arr_adapter);
-        time_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sp_arriveTime.setAdapter(arr_adapter);
+        sp_arriveTime.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                time = (String) time_spinner.getSelectedItem();
+                arriveTime = (String) sp_arriveTime.getSelectedItem();
             }
 
             @Override
@@ -173,30 +182,54 @@ public class AtyFetch extends AppCompatActivity {
 
         //----------------------------收货时间 end---------------------------------
 
+        ll_orderPattern_temp.setVisibility(View.GONE);
 
-        linearLayout_temp.setVisibility(View.GONE);
-
-
-        findViewById(R.id.fetch_summit).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_atyFetch_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+//                下单时间 order_time
+//                信任好友 trust_friend
+//                快递体积 size(L M S)
+//                快递数量 amount(int)
+//                收货地点 arrive_address
+//                收货时间 arrive_time
+//                快递点   pick_point
+//                取货号   pick_number
+//                备注     note
+
                 SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                String date = sDateFormat.format(new java.util.Date());
+                String orderTime = sDateFormat.format(new java.util.Date());
 
                 // 获得phoneNum
-                note = note_edittext.getText().toString();
+                note = et_note.getText().toString();
                 if (note.equals("")) {
                     note = "none";
                 }
-                takenum = takenum_edittext.getText().toString();
+                if(rg_pickPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_pickPattern_friend){
+                    trustFriend = "CHARLES";
+                }else trustFriend = "none";
+
+                switch (rg_size.getCheckedRadioButtonId()) {
+                    case R.id.rb_atyFetch_size_small:
+                        size = "S";
+                        break;
+                    case R.id.rb_atyFetch_size_medium:
+                        size = "M";
+                        break;
+                    case R.id.rb_atyFetch_size_large:
+                        size = "L";
+                        break;
+                }
+                amount = et_amount.getText().toString();
+                pickNumber = et_pickNumber.getText().toString();
                 SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
 
-                if (takenum.equals("") || takenum == null) {
+                if (rg_orderPattern.getCheckedRadioButtonId()== R.id.rb_atyFetch_orderPattern_temp && (pickNumber.equals("") || pickNumber == null)) {
                     Toast.makeText(AtyFetch.this, "取货号不能为空！", Toast.LENGTH_LONG).show();
                 } else {
-                    new UploadOrder(phone, point, takenum, loc, note, date, new UploadOrder.SuccessCallback() {
+                    new UploadOrder(phone, orderTime, trustFriend, size, amount, arriveAddress, arriveTime, pickPoint, pickNumber, note, new UploadOrder.SuccessCallback() {
 
                         @Override
                         public void onSuccess() {
@@ -242,17 +275,19 @@ public class AtyFetch extends AppCompatActivity {
         });
 
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        rg_orderPattern.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (i) {
-                    case R.id.rb_aty_fetch_old:
-                        linearLayout_temp.setVisibility(View.GONE);
-                        linearLayout_amount.setVisibility(View.VISIBLE);
+                    case R.id.rb_atyFetch_orderPattern_old:
+                        ll_orderPattern_temp.setVisibility(View.GONE);
+                        ll_amount.setVisibility(View.VISIBLE);
+                        pickNumber = "none";
+                        pickPoint = "none";
                         break;
-                    case R.id.rb_aty_fetch_temp:
-                        linearLayout_temp.setVisibility(View.VISIBLE);
-                        linearLayout_amount.setVisibility(View.GONE);
+                    case R.id.rb_atyFetch_orderPattern_temp:
+                        ll_orderPattern_temp.setVisibility(View.VISIBLE);
+                        ll_amount.setVisibility(View.GONE);
                         break;
                 }
             }

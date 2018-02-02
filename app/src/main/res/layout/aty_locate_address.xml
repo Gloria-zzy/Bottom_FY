@@ -8,7 +8,7 @@
         style="@style/TopStatus">
 
         <ImageView
-            android:id="@+id/Fetch_back"
+            android:id="@+id/iv_atyFetch_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

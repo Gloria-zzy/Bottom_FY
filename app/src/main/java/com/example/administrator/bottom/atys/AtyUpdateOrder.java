@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -21,10 +19,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.custom.OrderView;
-import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.net.DownloadOneOrder;
-import com.example.administrator.bottom.net.DownloadTakenOrders;
 import com.example.administrator.bottom.net.Order;
 import com.example.administrator.bottom.net.UpdateOrder;
 
@@ -156,15 +151,15 @@ public class AtyUpdateOrder extends AppCompatActivity {
             public void onSuccess(ArrayList<Order> orders) {
 
                 for (Order o : orders) {
-                    order_num = o.getOrderNum();
-                    point = o.getPoint();
-                    takenum = o.getTakenum();
-                    loc = o.getLocation();
+                    order_num = o.getOrderNumber();
+                    point = o.getPickPoint();
+                    takenum = o.getPickNumber();
+                    loc = o.getArriveAddress();
                     note = o.getNote();
-                    date = o.getDate();
+                    date = o.getOrderTime();
                     phone = o.getPhone();
                     taker = o.getTaker();
-                    status = o.getStatus();
+                    status = o.getOrderStatus();
                     if (note.equals("none")) {
                         note = "无";
                     }

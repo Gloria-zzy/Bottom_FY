@@ -8,6 +8,20 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+//        手机号   phone
+//        订单号   order_number
+//        下单时间 order_time
+//        信任好友 trust_friend
+//        快递体积 size(L M S)
+//        快递数量 amount
+//        收货地点 arrive_address
+//        收货时间 arrive_time
+//        快递点   pick_point
+//        取货号   pick_number
+//        派送员   taker
+//        备注     note
+//        状态     order_status(int)
+
 public class DownloadOrders {
     public DownloadOrders(String phone, final SuccessCallback successCallback, final FailCallback failCallback) {
         new NetConnection(Config.SERVER_URL, HttpMethod.POST, new NetConnection.SuccessCallback() {
@@ -27,15 +41,19 @@ public class DownloadOrders {
                                 for (int i = 0; i < orderJsonArray.length(); i++) {
                                     orderObj = orderJsonArray.getJSONObject(i);
                                     orders.add(new Order(
-                                                    orderObj.getString(Config.KEY_ORDER_NUMBER),
                                                     orderObj.getString(Config.KEY_PHONE_NUM),
-                                                    orderObj.getString(Config.KEY_ORDER_POINT),
-                                                    orderObj.getString(Config.KEY_ORDER_TAKENUM),
-                                                    orderObj.getString(Config.KEY_ORDER_LOCATION),
-                                                    orderObj.getString(Config.KEY_ORDER_NOTE),
-                                                    orderObj.getString(Config.KEY_ORDER_STATUS),
-                                                    orderObj.getString(Config.KEY_ORDER_DATE),
-                                                    orderObj.getString(Config.KEY_ORDER_TAKER)
+                                                    orderObj.getString(Config.KEY_ORDER_NUMBER),
+                                                    orderObj.getString(Config.KEY_ORDER_TIME),
+                                                    orderObj.getString(Config.KEY_TRUST_FRIEND),
+                                                    orderObj.getString(Config.KEY_SIZE),
+                                                    orderObj.getString(Config.KEY_AMOUNT),
+                                                    orderObj.getString(Config.KEY_ARRIVE_ADDRESS),
+                                                    orderObj.getString(Config.KEY_ARRIVE_TIME),
+                                                    orderObj.getString(Config.KEY_PICK_POINT),
+                                                    orderObj.getString(Config.KEY_PICK_NUMBER),
+                                                    orderObj.getString(Config.KEY_TAKER),
+                                                    orderObj.getString(Config.KEY_NOTE),
+                                                    orderObj.getString(Config.KEY_ORDER_STATUS)
                                             )
                                     );
                                 }

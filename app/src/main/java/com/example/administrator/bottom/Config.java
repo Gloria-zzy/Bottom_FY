@@ -38,12 +38,16 @@ public class Config {
     public static final String KEY_ADDRESS_ROOM = "address_room";
 
     public static final String KEY_ORDER_NUMBER = "order_number";
-    public static final String KEY_ORDER_TAKER = "order_taker";
-    public static final String KEY_ORDER_POINT = "order_point";
-    public static final String KEY_ORDER_TAKENUM = "order_takenum";
-    public static final String KEY_ORDER_LOCATION = "order_location";
-    public static final String KEY_ORDER_NOTE = "order_note";
-    public static final String KEY_ORDER_DATE = "order_date";
+    public static final String KEY_TAKER = "taker";
+    public static final String KEY_ARRIVE_ADDRESS = "arrive_address";
+    public static final String KEY_NOTE = "note";
+    public static final String KEY_ORDER_TIME = "order_time";
+    public static final String KEY_TRUST_FRIEND = "trust_friend";
+    public static final String KEY_SIZE = "size";
+    public static final String KEY_AMOUNT = "amount";
+    public static final String KEY_ARRIVE_TIME = "arrive_time";
+    public static final String KEY_PICK_POINT = "pick_point";
+    public static final String KEY_PICK_NUMBER = "pick_number";
     public static final String KEY_ORDER_STATUS = "order_status";
 
     public static final int REQUEST_READ_PHONE_STATE = 1;

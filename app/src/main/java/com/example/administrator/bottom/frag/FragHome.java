@@ -13,22 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyFetch;
-import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyTakenOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
 import com.example.administrator.bottom.custom.TakeView;
-import com.example.administrator.bottom.net.DownloadTakenOrders;
 import com.example.administrator.bottom.net.DownloadWaitingOrders;
 import com.example.administrator.bottom.net.Order;
 import com.example.administrator.bottom.net.UpdateOrder;
@@ -130,14 +125,14 @@ public class FragHome extends Fragment {
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
                 for (Order o : orders) {
-                    if (o.getStatus().equals("2") && (!o.getPhone().equals(phone))) {
-                        String number = o.getOrderNum();
-                        String point = o.getPoint();
-                        String takenum = o.getTakenum();
-                        String loc = o.getLocation();
+                    if (o.getOrderStatus().equals("2") && (!o.getPhone().equals(phone))) {
+                        String number = o.getOrderNumber();
+                        String point = o.getPickPoint();
+                        String takenum = o.getPickNumber();
+                        String loc = o.getArriveAddress();
                         String note = o.getNote();
-                        String status = o.getStatus();
-                        String date = o.getDate();
+                        String status = o.getOrderStatus();
+                        String date = o.getOrderTime();
                         String selfphone = o.getPhone();
                         final OrderView newov = new OrderView(getActivity());
                         newov.setOrder_intro("小件快递");

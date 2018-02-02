@@ -150,41 +150,41 @@ public class FragOrder extends Fragment {
             public void onSuccess(ArrayList<Order> orders) {
 
                 for (Order o : orders) {
-                    String number = o.getOrderNum();
-                    String point = o.getPoint();
-                    String takenum = o.getTakenum();
-                    String loc = o.getLocation();
+                    String number = o.getOrderNumber();
+                    String pickPoint = o.getPickPoint();
+                    String pickNumber = o.getPickNumber();
+                    String arriveAddress = o.getArriveAddress();
                     String note = o.getNote();
-                    String status = o.getStatus();
-                    String date = o.getDate();
+                    String orderStatus = o.getOrderStatus();
+                    String orderTime = o.getOrderTime();
                     final OrderView newov = new OrderView(getActivity());
 
                     newov.setOrder_intro("小件快递");
                     newov.setOrder_num(number);
-                    newov.setOrder_point(point);
-                    newov.setOrder_takenum(takenum);
-                    newov.setOrder_loc(loc);
+                    newov.setOrder_point(pickPoint);
+                    newov.setOrder_takenum(pickNumber);
+                    newov.setOrder_loc(arriveAddress);
                     newov.setNum(number);
-                    newov.setTime(date);
+                    newov.setTime(orderTime);
                     if (note.equals("none")) {
                         note = "无";
                     }
                     newov.setOrder_note(note);
-                    if (status.equals("0")) {
+                    if (orderStatus.equals("0")) {
                         newov.setOrder_status("已结束");
                         history.addView(newov);
                         newov.getOrder_change().setVisibility(View.GONE);
                         newov.getDischarge_order().setVisibility(View.GONE);
                         newov.getOrder_code().setVisibility(View.GONE);
                         newov.getOrder_cancel().setVisibility(View.GONE);
-                    } else if (status.equals("1")) {
+                    } else if (orderStatus.equals("1")) {
                         newov.setOrder_status("正在送货");
                         ll.addView(newov);
                         newov.getOrder_delete().setVisibility(View.GONE);
                         newov.getOrder_change().setVisibility(View.GONE);
                         newov.getDischarge_order().setVisibility(View.GONE);
                         newov.getOrder_cancel().setVisibility(View.GONE);
-                    } else if (status.equals("2")) {
+                    } else if (orderStatus.equals("2")) {
                         newov.setOrder_status("待接单");
                         ll.addView(newov);
                         newov.getOrder_delete().setVisibility(View.GONE);
@@ -210,7 +210,7 @@ public class FragOrder extends Fragment {
                                 });
                             }
                         });
-                    } else if (status.equals("3")) {
+                    } else if (orderStatus.equals("3")) {
                         newov.setOrder_status("订单异常");
                         ll.addView(newov);
                         newov.getDischarge_order().setVisibility(View.GONE);

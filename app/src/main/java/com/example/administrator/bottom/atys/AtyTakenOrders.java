@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -98,14 +96,14 @@ public class AtyTakenOrders extends AppCompatActivity {
                                 public void onSuccess(ArrayList<Order> orders) {
 
                                     for (Order o : orders) {
-                                        number = o.getOrderNum();
-                                        point = o.getPoint();
-                                        takenum = o.getTakenum();
-                                        loc = o.getLocation();
+                                        number = o.getOrderNumber();
+                                        point = o.getPickPoint();
+                                        takenum = o.getPickNumber();
+                                        loc = o.getArriveAddress();
                                         note = o.getNote();
-                                        status = o.getStatus();
-                                        date = o.getDate();
-                                        order_num = o.getOrderNum();
+                                        status = o.getOrderStatus();
+                                        date = o.getOrderTime();
+                                        order_num = o.getOrderNumber();
                                         taker = o.getTaker();
                                         publisher = o.getPhone();
                                         final OrderView newov = new OrderView(AtyTakenOrders.this);

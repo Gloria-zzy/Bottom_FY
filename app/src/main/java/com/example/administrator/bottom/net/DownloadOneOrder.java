@@ -27,15 +27,19 @@ public class DownloadOneOrder {
                                 for (int i = 0; i < orderJsonArray.length(); i++) {
                                     orderObj = orderJsonArray.getJSONObject(i);
                                     orders.add(new Order(
-                                                    orderObj.getString(Config.KEY_ORDER_NUMBER),
-                                                    orderObj.getString(Config.KEY_PHONE_NUM),
-                                                    orderObj.getString(Config.KEY_ORDER_POINT),
-                                                    orderObj.getString(Config.KEY_ORDER_TAKENUM),
-                                                    orderObj.getString(Config.KEY_ORDER_LOCATION),
-                                                    orderObj.getString(Config.KEY_ORDER_NOTE),
-                                                    orderObj.getString(Config.KEY_ORDER_STATUS),
-                                                    orderObj.getString(Config.KEY_ORDER_DATE),
-                                                    orderObj.getString(Config.KEY_ORDER_TAKER)
+                                            orderObj.getString(Config.KEY_PHONE_NUM),
+                                            orderObj.getString(Config.KEY_ORDER_NUMBER),
+                                            orderObj.getString(Config.KEY_ORDER_TIME),
+                                            orderObj.getString(Config.KEY_TRUST_FRIEND),
+                                            orderObj.getString(Config.KEY_SIZE),
+                                            orderObj.getString(Config.KEY_AMOUNT),
+                                            orderObj.getString(Config.KEY_ARRIVE_ADDRESS),
+                                            orderObj.getString(Config.KEY_ARRIVE_TIME),
+                                            orderObj.getString(Config.KEY_PICK_POINT),
+                                            orderObj.getString(Config.KEY_PICK_NUMBER),
+                                            orderObj.getString(Config.KEY_TAKER),
+                                            orderObj.getString(Config.KEY_NOTE),
+                                            orderObj.getString(Config.KEY_ORDER_STATUS)
                                             )
                                     );
                                 }

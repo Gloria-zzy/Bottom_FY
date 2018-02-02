@@ -69,7 +69,7 @@ public class OrderView extends RelativeLayout {
         order_intro = (TextView) findViewById(R.id.introduction);
         time = (TextView) findViewById(R.id.time);
         order_point = (TextView) findViewById(R.id.order_point);
-        order_takenum = (TextView) findViewById(R.id.tv_order_takenum);
+        order_takenum = (TextView) findViewById(R.id.tv_atyFetch_pickNumber);
         order_loc = (TextView) findViewById(R.id.order_loc);
         order_note = (TextView) findViewById(R.id.order_note);
         order_status = (TextView) findViewById(R.id.order_status);
