@@ -51,9 +51,9 @@ public class AtyGenCode extends AppCompatActivity {
         findViewById(R.id.code_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AtyGenCode.this, AtyMainFrame.class);
-                i.putExtra("page","order");
-                startActivity(i);
+//                Intent i = new Intent(AtyGenCode.this, AtyMainFrame.class);
+//                i.putExtra("page","order");
+//                startActivity(i);
                 finish();
                 overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
             }

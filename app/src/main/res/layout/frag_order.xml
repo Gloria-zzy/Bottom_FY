@@ -23,14 +23,14 @@
                 android:id="@+id/order_ll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#FFFAFAFA"
+                android:background="@color/transparent"
                 android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:background="@color/white"
+                    android:background="@color/transparent"
                     android:orientation="horizontal"
                     android:paddingTop="11sp">
 
@@ -41,6 +41,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textColor="#FFFAFAFA"
                         android:text="当前订单" />
 
                     <TextView
@@ -50,18 +51,20 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textColor="#FFFAFAFA"
                         android:text="历史订单" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="#3636ff" />
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="2dp"-->
+                    <!--android:background="#3636ff" />-->
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/order_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="#FFFAFAFA">
 
 
                     <ScrollView

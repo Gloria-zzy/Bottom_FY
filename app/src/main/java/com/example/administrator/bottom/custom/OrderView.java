@@ -20,10 +20,11 @@ public class OrderView extends RelativeLayout {
 
     private TextView tv_size;
     private TextView tv_orderTime;
-    private TextView tv_arriveAddress;
+//    private TextView tv_arriveAddress;
     private TextView tv_arriveTime;
-    private TextView tv_note;
-    private TextView tv_order_number;
+//    private TextView tv_note;
+    private TextView tv_orderNumber;
+    private TextView tv_pickPattern;
     private LinearLayout ll_modOrder_allAround;
     private String phone;
 
@@ -35,10 +36,11 @@ public class OrderView extends RelativeLayout {
         // 获取控件
         tv_size = (TextView) findViewById(R.id.tv_modOrder_size);
         tv_orderTime = (TextView) findViewById(R.id.tv_modOrder_orderTime);
-        tv_note = (TextView) findViewById(R.id.tv_modOrder_note);
-        tv_arriveAddress = (TextView) findViewById(R.id.tv_modOrder_arriveAddress);
+//        tv_note = (TextView) findViewById(R.id.tv_modOrder_note);
+//        tv_arriveAddress = (TextView) findViewById(R.id.tv_modOrder_arriveAddress);
         tv_arriveTime = (TextView) findViewById(R.id.tv_modOrder_arriveTime);
-        tv_order_number = (TextView) findViewById(R.id.tv_modOrder_orderNumber);
+        tv_orderNumber = (TextView) findViewById(R.id.tv_modOrder_orderNumber);
+        tv_pickPattern = (TextView) findViewById(R.id.tv_modOrder_pickPattern);
         ll_modOrder_allAround = (LinearLayout) findViewById(R.id.ll_modOrder_allAround);
     }
 
@@ -51,10 +53,11 @@ public class OrderView extends RelativeLayout {
         // 获取控件
         tv_size = (TextView) findViewById(R.id.tv_modOrder_size);
         tv_orderTime = (TextView) findViewById(R.id.tv_modOrder_orderTime);
-        tv_note = (TextView) findViewById(R.id.tv_modOrder_note);
-        tv_arriveAddress = (TextView) findViewById(R.id.tv_modOrder_arriveAddress);
+//        tv_note = (TextView) findViewById(R.id.tv_modOrder_note);
+//        tv_arriveAddress = (TextView) findViewById(R.id.tv_modOrder_arriveAddress);
         tv_arriveTime = (TextView) findViewById(R.id.tv_modOrder_arriveTime);
-        tv_order_number = (TextView) findViewById(R.id.tv_modOrder_orderNumber);
+        tv_orderNumber = (TextView) findViewById(R.id.tv_modOrder_orderNumber);
+        tv_pickPattern = (TextView) findViewById(R.id.tv_modOrder_pickPattern);
         ll_modOrder_allAround = (LinearLayout) findViewById(R.id.ll_modOrder_allAround);
     }
 
@@ -84,20 +87,24 @@ public class OrderView extends RelativeLayout {
         this.tv_orderTime.setText(orderTime);
     }
 
-    public void setTv_arriveAddress(String arriveAddress) {
-        this.tv_arriveAddress.setText(arriveAddress);
-    }
+//    public void setTv_arriveAddress(String arriveAddress) {
+//        this.tv_arriveAddress.setText(arriveAddress);
+//    }
 
     public void setTv_arriveTime(String arriveTime) {
         this.tv_arriveTime.setText(arriveTime);
     }
 
-    public void setTv_note(String note) {
-        this.tv_note.setText(note);
+//    public void setTv_note(String note) {
+//        this.tv_note.setText(note);
+//    }
+
+    public void setTv_orderNumber(String orderNumber) {
+        this.tv_orderNumber.setText(orderNumber);
     }
 
-    public void setTv_order_number(String order_number) {
-        this.tv_order_number.setText(order_number);
+    public void setTv_pickPattern(String pickPattern) {
+        this.tv_pickPattern.setText(pickPattern);
     }
 
     public LinearLayout getLl_modOrder_allAround() {

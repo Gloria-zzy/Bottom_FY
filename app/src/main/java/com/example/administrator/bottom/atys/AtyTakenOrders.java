@@ -109,7 +109,7 @@ public class AtyTakenOrders extends AppCompatActivity {
 //                                        final OrderView newov = new OrderView(AtyTakenOrders.this);
 //
 //                                        newov.setTv_size("小件快递");
-//                                        newov.setTv_order_number(number);
+//                                        newov.setTv_orderNumber(number);
 //                                        newov.setOrder_point(point);
 //                                        newov.setOrder_takenum(takenum);
 //                                        newov.setTv_arriveAddress(loc);

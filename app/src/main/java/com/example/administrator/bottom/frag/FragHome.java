@@ -136,7 +136,7 @@ public class FragHome extends Fragment {
 //                        String selfphone = o.getPhone();
 //                        final OrderView newov = new OrderView(getActivity());
 //                        newov.setTv_size("小件快递");
-//                        newov.setTv_order_number(number);
+//                        newov.setTv_orderNumber(number);
 //                        newov.setOrder_point(point);
 //                        newov.setOrder_takenum(takenum);
 //                        newov.setTv_arriveAddress(loc);

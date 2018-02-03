@@ -20,14 +20,11 @@ import android.widget.Toast;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyDetails;
-import com.example.administrator.bottom.atys.AtyGenCode;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
-import com.example.administrator.bottom.atys.AtyUpdateOrder;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
-import com.example.administrator.bottom.net.DeleteOrder;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
 
@@ -41,7 +38,6 @@ import static com.example.administrator.bottom.Config.APP_ID;
  */
 
 public class FragOrder extends Fragment {
-    private OrderView order;
     private LinearLayout ll;
     private LinearLayout history;
     private ScrollView scrollView1;
@@ -92,7 +88,7 @@ public class FragOrder extends Fragment {
 
             pager = (ViewPager) view.findViewById(R.id.order_pager);
             tv1 = (TextView) view.findViewById(R.id.page_current);
-            tv1.setTextColor(Color.BLUE);
+//            tv1.setTextColor(Color.BLUE);
             tv2 = (TextView) view.findViewById(R.id.page_history);
             tv1.setOnClickListener(new FragOrder.MyClickListener(0));
             tv2.setOnClickListener(new FragOrder.MyClickListener(1));
@@ -107,7 +103,7 @@ public class FragOrder extends Fragment {
                 // 获得phoneNum
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-                fresh();
+//                fresh();
             }
 
             final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_order);
@@ -164,27 +160,42 @@ public class FragOrder extends Fragment {
                     String note = o.getNote();
                     String size = o.getSize();
                     String orderTime = o.getOrderTime();
+                    String orderStatus = o.getOrderStatus();
+                    String trustFriend = o.getTrust_friend();
 
                     final OrderView newov = new OrderView(getActivity());
                     newov.setTv_size(size);
-                    newov.setTv_order_number(orderNumber);
-                    newov.setTv_arriveAddress(arriveAddress);
+                    newov.setTv_orderNumber(orderNumber);
+//                    newov.setTv_arriveAddress(arriveAddress);
                     newov.setTv_arriveTime(arriveTime);
                     newov.setTv_orderTime(orderTime);
                     if (note.equals("none")) {
                         note = "无";
                     }
-                    newov.setTv_note(note);
+//                    newov.setTv_note(note);
+                    if (trustFriend.equals("none")) {
+                        //信任好友代拿
+                        newov.setTv_pickPattern("信任好友代拿");
+                    } else {
+                        //自己拿
+                        newov.setTv_pickPattern("自己拿");
+                    }
 
                     newov.getLl_modOrder_allAround().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            Intent intent = new Intent(getActivity(), AtyGenCode.class);
+                            Intent intent = new Intent(getActivity(), AtyDetails.class);
                             intent.putExtra("orderNumber", orderNumber);
                             startActivity(intent);
                             getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         }
                     });
+
+                    if(orderStatus.equals("0")){
+                        history.addView(newov);
+                    }else{
+                        ll.addView(newov);
+                    }
 
 //                    if (orderStatus.equals("0")) {
 //                        newov.setOrder_status("已结束");
@@ -327,7 +338,7 @@ public class FragOrder extends Fragment {
 
         PagerAdapter adapter = new FragOrder.MyPagerAdapter();
         pager.setAdapter(adapter);
-        tvs.get(0).setTextColor(Color.WHITE);
+        tvs.get(0).setTextColor(Color.BLUE);
         tvs.get(0).setBackgroundResource(R.drawable.item_sublime_text);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -336,11 +347,11 @@ public class FragOrder extends Fragment {
                 // TODO Auto-generated method stub
                 for (int i = 0; i < tvs.size(); i++) {
                     if (i == index) {
-                        tvs.get(i).setTextColor(Color.WHITE);
+                        tvs.get(i).setTextColor(Color.BLUE);
                         tvs.get(i).setBackgroundResource(R.drawable.item_sublime_text);
                     } else {
-                        tvs.get(i).setTextColor(Color.rgb(55, 55, 55));
-                        tvs.get(i).setBackgroundColor(Color.rgb(250, 250, 250));
+                        tvs.get(i).setTextColor(Color.rgb(250, 250, 250));
+                        tvs.get(i).setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
             }

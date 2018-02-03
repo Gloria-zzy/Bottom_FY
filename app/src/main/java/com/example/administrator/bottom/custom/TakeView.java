@@ -83,7 +83,7 @@ public class TakeView extends RelativeLayout {
 
     public void setOrderView(OrderView orderView) {
 //        this.orderView.setTv_size(orderView.getTv_size().getText().toString());
-////        this.orderView.setTv_order_number(orderView.getOrderNumber());
+////        this.orderView.setTv_orderNumber(orderView.getOrderNumber());
 //        this.orderView.setOrder_point(orderView.getOrder_point().getText().toString());
 ////        this.orderView.setOrder_takenum(orderView.getOrder_takenum().getText().toString());
 //        this.orderView.setTv_arriveAddress(orderView.getTv_arriveAddress().getText().toString());

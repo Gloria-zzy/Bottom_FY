@@ -26,6 +26,7 @@ import com.example.administrator.bottom.net.Order;
 import java.util.ArrayList;
 
 import static com.example.administrator.bottom.Config.APP_ID;
+import static com.example.administrator.bottom.Config.cacheAddress;
 
 //        订单号   order_number
 //        下单时间 order_time
@@ -123,17 +124,17 @@ public class AtyDetails extends AppCompatActivity {
         }
         //---------------------状态栏透明 end----------------------------------------
 
-        final RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout_taken_orders);
-        if (refreshLayout != null) {
-            // 刷新状态的回调
-            refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    // 延迟3秒后刷新成功
-                    refreshLayout.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            refreshLayout.refreshComplete();
+//        final RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout_taken_orders);
+//        if (refreshLayout != null) {
+//            // 刷新状态的回调
+//            refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    // 延迟3秒后刷新成功
+//                    refreshLayout.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            refreshLayout.refreshComplete();
                             //-----------------BEGIN-----------------
 
 //                            SharedPreferences sharedPreferences = AtyDetails.this.getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
@@ -159,14 +160,30 @@ public class AtyDetails extends AppCompatActivity {
                                         orderNumber = o.getOrderNumber();
                                         orderTime = o.getOrderTime();
                                         trustFriend = o.getTrust_friend();
-                                        size = o.getSize();
+                                        switch (o.getSize()){
+                                            case "S":
+                                                size = "小";
+                                                break;
+                                            case "M":
+                                                size = "中";
+                                                break;
+                                            case "L":
+                                                size = "大";
+                                                break;
+                                        }
                                         arriveAddress = o.getArriveAddress();
                                         arriveTime = o.getArriveTime();
                                         pickPoint = o.getPickPoint();
                                         pickNumber = o.getPickNumber();
-                                        taker = o.getTaker();
+                                        if(o.getTaker().equals("0")){
+                                            taker = "暂无";
+                                        }
                                         note = o.getNote();
-                                        orderStatus = o.getOrderStatus();
+                                        if (o.getOrderStatus().equals("0")){
+                                            orderStatus = "已结单";
+                                        }else{
+                                            orderStatus = "派送中";
+                                        }
                                         if (note.equals("none")) {
                                             note = "无";
                                         }
@@ -190,7 +207,7 @@ public class AtyDetails extends AppCompatActivity {
                                             //新用户
                                             ll_orderPattern_temp.setVisibility(View.VISIBLE);
                                         }
-                                        if (trustFriend.equals("") || trustFriend == null) {
+                                        if (trustFriend.equals("none")) {
                                             //信任好友代拿
                                             ll_pickPattern_self.setVisibility(View.GONE);
                                             ll_pickPattern_friend.setVisibility(View.VISIBLE);
@@ -222,14 +239,14 @@ public class AtyDetails extends AppCompatActivity {
 
 
                             //-----------------END-----------------
-                        }
-                    }, Config.DELAYMILLIS);
-                }
-            });
-        }
-        QQRefreshHeader header = new QQRefreshHeader(this);
-        refreshLayout.setRefreshHeader(header);
-        refreshLayout.autoRefresh();
+//                        }
+//                    }, Config.DELAYMILLIS);
+//                }
+//            });
+//        }
+//        QQRefreshHeader header = new QQRefreshHeader(this);
+//        refreshLayout.setRefreshHeader(header);
+//        refreshLayout.autoRefresh();
 
 
     }

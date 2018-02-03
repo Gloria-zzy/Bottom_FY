@@ -81,6 +81,7 @@ public class AtyFetch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
             }
         });
 
@@ -221,8 +222,13 @@ public class AtyFetch extends AppCompatActivity {
                         size = "L";
                         break;
                 }
+                if(rg_orderPattern.getCheckedRadioButtonId()== R.id.rb_atyFetch_orderPattern_temp){
+                    pickNumber = et_pickNumber.getText().toString();
+                }else {
+                    pickNumber = "none";
+                }
+
                 amount = et_amount.getText().toString();
-                pickNumber = et_pickNumber.getText().toString();
                 SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
 

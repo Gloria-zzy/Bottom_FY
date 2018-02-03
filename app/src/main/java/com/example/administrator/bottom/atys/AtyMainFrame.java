@@ -200,10 +200,10 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                 tabHome.setSelected(true);
                 if (fragHome == null) {
                     fragHome = new FragHome();
-                    fragHome.fresh();
+//                    fragHome.fresh();
                     transaction.add(R.id.fragment_container, fragHome);
                 } else {
-                    fragHome.fresh();
+//                    fragHome.fresh();
                     transaction.show(fragHome);
                 }
                 break;
@@ -213,10 +213,10 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                 tabOrder.setSelected(true);
                 if (fragOrder == null) {
                     fragOrder = new FragOrder();
-                    fragOrder.fresh();
+//                    fragOrder.fresh();
                     transaction.add(R.id.fragment_container, fragOrder);
                 } else {
-                    fragOrder.fresh();
+//                    fragOrder.fresh();
                     transaction.show(fragOrder);
 
                 }
@@ -227,10 +227,10 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                 tabCommunity.setSelected(true);
                 if (fragCommunity == null) {
                     fragCommunity = new FragCommunity();
-                    fragCommunity.fresh();
+//                    fragCommunity.fresh();
                     transaction.add(R.id.fragment_container, fragCommunity);
                 } else {
-                    fragCommunity.fresh();
+//                    fragCommunity.fresh();
                     transaction.show(fragCommunity);
 
                 }
