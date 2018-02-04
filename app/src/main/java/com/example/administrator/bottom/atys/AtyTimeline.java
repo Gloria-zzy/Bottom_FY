@@ -117,9 +117,9 @@ public class AtyTimeline extends ListActivity {
 //	}
 //	
 //	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
+//	public boolean onOptionsItemSelected(MenuItem item_home_banner) {
 //		
-//		switch (item.getItemId()) {
+//		switch (item_home_banner.getItemId()) {
 //		case R.id.action_settings:
 //			Intent i = new Intent(AtyTimeline.this, Aty);
 //			break;
@@ -128,7 +128,7 @@ public class AtyTimeline extends ListActivity {
 //			break;
 //		}
 //		
-//		return super.onOptionsItemSelected(item);
+//		return super.onOptionsItemSelected(item_home_banner);
 //	}
 	
 	private String phone_num;
