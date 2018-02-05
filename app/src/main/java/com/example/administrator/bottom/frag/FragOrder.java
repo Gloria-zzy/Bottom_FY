@@ -43,6 +43,8 @@ public class FragOrder extends Fragment {
     private LinearLayout history;
     private ScrollView scrollView1;
     private ScrollView scrollView2;
+    private ScrollView sv;
+    private RefreshLayout rl;
     private String phone;
 
     private ViewPager pager;
@@ -84,6 +86,9 @@ public class FragOrder extends Fragment {
             scrollView1=(ScrollView) inflater.inflate(R.layout.mod_current_order, container, false).findViewById(R.id.current_order_scroll);
             scrollView2=(ScrollView) inflater.inflate(R.layout.mod_history_order, container, false).findViewById(R.id.history_order_scroll);
 
+            sv = (ScrollView) view.findViewById(R.id.sv_fragOrder);
+            rl = (RefreshLayout) view.findViewById(R.id.rl_fragOrder);
+
             ll = (LinearLayout) scrollView1.findViewById(R.id.current_order_ll);
             history = (LinearLayout) scrollView2.findViewById(R.id.history_order_ll);
 
@@ -101,19 +106,19 @@ public class FragOrder extends Fragment {
             initViewPager();
 
             //解决RefreshLayout和ScrollView的冲突
-//            sv.setOnTouchListener(new View.OnTouchListener() {
-//                @Override
-//                public boolean onTouch(View v, MotionEvent event) {
-//                    if(event.getAction() == MotionEvent.ACTION_UP){
-//                        //允许ScrollView截断点击事件，ScrollView可滑动
-//                        rl.requestDisallowInterceptTouchEvent(false);
-//                    }else{
-//                        //不允许ScrollView截断点击事件，点击事件由子View处理
-//                        rl.requestDisallowInterceptTouchEvent(true);
-//                    }
-//                    return false;
-//                }
-//            });
+            sv.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if(event.getAction() == MotionEvent.ACTION_UP){
+                        //允许ScrollView截断点击事件，ScrollView可滑动
+                        rl.requestDisallowInterceptTouchEvent(true);
+                    }else{
+                        //不允许ScrollView截断点击事件，点击事件由子View处理
+                        rl.requestDisallowInterceptTouchEvent(false);
+                    }
+                    return false;
+                }
+            });
 
             if (Config.loginStatus == 1) {
                 // 获得phoneNum

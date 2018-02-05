@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
+        android:layout_marginBottom="2sp"
         android:layout_alignParentBottom="true">
 
         <LinearLayout
@@ -42,9 +43,9 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
             <ImageView
-                android:layout_width="33sp"
-                android:layout_height="33sp"
-                android:layout_margin="2sp"
+                android:layout_width="27sp"
+                android:layout_height="27sp"
+                android:layout_margin="6sp"
                 android:src="@drawable/tab_menu_order"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -63,9 +64,9 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
             <ImageView
-                android:layout_width="33sp"
-                android:layout_height="33sp"
-                android:layout_margin="2sp"
+                android:layout_width="30sp"
+                android:layout_height="30sp"
+                android:layout_margin="4sp"
                 android:src="@drawable/tab_menu_community"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -84,9 +85,9 @@
             android:orientation="vertical"
             android:gravity="center_horizontal">
             <ImageView
-                android:layout_width="33sp"
-                android:layout_height="33sp"
-                android:layout_margin="2sp"
+                android:layout_width="29sp"
+                android:layout_height="29sp"
+                android:layout_margin="5sp"
                 android:src="@drawable/tab_menu_me"/>
             <TextView
                 android:layout_width="wrap_content"
@@ -101,7 +102,7 @@
     <View
         android:id="@+id/blank_bar"
         android:layout_width="match_parent"
-        android:layout_height="10px"
+        android:layout_height="4px"
         android:background="@android:color/transparent"
         android:layout_above="@id/tab_menu"/>
     <View
