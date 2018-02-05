@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scroll"
+    android:id="@+id/sv_fragOrder"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -13,8 +13,18 @@
         android:paddingTop="20sp"
         android:orientation="vertical">
 
+        <SearchView
+            android:id="@+id/searchView"
+            style="@style/default_text"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/searchview_line"
+            android:gravity="center"
+            android:queryHint="@string/search_qryHint" />
+
         <com.example.administrator.bottom.custom.RefreshLayout
-            android:id="@+id/refreshLayout_frag_order"
+            android:id="@+id/rl_fragOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent">

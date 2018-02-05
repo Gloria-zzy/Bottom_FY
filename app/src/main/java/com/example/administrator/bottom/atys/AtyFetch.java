@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -67,6 +68,7 @@ public class AtyFetch extends AppCompatActivity {
         rg_size = (RadioGroup) findViewById(R.id.rg_atyFetch_size);
         ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyFetch_orderPattern_temp);
         ll_amount = (LinearLayout) findViewById(R.id.ll_atyFetch_amount);
+
     }
 
     @Override
@@ -207,6 +209,10 @@ public class AtyFetch extends AppCompatActivity {
                 if (note.equals("")) {
                     note = "none";
                 }
+
+//                RadioButton rb_pickPattern = (RadioButton)findViewById(rg_pickPattern.getCheckedRadioButtonId());
+//                String pickPattern = rb_pickPattern.getText().toString();
+
                 if(rg_pickPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_pickPattern_friend){
                     trustFriend = "CHARLES";
                 }else trustFriend = "none";

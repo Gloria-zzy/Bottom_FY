@@ -91,7 +91,7 @@ public class FragHome extends Fragment {
                 R.drawable.item_fraghome_feedback,
                 R.drawable.item_fraghome_aboutud,
                 R.drawable.item_fraghome_consult};
-        GridView gridView = (GridView) view.findViewById(R.id.gv_fragHome);//初始化
+        GridView gridView = (GridView) view.findViewById(R.id.gv_fragHome_func);//初始化
 
         //生成动态数组，并且转入数据
         ArrayList<HashMap<String, Object>> listItemArrayList = new ArrayList<HashMap<String, Object>>();
@@ -104,7 +104,7 @@ public class FragHome extends Fragment {
         //生成适配器的ImageItem 与动态数组的元素相对应
         SimpleAdapter saImageItems = new SimpleAdapter(getActivity(),
                 listItemArrayList,//数据来源
-                R.layout.item_grid,//item的XML
+                R.layout.item_grid_func,//item的XML
 
                 //动态数组与ImageItem对应的子项
                 new String[]{"itemImage", "itemText"},
@@ -120,6 +120,8 @@ public class FragHome extends Fragment {
                 Toast.makeText(getActivity(), name[position], Toast.LENGTH_LONG).show();
             }
         });
+
+        gridView.setFocusable(false);
         //--------------------------九宫格 end--------------------------------------------------------
 
 //        final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_home);

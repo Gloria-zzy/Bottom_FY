@@ -200,21 +200,21 @@ public class AtyDetails extends AppCompatActivity {
                                         tv_note.setText(note);
                                         tv_orderStatus.setText(orderStatus);
 
-                                        if (pickPoint.equals("") || pickPoint == null) {
+                                        if (pickPoint.equals("null")) {
                                             //老用户
                                             ll_orderPattern_temp.setVisibility(View.GONE);
                                         } else {
-                                            //新用户
+                                            //临时下单
                                             ll_orderPattern_temp.setVisibility(View.VISIBLE);
                                         }
                                         if (trustFriend.equals("none")) {
-                                            //信任好友代拿
-                                            ll_pickPattern_self.setVisibility(View.GONE);
-                                            ll_pickPattern_friend.setVisibility(View.VISIBLE);
-                                        } else {
                                             //自己拿
                                             ll_pickPattern_self.setVisibility(View.VISIBLE);
                                             ll_pickPattern_friend.setVisibility(View.GONE);
+                                        } else {
+                                            //信任好友代拿
+                                            ll_pickPattern_self.setVisibility(View.GONE);
+                                            ll_pickPattern_friend.setVisibility(View.VISIBLE);
                                         }
 
                                     }

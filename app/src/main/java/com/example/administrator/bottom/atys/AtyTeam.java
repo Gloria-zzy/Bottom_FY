@@ -18,7 +18,7 @@ public class AtyTeam extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.aty_details);
+        setContentView(R.layout.aty_team);
         getSupportActionBar().hide();
 
         //---------------------状态栏透明 begin----------------------------------------

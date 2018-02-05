@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -99,6 +100,21 @@ public class FragOrder extends Fragment {
             initView();
             initViewPager();
 
+            //解决RefreshLayout和ScrollView的冲突
+//            sv.setOnTouchListener(new View.OnTouchListener() {
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    if(event.getAction() == MotionEvent.ACTION_UP){
+//                        //允许ScrollView截断点击事件，ScrollView可滑动
+//                        rl.requestDisallowInterceptTouchEvent(false);
+//                    }else{
+//                        //不允许ScrollView截断点击事件，点击事件由子View处理
+//                        rl.requestDisallowInterceptTouchEvent(true);
+//                    }
+//                    return false;
+//                }
+//            });
+
             if (Config.loginStatus == 1) {
                 // 获得phoneNum
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
@@ -106,7 +122,7 @@ public class FragOrder extends Fragment {
 //                fresh();
             }
 
-            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_order);
+            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.rl_fragOrder);
             if (refreshLayout != null) {
                 // 刷新状态的回调
                 refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
@@ -338,7 +354,7 @@ public class FragOrder extends Fragment {
 
         PagerAdapter adapter = new FragOrder.MyPagerAdapter();
         pager.setAdapter(adapter);
-        tvs.get(0).setTextColor(Color.BLUE);
+        tvs.get(0).setTextColor(Color.rgb(35, 149, 213));
         tvs.get(0).setBackgroundResource(R.drawable.item_sublime_text);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -347,7 +363,7 @@ public class FragOrder extends Fragment {
                 // TODO Auto-generated method stub
                 for (int i = 0; i < tvs.size(); i++) {
                     if (i == index) {
-                        tvs.get(i).setTextColor(Color.BLUE);
+                        tvs.get(i).setTextColor(Color.rgb(35, 149, 213));
                         tvs.get(i).setBackgroundResource(R.drawable.item_sublime_text);
                     } else {
                         tvs.get(i).setTextColor(Color.rgb(250, 250, 250));
