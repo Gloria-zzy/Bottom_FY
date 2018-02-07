@@ -29,10 +29,12 @@ import java.util.HashMap;
 
 public class FragHome extends Fragment {
 
+    // 代拿下单按钮
     private Button get_btn;
     //    private LinearLayout linearLayout;
     private String phone;
 
+    // 默认构造函数
     public FragHome() {
 
     }
@@ -44,33 +46,20 @@ public class FragHome extends Fragment {
         get_btn = (Button) view.findViewById(R.id.get_btn);
 //        linearLayout = (LinearLayout) view.findViewById(R.id.take_orders);
 //        fresh();
+        // 绑定下单按钮的事件
         get_btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 if (Config.loginStatus == 0) {
+                    // 用户未登录
                     Intent intent = new Intent(getActivity(), AtyUnlog.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 } else {
+                    // 用户已登录
 
-//                    Runnable networkTask = new Runnable() {
-//
-//                        @Override
-//                        public void run() {
-//                            // TODO
-//                            // 在这里进行 http request.网络请求相关操作
-//                            PushMessage pushMessage = new PushMessage();
-//                            try {
-//                                pushMessage.Push();
-//                            } catch (ClientException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    };
-//                    Thread thread = new Thread(networkTask);
-//                    thread.start();
-
+                    // 这个startActivityforResult没有写对应的onActivityResult函数进行处理
                     startActivityForResult(new Intent(getActivity(), AtyFetch.class), Activity.RESULT_FIRST_USER);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 }
@@ -78,11 +67,11 @@ public class FragHome extends Fragment {
         });
 
         //--------------------------九宫格 begin--------------------------------------------------------
-        final String[] name={"地址管理","定位","扫描二维码",
-                             "使用指南","优惠券","历史订单",
-                             "问题反馈","关于UD","客服"};
+        final String[] name = {"地址管理", "定位", "扫描二维码",
+                "使用指南", "优惠券", "历史订单",
+                "问题反馈", "关于UD", "客服"};
 
-        final int[] imageRes={R.drawable.item_fraghome_address,
+        final int[] imageRes = {R.drawable.item_fraghome_address,
                 R.drawable.item_fraghome_locate,
                 R.drawable.item_fraghome_scanner,
                 R.drawable.item_fraghome_help,
@@ -124,6 +113,7 @@ public class FragHome extends Fragment {
         gridView.setFocusable(false);
         //--------------------------九宫格 end--------------------------------------------------------
 
+        // qq自定义控件的刷新
 //        final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_home);
 //        if (refreshLayout != null) {
 //            // 刷新状态的回调
@@ -151,7 +141,6 @@ public class FragHome extends Fragment {
     }
 
     public void fresh() {
-
 
     }
 }

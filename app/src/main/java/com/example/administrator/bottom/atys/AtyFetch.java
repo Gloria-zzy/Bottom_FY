@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -25,9 +24,9 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.net.UploadOrder;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.SimpleDateFormat;
 
 import static com.example.administrator.bottom.Config.APP_ID;
 
@@ -55,7 +54,7 @@ public class AtyFetch extends AppCompatActivity {
     private String note;
     private String pickNumber;
 
-    //UI组件初始化
+    //UI组件初始化（绑定）
     private void bindView() {
         sp_pickPoint = (Spinner) findViewById(R.id.sp_atyFetch_pickPoint);
         sp_arriveAddress = (Spinner) findViewById(R.id.sp_atyFetch_arriveAddress);
@@ -79,6 +78,8 @@ public class AtyFetch extends AppCompatActivity {
         getSupportActionBar().hide();
 
         bindView();
+
+        // 绑定回退按钮事件
         findViewById(R.id.iv_atyDetails_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,19 +104,21 @@ public class AtyFetch extends AppCompatActivity {
 
 
         //----------------------------快递点 begin---------------------------------
-        //数据
+
+        // pick_point快递点数据
         data_list = new ArrayList<String>();
         data_list.add("北门盘锦花园新生活");
         data_list.add("北门盘锦花园内右拐第七家");
         data_list.add("小东门外菜鸟驿站");
         data_list.add("中苑老食堂菜鸟驿站");
 
-        //适配器 android.R.layout.simple_spinner_item
+        // 适配器 android.R.layout.simple_spinner_item
         arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
-        //设置样式 android.R.layout.simple_spinner_dropdown_item
+        // 设置样式 android.R.layout.simple_spinner_dropdown_item
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
-        //加载适配器
+        // 加载适配器到pick_point（填充数据）
         sp_pickPoint.setAdapter(arr_adapter);
+        // 设置sp_pickPoint的点击事件
         sp_pickPoint.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -130,7 +133,7 @@ public class AtyFetch extends AppCompatActivity {
         //----------------------------快递点 end---------------------------------
 
         //----------------------------收货地点 begin---------------------------------
-        //数据
+        // 新建data_list存放数据
         data_list = new ArrayList<String>();
         SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
         String abr = sharedPreferences.getString(Config.ADDRESS, "");

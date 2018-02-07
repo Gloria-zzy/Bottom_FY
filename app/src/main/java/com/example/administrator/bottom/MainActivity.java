@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
 //            case R.id.txt_post:
-//                selected();
+//                clearSelected();
 ////                tabPost.setSelected(true);
 //                if(fragCommunity ==null){
 //                    fragCommunity = new FragCommunity();

@@ -4,22 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -35,15 +28,10 @@ import com.example.administrator.bottom.frag.FragCommunity;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
-import com.example.administrator.zxinglibrary.android.CaptureActivity;
-import com.example.administrator.zxinglibrary.bean.ZxingConfig;
-import com.example.administrator.zxinglibrary.common.Constant;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.List;
-
-import static com.example.administrator.bottom.Config.REQUEST_READ_PHONE_STATE;
 
 /**
  * Created by Administrator on 2017/10/31.
@@ -64,6 +52,9 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     private FragCommunity fragCommunity;
     private FragMe fragMe;
 
+    // 用来在log输出中标志这个Activity的信息
+    private String TAG;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -75,7 +66,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         bindView();
 
         //---------------------状态栏透明 begin----------------------------------------
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyMainFrame.this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -88,33 +79,38 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         }
         //---------------------状态栏透明 end----------------------------------------
 
-//        getSupportActionBar().hide();
-
-        //      load page!!!
-//        showFragHome();
+        // 获取携带传入参数的intent实体
         Intent intent = getIntent();
         setIntent(intent);
-        String page = intent.getStringExtra("page");
         bindView();
 
-//        Toast.makeText(AtyMainFrame.this, page, Toast.LENGTH_LONG).show();
+        // page是传入参数，提示应该显示哪个界面
+        String page = intent.getStringExtra("page");
         if (page != null) {
             if (page.equals("home")) {
+                Log.i(TAG, "page home");
                 showFragHome();
             } else if (page.equals("order")) {
+                Log.i(TAG, "page order");
                 showFragOrder();
             } else if (page.equals("community")) {
+                Log.i(TAG, "page community");
                 showFragCommunity();
             } else if (page.equals("me")) {
+                Log.i(TAG, "page me");
                 showFragMe();
             } else {
-                System.out.println("hellooooooooo:" + page + "1111");
+                // page不为空但是不符合上述任何选项，那么默认显示Home页面
+                Log.i(TAG, "page not null but is empty");
                 showFragHome();
             }
+        } else {
+            // page为空，默认显示Home页面
+            Log.i(TAG, "page is null");
+            showFragHome();
         }
 
         // 申请 读取手机状态 权限
-
         AndPermission.with(this)
                 .permission(Manifest.permission.READ_PHONE_STATE).callback(new PermissionListener() {
             @Override
@@ -129,30 +125,22 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                         CloudPushService pushService = PushServiceFactory.getCloudPushService();
                         String deviceId = pushService.getDeviceId();
                         Config.cacheDeviceID(AtyMainFrame.this, deviceId);
-//                        Toast.makeText(AtyMainFrame.this, deviceId, Toast.LENGTH_LONG).show();
-                        System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                        System.out.println(deviceId);
+                        Log.i(TAG, "AliPush deviceID:" + deviceId);
                     }
                 }
             }
 
             @Override
             public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                System.out.println("-------------------------------no permission--------------------------------");
+                Log.i(TAG, "-------------------------------no permission of read_phone_state--------------------------------");
             }
 
         }).start();
 
-
-//        TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-//        String DEVICE_ID = tm.getDeviceId();
-//        System.out.println("DEVICE_ID + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        System.out.println(DEVICE_ID);
     }
 
     //UI组件初始化与事件绑定
     private void bindView() {
-//        topBar = (TextView)this.findViewById(R.id.txt_top);
         tabHome = (LinearLayout) this.findViewById(R.id.txt_home);
         tabOrder = (LinearLayout) this.findViewById(R.id.txt_get);
         tabCommunity = (LinearLayout) this.findViewById(R.id.txt_community);
@@ -167,7 +155,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     }
 
     //重置所有文本的选中状态
-    public void selected() {
+    public void clearSelected() {
         tabHome.setSelected(false);
         tabOrder.setSelected(false);
         tabCommunity.setSelected(false);
@@ -190,54 +178,50 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         }
     }
 
+    // 当点击主界面上的fragment标签时显示相应fragment
     @Override
     public void onClick(View v) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         switch (v.getId()) {
             case R.id.txt_home:
-                selected();
+                // 清除所有frag的选中状态，全部设置为false（先前选中的frag只可能有一个，但无法预知是哪一个，因此全部清除）
+                clearSelected();
+                // 设置点击的frag的状态为选中
                 tabHome.setSelected(true);
+                // 如果选中的frag已经实例化，就跳转（transaction）到这个实例上，如果没有实例化就新建一个实例
                 if (fragHome == null) {
                     fragHome = new FragHome();
-//                    fragHome.fresh();
                     transaction.add(R.id.fragment_container, fragHome);
                 } else {
-//                    fragHome.fresh();
                     transaction.show(fragHome);
                 }
                 break;
 
             case R.id.txt_get:
-                selected();
+                clearSelected();
                 tabOrder.setSelected(true);
                 if (fragOrder == null) {
                     fragOrder = new FragOrder();
-//                    fragOrder.fresh();
                     transaction.add(R.id.fragment_container, fragOrder);
                 } else {
-//                    fragOrder.fresh();
                     transaction.show(fragOrder);
-
                 }
                 break;
 
             case R.id.txt_community:
-                selected();
+                clearSelected();
                 tabCommunity.setSelected(true);
                 if (fragCommunity == null) {
                     fragCommunity = new FragCommunity();
-//                    fragCommunity.fresh();
                     transaction.add(R.id.fragment_container, fragCommunity);
                 } else {
-//                    fragCommunity.fresh();
                     transaction.show(fragCommunity);
-
                 }
                 break;
 
             case R.id.txt_me:
-                selected();
+                clearSelected();
                 tabMe.setSelected(true);
                 if (fragMe == null) {
                     fragMe = new FragMe();
@@ -251,14 +235,11 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         transaction.commit();
     }
 
-    public static void close() {
-
-    }
-
+    // 用于在本activity生成时指定显示的Fragment，生成时由于没有输入所以无法触发onClick方法，通过page参数指定显示的Fragment
     public void showFragHome() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         hideAllFragment(transaction);
-        selected();
+        clearSelected();
         tabHome.setSelected(true);
         fragHome = new FragHome();
         transaction.add(R.id.fragment_container, fragHome);
@@ -270,7 +251,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     public void showFragOrder() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         hideAllFragment(transaction);
-        selected();
+        clearSelected();
         tabOrder.setSelected(true);
         fragOrder = new FragOrder();
         transaction.add(R.id.fragment_container, fragOrder);
@@ -281,7 +262,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     public void showFragCommunity() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         hideAllFragment(transaction);
-        selected();
+        clearSelected();
         tabCommunity.setSelected(true);
         fragCommunity = new FragCommunity();
         transaction.add(R.id.fragment_container, fragCommunity);
@@ -292,7 +273,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     public void showFragMe() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         hideAllFragment(transaction);
-        selected();
+        clearSelected();
         tabMe.setSelected(true);
         fragMe = new FragMe();
         transaction.add(R.id.fragment_container, fragMe);
@@ -300,8 +281,9 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
         transaction.commit();
     }
 
+    // 用于被MainApplication的setConsoleText调用，MainApplication的setConsoleText被MyMessageIntentService调用，用于MyMessageIntentService在AtyMainFrame中输出信息
     public void appendConsoleText(String text) {
-        Log.i("MainFrame", text);
+        Log.i(TAG, text);
         Toast.makeText(AtyMainFrame.this, text, Toast.LENGTH_LONG).show();
     }
 }
