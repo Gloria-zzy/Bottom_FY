@@ -84,21 +84,22 @@ public class FragCommunity extends Fragment {
             initView();
             initViewPager();
 
+            swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.sfl_fragCommunity);
+            //---------------------------下拉刷新 begin-------------------------------
+            //setColorSchemeResources()可以改变加载图标的颜色。
+            swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue,R.color.theme_blue, R.color.colorPrimary,R.color.contents_text});
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    fresh();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            //---------------------------下拉刷新 end-------------------------------
+
             fresh();
         }
 
-        swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.sfl_fragCommunity);
-        //---------------------------下拉刷新 begin-------------------------------
-        //setColorSchemeResources()可以改变加载图标的颜色。
-        swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue,R.color.theme_blue, R.color.colorPrimary,R.color.contents_text});
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fresh();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-        //---------------------------下拉刷新 end-------------------------------
 
         return view;
     }
