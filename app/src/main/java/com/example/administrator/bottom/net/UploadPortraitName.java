@@ -5,9 +5,13 @@ import com.example.administrator.bottom.Config;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Login {
-    public Login(String phone_md5, String code, String phone, final SuccessCallback successCallback, final FailCallback failCallback) {
-        new NetConnection(Config.SERVER_URL, HttpMethod.POST, new NetConnection.SuccessCallback() {
+/**
+ * Created by Administrator on 2018/2/6 0006.
+ */
+
+public class UploadPortraitName {
+    public UploadPortraitName(String phone, String fileName,final UploadPortraitName.SuccessCallback successCallback, final UploadPortraitName.FailCallback failCallback) {
+        new NetConnection(Config.SERVER_URL_UPLOADPORTRAITNAME, HttpMethod.POST, new NetConnection.SuccessCallback() {
 
             @Override
             public void onSuccess(String result) {
@@ -17,11 +21,13 @@ public class Login {
                     switch (obj.getInt(Config.KEY_STATUS)) {
                         case Config.RESULT_STATUS_SUCCESS:
                             if (successCallback != null) {
-                                successCallback.onSuccess(obj.getString(Config.KEY_TOKEN),Config.RESULT_STATUS_SUCCESS);
+                                successCallback.onSuccess();
                             }
                             break;
                         case Config.RESULT_STATUS_INVALID_TOKEN:
-                            successCallback.onSuccess(obj.getString(Config.KEY_TOKEN),Config.RESULT_STATUS_INVALID_TOKEN);
+                            if (successCallback != null) {
+                                successCallback.onSuccess();
+                            }
                             break;
                         default:
                             if (failCallback != null) {
@@ -43,15 +49,14 @@ public class Login {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_LOGIN, Config.KEY_PHONE_MD5, phone_md5, Config.KEY_CODE, code, Config.KEY_PHONE_NUM, phone);
+        }, Config.KEY_ACTION, Config.ACTION_UPLOAD_PORTRAIT, Config.KEY_PHONE_NUM, phone, Config.KEY_PORTRAIT, fileName);
     }
 
     public static interface SuccessCallback {
-        void onSuccess(String token, int isvalid);
+        void onSuccess();
     }
 
     public static interface FailCallback {
         void onFail();
     }
-
 }
