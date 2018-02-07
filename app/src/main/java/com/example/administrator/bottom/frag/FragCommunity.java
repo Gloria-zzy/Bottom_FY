@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
+import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
 
@@ -32,6 +34,7 @@ public class FragCommunity extends Fragment {
     private ViewPager pager;
     private List<View> views;
     private List<TextView> tvs = new ArrayList<TextView>();
+    private MultiSwipeRefreshLayout swipeRefreshLayout;
     TextView tv1;
     TextView tv2;
     TextView tv3;
@@ -81,29 +84,22 @@ public class FragCommunity extends Fragment {
             initView();
             initViewPager();
 
-            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_community);
-            if (refreshLayout != null) {
-                // 刷新状态的回调
-                refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        // 延迟3秒后刷新成功
-                        refreshLayout.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshLayout.refreshComplete();
-                                //-----------------BEGIN-----------------
-                                fresh();
-                                //-----------------END-----------------
-                            }
-                        }, Config.DELAYMILLIS);
-                    }
-                });
-            }
-            QQRefreshHeader header = new QQRefreshHeader(getActivity());
-            refreshLayout.setRefreshHeader(header);
-            refreshLayout.autoRefresh();
+            fresh();
         }
+
+        swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.sfl_fragCommunity);
+        //---------------------------下拉刷新 begin-------------------------------
+        //setColorSchemeResources()可以改变加载图标的颜色。
+        swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue,R.color.theme_blue, R.color.colorPrimary,R.color.contents_text});
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                fresh();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        //---------------------------下拉刷新 end-------------------------------
+
         return view;
     }
 

@@ -23,8 +23,8 @@
             android:gravity="center"
             android:queryHint="@string/search_qryHint" />
 
-        <com.example.administrator.bottom.custom.RefreshLayout
-            android:id="@+id/rl_fragOrder"
+        <com.example.administrator.bottom.custom.MultiSwipeRefreshLayout
+            android:id="@+id/srl_fragOrder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent">
@@ -88,6 +88,6 @@
                 </android.support.v4.view.ViewPager>
 
             </LinearLayout>
-        </com.example.administrator.bottom.custom.RefreshLayout>
+        </com.example.administrator.bottom.custom.MultiSwipeRefreshLayout>
     </LinearLayout>
 </ScrollView>

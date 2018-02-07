@@ -24,8 +24,8 @@
             android:queryHint="@string/search_qryHint" />
 
 
-        <com.example.administrator.bottom.custom.RefreshLayout
-            android:id="@+id/refreshLayout_frag_community"
+        <com.example.administrator.bottom.custom.MultiSwipeRefreshLayout
+            android:id="@+id/sfl_fragCommunity"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent">
@@ -84,6 +84,6 @@
 
 
             </LinearLayout>
-        </com.example.administrator.bottom.custom.RefreshLayout>
+        </com.example.administrator.bottom.custom.MultiSwipeRefreshLayout>
     </LinearLayout>
 </ScrollView>

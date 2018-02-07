@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyDetails;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
+import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
@@ -43,8 +46,7 @@ public class FragOrder extends Fragment {
     private LinearLayout history;
     private ScrollView scrollView1;
     private ScrollView scrollView2;
-    private ScrollView sv;
-    private RefreshLayout rl;
+    private MultiSwipeRefreshLayout swipeRefreshLayout;
     private String phone;
 
     private ViewPager pager;
@@ -83,11 +85,10 @@ public class FragOrder extends Fragment {
         } else {
             view = inflater.inflate(R.layout.frag_order, container, false);
 
-            scrollView1=(ScrollView) inflater.inflate(R.layout.mod_current_order, container, false).findViewById(R.id.current_order_scroll);
-            scrollView2=(ScrollView) inflater.inflate(R.layout.mod_history_order, container, false).findViewById(R.id.history_order_scroll);
+            scrollView1 = (ScrollView) inflater.inflate(R.layout.mod_current_order, container, false).findViewById(R.id.current_order_scroll);
+            scrollView2 = (ScrollView) inflater.inflate(R.layout.mod_history_order, container, false).findViewById(R.id.history_order_scroll);
 
-            sv = (ScrollView) view.findViewById(R.id.sv_fragOrder);
-            rl = (RefreshLayout) view.findViewById(R.id.rl_fragOrder);
+            swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.srl_fragOrder);
 
             ll = (LinearLayout) scrollView1.findViewById(R.id.current_order_ll);
             history = (LinearLayout) scrollView2.findViewById(R.id.history_order_ll);
@@ -106,60 +107,37 @@ public class FragOrder extends Fragment {
             initViewPager();
 
             //解决RefreshLayout和ScrollView的冲突
-            sv.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if(event.getAction() == MotionEvent.ACTION_UP){
-                        //允许ScrollView截断点击事件，ScrollView可滑动
-                        rl.requestDisallowInterceptTouchEvent(true);
-                    }else{
-                        //不允许ScrollView截断点击事件，点击事件由子View处理
-                        rl.requestDisallowInterceptTouchEvent(false);
-                    }
-                    return false;
-                }
-            });
+
 
             if (Config.loginStatus == 1) {
                 // 获得phoneNum
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-//                fresh();
+                fresh();
             }
 
-            final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.rl_fragOrder);
-            if (refreshLayout != null) {
-                // 刷新状态的回调
-                refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        // 延迟3秒后刷新成功
-                        refreshLayout.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshLayout.refreshComplete();
-                                //-----------------BEGIN-----------------
-                                fresh();
-                                //-----------------END-----------------
-                            }
-                        }, Config.DELAYMILLIS);
-                    }
-                });
-            }
-            QQRefreshHeader header = new QQRefreshHeader(getActivity());
-            refreshLayout.setRefreshHeader(header);
-            refreshLayout.autoRefresh();
+            //---------------------------下拉刷新 begin-------------------------------
+            //setColorSchemeResources()可以改变加载图标的颜色。
+            swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue,R.color.theme_blue, R.color.colorPrimary,R.color.contents_text});
+            swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    fresh();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+            });
+            //---------------------------下拉刷新 end-------------------------------
 
         }
         return view;
     }
 
-    public void fresh(){
+    public void fresh() {
 
-        if(ll != null){
+        if (ll != null) {
             ll.removeAllViews();
         }
-        if(history != null){
+        if (history != null) {
             history.removeAllViews();
         }
         new DownloadOrders(phone, new DownloadOrders.SuccessCallback() {
@@ -212,9 +190,9 @@ public class FragOrder extends Fragment {
                         }
                     });
 
-                    if(orderStatus.equals("0")){
+                    if (orderStatus.equals("0")) {
                         history.addView(newov);
-                    }else{
+                    } else {
                         ll.addView(newov);
                     }
 
