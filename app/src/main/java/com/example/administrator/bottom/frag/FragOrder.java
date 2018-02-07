@@ -10,11 +10,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -27,8 +26,6 @@ import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
 import com.example.administrator.bottom.custom.OrderView;
-import com.example.administrator.bottom.custom.QQRefreshHeader;
-import com.example.administrator.bottom.custom.RefreshLayout;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
 
@@ -46,6 +43,7 @@ public class FragOrder extends Fragment {
     private LinearLayout history;
     private ScrollView scrollView1;
     private ScrollView scrollView2;
+    private ScrollView sv;
     private MultiSwipeRefreshLayout swipeRefreshLayout;
     private String phone;
 
@@ -106,8 +104,15 @@ public class FragOrder extends Fragment {
             initView();
             initViewPager();
 
-            //解决RefreshLayout和ScrollView的冲突
-
+            //---------------------解决RefreshLayout和ScrollView的冲突 begin-----------------------------------
+            sv = (ScrollView) view.findViewById(R.id.frag_order_scrollview);
+            sv.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    swipeRefreshLayout.setEnabled(sv.getScrollY()==0);
+                }
+            });
+            //---------------------解决RefreshLayout和ScrollView的冲突 end-----------------------------------
 
             if (Config.loginStatus == 1) {
                 // 获得phoneNum

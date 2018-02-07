@@ -29,7 +29,6 @@ public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
     private float startX; // 记录viewPager是否拖拽的标记
     private boolean mIsBeingDragged;
     private int mTouchSlop;
-    private View mSwipeableChildren;
 
     public MultiSwipeRefreshLayout(Context context) {
         this(context, null);
@@ -69,38 +68,6 @@ public class MultiSwipeRefreshLayout extends SwipeRefreshLayout {
         return super.onInterceptTouchEvent(ev);
     }
 
-    /**
-     * 传入SwipeRefreshLayout的Target的id，如R.id.viewPager * swipeRefreshLayout.setSwipeableChildren(R.id.viewPager); * @param ids
-     */
-    public void setSwipeableChildren(final int ids) {
-        mSwipeableChildren = findViewById(ids);
-    }
-
-    @Override
-    public boolean canChildScrollUp() {
-        return canViewScrollUp(mSwipeableChildren);
-    }
-
-    /**
-     * 根据传入的ViewPager，查找内部的ListView，并判断其是否到顶部 * @param view * @return
-     */
-    private static boolean canViewScrollUp(View view) {
-        if (view != null && view instanceof ViewPager) {
-            for (int i = 0; i < ((ViewPager) view).getChildCount(); i++) {
-                View child = ((ViewPager) view).getChildAt(i);
-                if (child.isShown()) {
-                    if (child instanceof RelativeLayout) {
-                        View subChild = ((RelativeLayout) child).getChildAt(0);
-                        if (subChild instanceof AbsListView) {
-                            final AbsListView listView = (AbsListView) subChild;
-                            return ViewCompat.canScrollVertically(listView, -1);
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
 }
 
 
