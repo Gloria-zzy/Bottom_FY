@@ -117,14 +117,14 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // 退出登录时清除本地保存的Token，避免下次启动时获取到之前用户的Token
+                    Config.cacheToken(getActivity(), "");
+                    // 退出登录时将路径清空，避免更换账号登录时获取了之前账号的头像，这是唯一需要清空头像路径的地方
+                    Config.cachePortraitPath(getActivity(), "");
                     Config.loginStatus = 0;
                     Intent intent = new Intent(getActivity(), AtyMainFrame.class);
                     intent.putExtra("page", "me");
                     startActivity(intent);
-//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//                    mTextView.setText("登录");
-//                    showPhoneNumber();
-                    Config.cacheToken(getActivity(), "");
                 }
             });
 
@@ -136,7 +136,6 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             Bitmap bitmap = BitmapFactory.decodeFile(s);
             if (bitmap != null) {
                 this.avatar.setImageBitmap(bitmap);
-                Config.cachePortraitPath(getActivity(), "");
             } else {
                 // 本地头像不存在，获取服务器端头像
                 Log.i("no_portrait_path", "here");
@@ -305,11 +304,12 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     //响应返回的结果
                     if (msg.arg1 == UploadUtil.UPLOAD_SUCCESS_CODE) {
                         String path = (String) msg.obj;
+                        // 将头像路径保存在本地，便于下次登录时使用（这个更新的前提是本地没有已保存的路径，既然需要从服务器下载就决定了这一点）
+                        // 同时在退出登录时需要清空本地保存的路径，因为该路径不支持多用户，只保存了一个用户的头像路径
                         Config.cachePortraitPath(getActivity(), path);
                         Bitmap bitmap_1 = BitmapFactory.decodeFile(Config.getCachedPortraitPath(getActivity()));
                         if (bitmap_1 != null) {
                             FragMe.this.avatar.setImageBitmap(bitmap_1);
-                            Config.cachePortraitPath(getActivity(), "");
                         }
                     } else if (msg.arg1 == UploadUtil.UPLOAD_SERVER_ERROR_CODE) {
                     }
@@ -322,7 +322,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     };
 
     public void showPhoneNumber() {
-        //show phone number!!!!
+        // 显示用户的手机号（在用户的头像旁边）
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
         String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
 
@@ -384,6 +384,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             Bitmap bitmap = BitmapFactory.decodeFile(portraitFile.getAbsolutePath());
             if (bitmap != null) {
                 this.avatar.setImageBitmap(bitmap);
+                // 上传头像之前，把保存头像的路径写入本地文件中（更新头像的需要，这个路径更新是上传时更新，和下载头像时的路径更新不重叠）
                 Config.cachePortraitPath(getActivity(), portraitFile.getAbsolutePath());
             }
         }
