@@ -39,7 +39,7 @@ dependencies {
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.1.0'
     // 环信即时聊天SDK
-    compile 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
+    compile 'com.hyphenate:hyphenate-sdk:3.3.0'
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -53,7 +53,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-
-//    implementation files('libs/javase-3.3.1.jar')
-//    compile 'com.aliyun.ams:alicloud-android-push:2.3.7'
+    //    implementation files('libs/javase-3.3.1.jar')
+    //    compile 'com.aliyun.ams:alicloud-android-push:2.3.7'
+    implementation files('libs/hyphenatechat_3.3.8.jar')
 }

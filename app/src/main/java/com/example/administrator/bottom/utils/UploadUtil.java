@@ -2,10 +2,6 @@ package com.example.administrator.bottom.utils;
 
 import android.util.Log;
 
-import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.frag.FragMe;
-import com.example.administrator.bottom.net.UploadPortraitName;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -87,7 +83,6 @@ public class UploadUtil {
      */
     public void uploadFile(String filePath, String fileKey, String RequestURL, Map<String, String> param) {
         if (filePath == null) {
-            sendMessage(UPLOAD_FILE_NOT_EXISTS_CODE, "文件不存在");
             Log.i(TAG, "file does not exist");
             return;
         }
@@ -96,7 +91,6 @@ public class UploadUtil {
             File file = new File(filePath);
             uploadFile(file, fileKey, RequestURL, param);
         } catch (Exception e) {
-            sendMessage(UPLOAD_FILE_NOT_EXISTS_CODE, "文件不存在");
             Log.i(TAG, "file != null but there's exception");
             e.printStackTrace();
             return;
@@ -160,7 +154,6 @@ public class UploadUtil {
                 Log.i(TAG, "param != null");
                 Iterator<String> it = param.keySet().iterator();
                 while (it.hasNext()) {
-                    sb = null;
                     sb = new StringBuffer();
                     String key = it.next();
                     String value = param.get(key);
@@ -173,8 +166,6 @@ public class UploadUtil {
                 }
             }
 
-            sb = null;
-            params = null;
             sb = new StringBuffer();
             /**
              * 这里重点注意： name里面的值为服务器端需要key 只有这个key 才可以得到对应的文件
@@ -186,7 +177,6 @@ public class UploadUtil {
             sb.append("Content-Type:image/pjpeg" + LINE_END); // 这里配置的Content-type很重要，用于服务器端辨别文件的类型的
             sb.append(LINE_END);
             params = sb.toString();
-            sb = null;
 
             Log.i(TAG, file.getName() + "=" + params + "##");
             dos.write(params.getBytes());
@@ -207,13 +197,12 @@ public class UploadUtil {
             dos.write(end_data);
             dos.flush();
 
-
             /**
              * 获取响应码 200=成功 当响应成功，获取响应的流
              */
             int res = conn.getResponseCode();
             /**
-             *计算响应时间
+             * 计算响应时间
              */
             responseTime = System.currentTimeMillis();
             this.requestTime = (int) ((responseTime - requestTime) / 1000);
@@ -230,28 +219,17 @@ public class UploadUtil {
                     _result.append(line);
                 }
 
-//                InputStream input = conn.getInputStream();
-//                StringBuffer sb1 = new StringBuffer();
-//                int ss;
-//                while ((ss = input.read()) != -1) {
-//                    sb1.append((char)ss);
-//                }
-//                result = sb1.toString();
                 Log.i(TAG, "result : " + _result);
                 result = _result.toString();
-//                sendMessage(UPLOAD_SUCCESS_CODE, result);
                 return;
             } else {
                 Log.e(TAG, "request error");
-//                sendMessage(UPLOAD_SERVER_ERROR_CODE, "上传失败：code=" + res);
                 return;
             }
         } catch (MalformedURLException e) {
-//            sendMessage(UPLOAD_SERVER_ERROR_CODE, "上传失败：error=" + e.getMessage());
             e.printStackTrace();
             return;
         } catch (IOException e) {
-//            sendMessage(UPLOAD_SERVER_ERROR_CODE, "上传失败：error=" + e.getMessage());
             e.printStackTrace();
             return;
         }

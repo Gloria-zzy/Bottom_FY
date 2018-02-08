@@ -23,6 +23,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+# 阿里云推送
     -keepclasseswithmembernames class ** {
         native <methods>;
     }
@@ -47,3 +48,7 @@
     -dontwarn anetwork.**
     -dontwarn com.ut.**
     -dontwarn com.ta.**
+
+# 环信云通信
+    -keep class com.hyphenate.** {*;}
+    -dontwarn  com.hyphenate.**
