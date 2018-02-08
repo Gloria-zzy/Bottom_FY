@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -43,9 +44,10 @@ public class FragOrder extends Fragment {
     private LinearLayout history;
     private ScrollView scrollView1;
     private ScrollView scrollView2;
-    private ScrollView sv;
     private MultiSwipeRefreshLayout swipeRefreshLayout;
+    private ImageView top;
     private String phone;
+    private int selection = 0; //0:current page;    1:history page;
 
     private ViewPager pager;
     private List<View> views;
@@ -104,22 +106,31 @@ public class FragOrder extends Fragment {
             initView();
             initViewPager();
 
-            //---------------------解决RefreshLayout和ScrollView的冲突 begin-----------------------------------
-            sv = (ScrollView) view.findViewById(R.id.frag_order_scrollview);
-            sv.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
-                @Override
-                public void onScrollChanged() {
-                    swipeRefreshLayout.setEnabled(sv.getScrollY()==0);
-                }
-            });
-            //---------------------解决RefreshLayout和ScrollView的冲突 end-----------------------------------
-
             if (Config.loginStatus == 1) {
                 // 获得phoneNum
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
                 fresh();
             }
+
+            //---------------------解决RefreshLayout和ScrollView的冲突 begin-----------------------------------
+            scrollView1.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    if(selection == 0){
+                        swipeRefreshLayout.setEnabled(scrollView1.getScrollY()==0);
+                    }
+                }
+            });
+            scrollView2.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+                @Override
+                public void onScrollChanged() {
+                    if(selection == 1){
+                        swipeRefreshLayout.setEnabled(scrollView2.getScrollY()==0);
+                    }
+                }
+            });
+            //---------------------解决RefreshLayout和ScrollView的冲突 end-----------------------------------
 
             //---------------------------下拉刷新 begin-------------------------------
             //setColorSchemeResources()可以改变加载图标的颜色。
@@ -133,6 +144,39 @@ public class FragOrder extends Fragment {
             });
             //---------------------------下拉刷新 end-------------------------------
 
+            //---------------------------BACK TO TOP begin-------------------------------
+            top = (ImageView) view.findViewById(R.id.iv_fragOrder_backtotop);
+            top.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    scrollView1.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            scrollView1.post(new Runnable() {
+                                public void run() {
+                                    // 滚动至顶部
+                                    scrollView1.fullScroll(ScrollView.FOCUS_UP);
+                                }
+                            });
+                        }
+                    });
+                    scrollView2.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            scrollView2.post(new Runnable() {
+                                public void run() {
+                                    // 滚动至顶部
+                                    scrollView2.fullScroll(ScrollView.FOCUS_UP);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+            //---------------------------BACK TO TOP end-------------------------------
         }
         return view;
     }
@@ -200,94 +244,6 @@ public class FragOrder extends Fragment {
                     } else {
                         ll.addView(newov);
                     }
-
-//                    if (orderStatus.equals("0")) {
-//                        newov.setOrder_status("已结束");
-//                        history.addView(newov);
-//                        newov.getOrder_change().setVisibility(View.GONE);
-//                        newov.getDischarge_order().setVisibility(View.GONE);
-//                        newov.getOrder_code().setVisibility(View.GONE);
-//                        newov.getOrder_cancel().setVisibility(View.GONE);
-//                    } else if (orderStatus.equals("1")) {
-//                        newov.setOrder_status("正在送货");
-//                        ll.addView(newov);
-//                        newov.getOrder_delete().setVisibility(View.GONE);
-//                        newov.getOrder_change().setVisibility(View.GONE);
-//                        newov.getDischarge_order().setVisibility(View.GONE);
-//                        newov.getOrder_cancel().setVisibility(View.GONE);
-//                    } else if (orderStatus.equals("2")) {
-//                        newov.setOrder_status("待接单");
-//                        ll.addView(newov);
-//                        newov.getOrder_delete().setVisibility(View.GONE);
-//                        newov.getDischarge_order().setVisibility(View.GONE);
-//                        newov.getOrder_cancel().setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                new DeleteOrder(newov.getTv_order_number().getText().toString(), new DeleteOrder.SuccessCallback() {
-//
-//                                    @Override
-//                                    public void onSuccess() {
-//
-//                                        Toast.makeText(getActivity(), "已取消", Toast.LENGTH_LONG).show();
-//                                        fresh();
-//
-//                                    }
-//                                }, new DeleteOrder.FailCallback() {
-//
-//                                    @Override
-//                                    public void onFail() {
-//                                        Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-//                                    }
-//                                });
-//                            }
-//                        });
-//                    } else if (orderStatus.equals("3")) {
-//                        newov.setOrder_status("订单异常");
-//                        ll.addView(newov);
-//                        newov.getDischarge_order().setVisibility(View.GONE);
-//                        newov.getOrder_cancel().setVisibility(View.GONE);
-//                    }
-
-//                    newov.setCancelButtonListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            new DeleteOrder(newov.getTv_order_number().getText().toString(), new DeleteOrder.SuccessCallback() {
-//
-//                                @Override
-//                                public void onSuccess() {
-//
-//                                    Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_LONG).show();
-//                                    fresh();
-//
-//                                }
-//                            }, new DeleteOrder.FailCallback() {
-//
-//                                @Override
-//                                public void onFail() {
-//                                    Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-//                                }
-//                            });
-//                        }
-//                    });
-//                    newov.setChangeButtonListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Intent intent = new Intent(getActivity(), AtyUpdateOrder.class);
-//                            intent.putExtra("order_num",newov.getOrderNumber());
-//                            startActivity(intent);
-//                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//                        }
-//                    });
-//                    newov.setGetCodeButtonListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            Intent intent = new Intent(getActivity(), AtyGenCode.class);
-//                            intent.putExtra("code",newov.getOrderNumber());
-//                            startActivity(intent);
-//                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//
-//                        }
-//                    });
                 }
             }
         }, new DownloadOrders.FailCallback() {
@@ -349,6 +305,7 @@ public class FragOrder extends Fragment {
             @Override
             public void onPageSelected(int index) {
                 // TODO Auto-generated method stub
+                selection = index;
                 for (int i = 0; i < tvs.size(); i++) {
                     if (i == index) {
                         tvs.get(i).setTextColor(Color.rgb(35, 149, 213));
