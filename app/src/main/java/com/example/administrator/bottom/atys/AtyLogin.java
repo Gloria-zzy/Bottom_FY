@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,6 +21,8 @@ import com.example.administrator.bottom.net.DownloadAddress;
 import com.example.administrator.bottom.net.GetCode;
 import com.example.administrator.bottom.net.Login;
 import com.example.administrator.bottom.tools.MD5Tool;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 public class AtyLogin extends Activity {
 
@@ -116,6 +119,19 @@ public class AtyLogin extends Activity {
 
                         Config.cacheToken(AtyLogin.this, token);
                         Config.cachePhoneNum(AtyLogin.this, etPhone.getText().toString());
+                        //注册失败会抛出HyphenateException
+                        new Thread(new Runnable() {
+                            public void run() {
+                                try {
+                                    EMClient.getInstance().createAccount(Config.getCachedToken(AtyLogin.this), Config.getCachedToken(AtyLogin.this));//同步方法
+                                    Log.i("AtyLogin", "EMClient register succ");
+                                } catch (HyphenateException e) {
+                                    Log.i("AtyLogin", "EMClient register exception");
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
+
 
                         Config.loginStatus = Config.RESULT_STATUS_SUCCESS;
 

@@ -119,50 +119,6 @@
             </intent-filter>
         </service>
 
-
-        <!--      &lt;!&ndash; 通道保持服务 &ndash;&gt;
-              <service android:name="com.alibaba.sdk.android.push.ChannelService"
-                  android:exported="true" android:process=":channel">
-                  <intent-filter>
-                      <action android:name="com.taobao.accs.intent.action.SERVICE"/>
-                  </intent-filter>
-                  <intent-filter>
-                      <action android:name="org.agoo.android.intent.action.PING_V4" />
-                      <category android:name="taobao" />
-                  </intent-filter>
-              </service>
-              &lt;!&ndash; 消息接收服务 &ndash;&gt;
-              <service android:name="com.alibaba.sdk.android.push.MsgService"
-                  android:exported="false">
-                  <intent-filter>
-                      <action android:name="com.taobao.accs.intent.action.RECEIVE" />
-                  </intent-filter>
-                  <intent-filter>
-                      <action android:name="com.alibaba.sdk.android.push.NOTIFY_ACTION" />
-                  </intent-filter>
-              </service>
-              &lt;!&ndash; 消息接收增强服务（可提高通知/消息达到率）&ndash;&gt;
-              <service android:name="com.alibaba.sdk.android.push.channel.TaobaoRecvService" android:exported="true">
-                  <intent-filter>
-                      <action android:name="org.android.agoo.client.MessageReceiverService"/>
-                  </intent-filter>
-              </service>-->
-
-        <!--       &lt;!&ndash; 消息接收监听器 （用户可自主扩展） &ndash;&gt;
-               <receiver
-                   android:name=".alipush.MyMessageReceiver"
-                   android:exported="false">
-                   <intent-filter> 
-                       <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
-                   </intent-filter>
-                   <intent-filter>     
-                       <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
-                   </intent-filter>
-                   <intent-filter>
-                       <action android:name="com.alibaba.sdk.android.push.RECEIVE" />
-                   </intent-filter>
-               </receiver>-->
-
         <!-- 阿里云推送 -->
         <!-- 消息接收监听器 （用户可自主扩展） -->
         <receiver
@@ -206,6 +162,36 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+
+        <!-- 环信云通信demo的aty -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+
+        <activity
+            android:name=".ui.ChatMainActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <activity android:name=".ui.ChatActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            />
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
+            android:screenOrientation="portrait"
+            />
+
+        <activity
+            android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
+            android:screenOrientation="portrait"
+            />
 
     </application>
 

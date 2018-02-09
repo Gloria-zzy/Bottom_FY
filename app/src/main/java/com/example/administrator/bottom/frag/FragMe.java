@@ -40,12 +40,15 @@ import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UploadPortraitName;
+import com.example.administrator.bottom.ui.ChatMainActivity;
 import com.example.administrator.bottom.utils.DownloadUtil;
 import com.example.administrator.bottom.utils.FileUtils;
 import com.example.administrator.bottom.utils.UploadUtil;
 import com.example.administrator.zxinglibrary.android.CaptureActivity;
 import com.example.administrator.zxinglibrary.bean.ZxingConfig;
 import com.example.administrator.zxinglibrary.common.Constant;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -121,6 +124,27 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     Config.cacheToken(getActivity(), "");
                     // 退出登录时将路径清空，避免更换账号登录时获取了之前账号的头像，这是唯一需要清空头像路径的地方
                     Config.cachePortraitPath(getActivity(), "");
+                    // 退出云通信账号
+                    EMClient.getInstance().logout(true, new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
                     Config.loginStatus = 0;
                     Intent intent = new Intent(getActivity(), AtyMainFrame.class);
                     intent.putExtra("page", "me");
@@ -219,10 +243,10 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             public void onClick(View view) {
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 if (Config.loginStatus == 1) {
-                    Intent intent = new Intent(getActivity(), AtyTakenOrders.class);
+                    Intent intent = new Intent(getActivity(), ChatMainActivity.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                } else {
+                } else if (Config.loginStatus == 0) {
                     Intent intent = new Intent(getActivity(), AtyUnlog.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);

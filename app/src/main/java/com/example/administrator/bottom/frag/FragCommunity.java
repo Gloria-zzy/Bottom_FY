@@ -18,8 +18,6 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
-import com.example.administrator.bottom.custom.QQRefreshHeader;
-import com.example.administrator.bottom.custom.RefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;

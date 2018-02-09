@@ -1,33 +1,29 @@
 package com.example.administrator.bottom.atys;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.net.UploadToken;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 
 import static com.example.administrator.bottom.Config.APP_ID;
-import static com.example.administrator.bottom.Config.REQUEST_READ_PHONE_STATE;
 
 public class AtyLaunch extends Activity {
+
+    private Integer time = 3000;    //设置等待时间，单位为毫秒
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +31,10 @@ public class AtyLaunch extends Activity {
 
         //加载启动图片
         setContentView(R.layout.aty_launch);
-        Integer time = 3000;    //设置等待时间，单位为毫秒
+
 
         //---------------------状态栏透明 begin----------------------------------------
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyLaunch.this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -86,5 +82,39 @@ public class AtyLaunch extends Activity {
                 AtyLaunch.this.finish();
             }
         }, time);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        new Thread(new Runnable() {
+            public void run() {
+                String userName = Config.getCachedToken(AtyLaunch.this);
+                String password = Config.getCachedToken(AtyLaunch.this);
+
+                if (userName != "" && password != "") {
+                    EMClient.getInstance().login(userName, password, new EMCallBack() {//回调
+                        @Override
+                        public void onSuccess() {
+                            EMClient.getInstance().groupManager().loadAllGroups();
+                            EMClient.getInstance().chatManager().loadAllConversations();
+                            Log.d("main", "登录聊天服务器成功！");
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            Log.d("main", "登录聊天服务器失败！");
+                        }
+                    });
+                }
+            }
+        }).start();
+
     }
 }
