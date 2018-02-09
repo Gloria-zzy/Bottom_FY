@@ -29,12 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyAddressMng;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
-import com.example.administrator.bottom.atys.AtyTakenOrders;
 import com.example.administrator.bottom.atys.AtyTeam;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
@@ -42,7 +40,6 @@ import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UploadPortraitName;
 import com.example.administrator.bottom.ui.ChatMainActivity;
 import com.example.administrator.bottom.utils.DownloadUtil;
-import com.example.administrator.bottom.utils.FileUtils;
 import com.example.administrator.bottom.utils.UploadUtil;
 import com.example.administrator.zxinglibrary.android.CaptureActivity;
 import com.example.administrator.zxinglibrary.bean.ZxingConfig;
@@ -168,7 +165,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         }
 
 
-        //address mng
+        // 绑定地址管理事件
         view.findViewById(R.id.address_mng).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -238,6 +235,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         });
 
+        // 已抢订单
         view.findViewById(R.id.tv_taken_orders).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -277,6 +275,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             }
         });
 
+        // 制作团队
         view.findViewById(R.id.team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

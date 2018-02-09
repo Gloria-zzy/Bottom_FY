@@ -93,7 +93,7 @@ public class AtyLaunch extends Activity {
                 String userName = Config.getCachedToken(AtyLaunch.this);
                 String password = Config.getCachedToken(AtyLaunch.this);
 
-                if (userName != "" && password != "") {
+                if (userName != "" && password != "" && userName != null && password != null) {
                     EMClient.getInstance().login(userName, password, new EMCallBack() {//回调
                         @Override
                         public void onSuccess() {
