@@ -1,7 +1,9 @@
 package com.example.administrator.bottom.frag;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,6 +24,8 @@ import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.administrator.bottom.Config.APP_ID;
+
 /**
  * Created by Administrator on 2017/10/29.
  */
@@ -35,7 +39,8 @@ public class FragCommunity extends Fragment {
     private MultiSwipeRefreshLayout swipeRefreshLayout;
     TextView tv1;
     TextView tv2;
-    TextView tv3;
+//    TextView tv3;
+    private String phone;
 
 
     public FragCommunity() {
@@ -67,23 +72,30 @@ public class FragCommunity extends Fragment {
             });
         } else {
             view = inflater.inflate(R.layout.frag_community, container, false);
-            pager = (ViewPager) view.findViewById(R.id.pager);
-            tv1 = (TextView) view.findViewById(R.id.page1);
+            pager = (ViewPager) view.findViewById(R.id.vp_fragCommunity);
+            tv1 = (TextView) view.findViewById(R.id.tv_fragCommunity_chat);
             tv1.setTextColor(Color.BLUE);
-            tv2 = (TextView) view.findViewById(R.id.page2);
-            tv3 = (TextView) view.findViewById(R.id.page3);
+            tv2 = (TextView) view.findViewById(R.id.tv_fragCommunity_contact);
+//            tv3 = (TextView) view.findViewById(R.id.page3);
             tv1.setOnClickListener(new MyClickListener(0));
             tv2.setOnClickListener(new MyClickListener(1));
-            tv3.setOnClickListener(new MyClickListener(2));
+//            tv3.setOnClickListener(new MyClickListener(2));
             tvs.add(tv1);
             tvs.add(tv2);
-            tvs.add(tv3);
+//            tvs.add(tv3);
 //        初始化ViewPager组件
             initView();
             initViewPager();
 
-            swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.sfl_fragCommunity);
+            if (Config.loginStatus == 1) {
+                // 获得phoneNum
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
+                phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+                fresh();
+            }
+
             //---------------------------下拉刷新 begin-------------------------------
+            swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.srl_fragCommunity);
             //setColorSchemeResources()可以改变加载图标的颜色。
             swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue,R.color.theme_blue, R.color.colorPrimary,R.color.contents_text});
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -95,7 +107,6 @@ public class FragCommunity extends Fragment {
             });
             //---------------------------下拉刷新 end-------------------------------
 
-            fresh();
         }
 
 
@@ -108,7 +119,7 @@ public class FragCommunity extends Fragment {
         if (Config.loginStatus == 1) {
             tv1.setOnClickListener(new MyClickListener(0));
             tv2.setOnClickListener(new MyClickListener(1));
-            tv3.setOnClickListener(new MyClickListener(2));
+//            tv3.setOnClickListener(new MyClickListener(2));
         }
 
     }
@@ -150,6 +161,8 @@ public class FragCommunity extends Fragment {
 
         PagerAdapter adapter = new MyPagerAdapter();
         pager.setAdapter(adapter);
+        tvs.get(0).setTextColor(Color.rgb(35, 149, 213));
+        tvs.get(0).setBackgroundResource(R.drawable.item_sublime_text);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -157,9 +170,11 @@ public class FragCommunity extends Fragment {
                 // TODO Auto-generated method stub
                 for (int i = 0; i < tvs.size(); i++) {
                     if (i == index) {
-                        tvs.get(i).setTextColor(Color.BLUE);
+                        tvs.get(i).setTextColor(Color.rgb(35, 149, 213));
+                        tvs.get(i).setBackgroundResource(R.drawable.item_sublime_text);
                     } else {
-                        tvs.get(i).setTextColor(Color.rgb(55, 55, 55));
+                        tvs.get(i).setTextColor(Color.rgb(250, 250, 250));
+                        tvs.get(i).setBackgroundColor(Color.TRANSPARENT);
                     }
                 }
             }

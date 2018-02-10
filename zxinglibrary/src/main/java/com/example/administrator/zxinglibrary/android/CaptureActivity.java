@@ -111,6 +111,15 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         beepManager.setPlayBeep(config.isPlayBeep());
         beepManager.setVibrate(config.isShake());
 
+        //back
+        findViewById(R.id.iv_capture_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.transition.switch_still, R.transition.switch_slide_out_right);
+            }
+        });
+
 
     }
 
@@ -318,7 +327,7 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
             intent.setAction(Intent.ACTION_PICK);
             intent.setType("image/*");
             startActivityForResult(intent, Constant.REQUEST_IMAGE);
-        } else if(id == R.id.back){
+        } else if(id == R.id.iv_capture_back){
 //            Intent i = new Intent(CaptureActivity.this, com.example.administrator.class);
 //            startActivity(i);
             this.finish();

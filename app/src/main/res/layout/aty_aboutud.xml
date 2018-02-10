@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.administrator.bottom.atys.AtyTeam"
+    tools:context="com.example.administrator.bottom.atys.AtyAboutUD"
     android:background="@drawable/item_plain_bg">
 
     <LinearLayout
         style="@style/TopStatus">
 
         <ImageView
-            android:id="@+id/Team_back"
+            android:id="@+id/iv_aboutUD_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"

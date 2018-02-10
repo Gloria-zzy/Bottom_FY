@@ -93,7 +93,7 @@ public class FragOrder extends Fragment {
             ll = (LinearLayout) scrollView1.findViewById(R.id.current_order_ll);
             history = (LinearLayout) scrollView2.findViewById(R.id.history_order_ll);
 
-            pager = (ViewPager) view.findViewById(R.id.order_pager);
+            pager = (ViewPager) view.findViewById(R.id.vp_fragOrder);
             tv1 = (TextView) view.findViewById(R.id.page_current);
 //            tv1.setTextColor(Color.BLUE);
             tv2 = (TextView) view.findViewById(R.id.page_history);

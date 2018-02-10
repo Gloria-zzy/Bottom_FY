@@ -33,7 +33,7 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyAddressMng;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
-import com.example.administrator.bottom.atys.AtyTeam;
+import com.example.administrator.bottom.atys.AtyAboutUD;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.bottom.net.DownloadPortrait;
@@ -279,7 +279,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         view.findViewById(R.id.team).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AtyTeam.class);
+                Intent intent = new Intent(getActivity(), AtyAboutUD.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }

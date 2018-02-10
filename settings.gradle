@@ -1,1 +1,1 @@
-include ':app', ':zxinglibrary', ':simpledemo', ':easeui'
+include ':app', ':zxinglibrary', ':easeui'

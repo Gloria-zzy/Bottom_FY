@@ -1,5 +1,29 @@
 [
     {
+        "outputFile": "E:\\J2EE\\keshe\\Bottom_1\\simpledemo\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endColumn": 45,
+                    "endOffset": 96
+                },
+                "from": {
+                    "file": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\rules-0.5.aar\\cdca67ae2ab98bc96c2c5fe86f303db0\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 229,
+                        "endColumn": 45,
+                        "endOffset": 270
+                    }
+                }
+            }
+        ]
+    },
+    {
         "outputFile": "G:\\AStudio\\GitHub\\Bottom_FY\\simpledemo\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
         "map": [
             {

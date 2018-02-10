@@ -7,6 +7,7 @@
     <string name="community">社区</string>
     <string name="me">我的</string>
     <string name="search_qryHint">搜索订单</string>
+    <string name="search_qryContact">搜索用户</string>
     <string name="want_to_get">取快递</string>
     <string name="want_to_post">我要寄快递</string>
     <string name="action_settings">Settings</string>
