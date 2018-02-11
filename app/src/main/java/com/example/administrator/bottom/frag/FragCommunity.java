@@ -13,6 +13,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.example.administrator.bottom.Config;
@@ -20,9 +21,13 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.administrator.bottom.Config.APP_ID;
 
@@ -39,19 +44,21 @@ public class FragCommunity extends Fragment {
     private MultiSwipeRefreshLayout swipeRefreshLayout;
     TextView tv1;
     TextView tv2;
+
+    protected InputMethodManager inputMethodManager;
 //    TextView tv3;
     private String phone;
 
-
     public FragCommunity() {
-
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view;
+
         if (Config.loginStatus == 0) {
+            // 未登录，显示未登陆界面
             view = inflater.inflate(R.layout.aty_unlog, container, false);
             view.findViewById(R.id.to_login).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -71,7 +78,24 @@ public class FragCommunity extends Fragment {
                 }
             });
         } else {
+            // 已登录
             view = inflater.inflate(R.layout.frag_community, container, false);
+
+            //http://stackoverflow.com/questions/4341600/how-to-prevent-multiple-instances-of-an-activity-when-it-is-launched-with-differ/
+            // should be in launcher activity, but all app use this can avoid the problem
+            if (!getActivity().isTaskRoot()) {
+                Intent intent = getActivity().getIntent();
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && action.equals(Intent.ACTION_MAIN)) {
+                    getActivity().finish();
+                    return view;
+                }
+            }
+            inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        /*
+        *  以上用于避免extends EaseBaseActivity，已经将EaseBaseActivity中的有价值内容复制过来了
+        * */
+
             pager = (ViewPager) view.findViewById(R.id.vp_fragCommunity);
             tv1 = (TextView) view.findViewById(R.id.tv_fragCommunity_chat);
             tv1.setTextColor(Color.BLUE);
@@ -108,7 +132,6 @@ public class FragCommunity extends Fragment {
             //---------------------------下拉刷新 end-------------------------------
 
         }
-
 
         return view;
     }
@@ -225,5 +248,26 @@ public class FragCommunity extends Fragment {
             container.addView(views.get(position));
             return views.get(position);
         }
+    }
+
+    /**
+     * prepared users, password is "123456"
+     * you can use these user to test
+     * @return
+     */
+    private Map<String, EaseUser> getContacts(){
+        Map<String, EaseUser> contacts = new HashMap<String, EaseUser>();
+        for(int i = 1; i <= 10; i++){
+            EaseUser user = new EaseUser("easeuitest" + i);
+            contacts.put("easeuitest" + i, user);
+        }
+        return contacts;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // cancel the notification
+        EaseUI.getInstance().getNotifier().reset();
     }
 }

@@ -1,6 +1,6 @@
 package com.example.administrator.bottom;
 
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +14,7 @@ import com.example.administrator.bottom.frag.FragOrder;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragCommunity;
+import com.example.administrator.bottom.ui.FragChatMainActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private TextView topBar;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private FragHome fragHome;
     private FragOrder fragOrder;
-    private FragCommunity fragCommunity;
+    private FragChatMainActivity fragCommunity;
     private FragMe fragMe;
 //    private FragmentManager fragmentManager;
 
@@ -35,23 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
-//        bindView();
-//        getSupportActionBar().hide();
-
-
-// Written by charles
-//        String token = Config.getCachedToken(this);
-//        String phone_num = Config.getCachedPhoneNum(this);
-
-//        if (token != null && phone_num != null) {
-//            Intent i = new Intent(this, AtyTimeline.class);
-//            i.putExtra(Config.KEY_TOKEN, token);
-//            i.putExtra(Config.KEY_PHONE_NUM, phone_num);
-//            startActivity(i);
-//        } else {
-//            startActivity(new Intent(this, AtyLogin.class));
-//        }
     }
 
     //UI组件初始化与事件绑定
@@ -96,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         switch(v.getId()){
             case R.id.txt_home:
@@ -120,17 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     transaction.show(fragOrder);
                 }
                 break;
-
-//            case R.id.txt_post:
-//                clearSelected();
-////                tabPost.setSelected(true);
-//                if(fragCommunity ==null){
-//                    fragCommunity = new FragCommunity();
-//                    transaction.add(R.id.fragment_container, fragCommunity);
-//                }else{
-//                    transaction.show(fragCommunity);
-//                }
-//                break;
 
             case R.id.txt_me:
                 selected();

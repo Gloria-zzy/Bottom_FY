@@ -58,6 +58,9 @@ public class Config {
 
     public static final String KEY_PORTRAIT = "portrait";
 
+    public static final String KEY_HXUSERNAME = "hx_username";
+    public static final String KEY_HXPASSWORD = "hx_password";
+
     public static final int REQUEST_READ_PHONE_STATE = 1;
     public static final int RESULT_STATUS_SUCCESS = 1;
     public static final int RESULT_STATUS_FAIL = 0;
@@ -68,6 +71,7 @@ public class Config {
 
     public static final String ACTION_GET_CODE = "send_pass";
     public static final String ACTION_LOGIN = "login";
+    public static final String ACTION_HXLOGIN = "hx_login";
     public static final String ACTION_UPLOAD_ADDRESS = "upload_address";
     public static final String ACTION_UPLOAD_PORTRAIT = "upload_portraitname";
     public static final String ACTION_UPLOAD_CONTACTS = "upload_contacts";

@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -33,14 +31,7 @@ import static com.example.administrator.bottom.Config.APP_ID;
  */
 
 public class AtyAddress extends Activity {
-    //    private EditText etUserName;
-//    private EditText etPassword_1;
-//    private EditText etPassword_2;
-//    private EditText etPhoneNumber;
-//    private EditText etEmail;
-//    private EditText etAddress;
-//
-//    private TextView tvcode;
+
     private Spinner area_spinner;
     private Spinner building_spinner;
     private EditText room_edittext;
@@ -83,7 +74,7 @@ public class AtyAddress extends Activity {
         });
 
         //---------------------状态栏透明 begin----------------------------------------
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyAddress.this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -111,26 +102,26 @@ public class AtyAddress extends Activity {
         //数据
         data_list = new ArrayList<String>();
 //        if(area.equals("东苑")){
-            data_list.add("硕园2栋");
-            data_list.add("硕园3栋");
-            data_list.add("硕园4栋");
-            data_list.add("硕园5栋");
-            data_list.add("晖园11栋");
-            data_list.add("晖园12栋");
-            data_list.add("晖园13栋");
-            data_list.add("晖园14栋");
+        data_list.add("硕园2栋");
+        data_list.add("硕园3栋");
+        data_list.add("硕园4栋");
+        data_list.add("硕园5栋");
+        data_list.add("晖园11栋");
+        data_list.add("晖园12栋");
+        data_list.add("晖园13栋");
+        data_list.add("晖园14栋");
 //        }
 //        if(area.equals("中苑")){
-            data_list.add("沁园30栋");
-            data_list.add("沁园31栋");
-            data_list.add("沁园32栋");
-            data_list.add("沁园33栋");
-            data_list.add("沁园34栋");
-            data_list.add("沁园35栋");
-            data_list.add("沁园36栋");
-            data_list.add("沁园37栋");
-            data_list.add("沁园38栋");
-            data_list.add("沁园39栋");
+        data_list.add("沁园30栋");
+        data_list.add("沁园31栋");
+        data_list.add("沁园32栋");
+        data_list.add("沁园33栋");
+        data_list.add("沁园34栋");
+        data_list.add("沁园35栋");
+        data_list.add("沁园36栋");
+        data_list.add("沁园37栋");
+        data_list.add("沁园38栋");
+        data_list.add("沁园39栋");
 //        }
 
         //适配器
@@ -139,8 +130,6 @@ public class AtyAddress extends Activity {
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         //加载适配器
         building_spinner.setAdapter(arr_adapter);
-
-
 
         area_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -166,15 +155,13 @@ public class AtyAddress extends Activity {
             }
         });
 
-
-
         findViewById(R.id.btnAddress).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(room_edittext.getText().toString().equals("")){
+                if (room_edittext.getText().toString().equals("")) {
                     Toast.makeText(AtyAddress.this, "宿舍号不能为空！", Toast.LENGTH_LONG).show();
-                }else if (agree.isChecked()) {
+                } else if (agree.isChecked()) {
 
                     room = room_edittext.getText().toString();
                     // 获得phoneNum

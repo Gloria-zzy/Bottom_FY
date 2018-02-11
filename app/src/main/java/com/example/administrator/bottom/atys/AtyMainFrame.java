@@ -1,15 +1,15 @@
 package com.example.administrator.bottom.atys;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +28,7 @@ import com.example.administrator.bottom.frag.FragCommunity;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
+import com.example.administrator.bottom.ui.FragChatMainActivity;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -37,7 +38,7 @@ import java.util.List;
  * Created by Administrator on 2017/10/31.
  */
 
-public class AtyMainFrame extends Activity implements View.OnClickListener {
+public class AtyMainFrame extends FragmentActivity implements View.OnClickListener {
 
     private LinearLayout tabHome;
     private LinearLayout tabOrder;
@@ -49,7 +50,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     private Fragment[] fragments = new Fragment[4];
     private FragHome fragHome;
     private FragOrder fragOrder;
-    private FragCommunity fragCommunity;
+    private FragChatMainActivity fragCommunity;
     private FragMe fragMe;
 
     // 用来在log输出中标志这个Activity的信息
@@ -181,7 +182,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     // 当点击主界面上的fragment标签时显示相应fragment
     @Override
     public void onClick(View v) {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         switch (v.getId()) {
             case R.id.txt_home:
@@ -213,7 +214,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
                 clearSelected();
                 tabCommunity.setSelected(true);
                 if (fragCommunity == null) {
-                    fragCommunity = new FragCommunity();
+                    fragCommunity = new FragChatMainActivity();
                     transaction.add(R.id.fragment_container, fragCommunity);
                 } else {
                     transaction.show(fragCommunity);
@@ -237,7 +238,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
 
     // 用于在本activity生成时指定显示的Fragment，生成时由于没有输入所以无法触发onClick方法，通过page参数指定显示的Fragment
     public void showFragHome() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         clearSelected();
         tabHome.setSelected(true);
@@ -249,7 +250,7 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     }
 
     public void showFragOrder() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         clearSelected();
         tabOrder.setSelected(true);
@@ -260,18 +261,18 @@ public class AtyMainFrame extends Activity implements View.OnClickListener {
     }
 
     public void showFragCommunity() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         clearSelected();
         tabCommunity.setSelected(true);
-        fragCommunity = new FragCommunity();
+        fragCommunity = new FragChatMainActivity();
         transaction.add(R.id.fragment_container, fragCommunity);
         transaction.show(fragCommunity);
         transaction.commit();
     }
 
     public void showFragMe() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         hideAllFragment(transaction);
         clearSelected();
         tabMe.setSelected(true);

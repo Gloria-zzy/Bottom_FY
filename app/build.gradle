@@ -10,7 +10,7 @@ android {
             //选择要添加的对应cpu类型的.so库。
             abiFilters 'armeabi', 'x86'
         }
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    compile fileTree(include: ['*.jar'], dir: 'libs')
     // ali云推送
     compile 'com.aliyun.ams:alicloud-android-push:3.1.0'
     compile 'com.aliyun:aliyun-java-sdk-push:3.8.0'
@@ -47,9 +47,9 @@ dependencies {
 //    // 百度地图导包
 //    implementation files('libs/BaiduLBS_Android.jar')
     // junit测试
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+//    testImplementation 'junit:junit:4.12'
+//    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     // 环信即时聊天SDK
 //    implementation files('libs/hyphenatechat_3.3.8.jar')
     implementation project(':easeui')

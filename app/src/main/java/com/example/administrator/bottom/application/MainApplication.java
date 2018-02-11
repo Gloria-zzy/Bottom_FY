@@ -54,8 +54,9 @@ public class MainApplication extends Application {
 //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
     }
+
     /**
-     * 初始化云推送通道
+     * 初始化阿里云推送通道
      * @param applicationContext
      */
     private void initCloudChannel(Context applicationContext) {
@@ -64,7 +65,7 @@ public class MainApplication extends Application {
         pushService.register(applicationContext, new CommonCallback() {
             @Override
             public void onSuccess(String response) {
-                Log.d(TAG, "init cloudchannel success!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Log.d(TAG, "init cloudchannel success");
             }
             @Override
             public void onFailed(String errorCode, String errorMessage) {
@@ -83,6 +84,7 @@ public class MainApplication extends Application {
         }
     }
 
+    // 获得App的名字
     private String getAppName(int pID) {
         String processName = null;
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
@@ -97,7 +99,7 @@ public class MainApplication extends Application {
                     return processName;
                 }
             } catch (Exception e) {
-                // Log.d("Process", "Error>> :"+ e.toString());
+                 Log.d("Process", "Error>> :"+ e.toString());
             }
         }
         return processName;

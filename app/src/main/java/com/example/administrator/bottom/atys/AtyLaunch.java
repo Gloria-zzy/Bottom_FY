@@ -88,6 +88,7 @@ public class AtyLaunch extends Activity {
     protected void onStart() {
         super.onStart();
 
+        // 在欢迎界面登录环信账号（如果已经注册而且UD处于登录状态的话），但是UD处于登录状态时不会退出环信账号，这里的登录有多余的嫌疑。
         new Thread(new Runnable() {
             public void run() {
                 String userName = Config.getCachedToken(AtyLaunch.this);

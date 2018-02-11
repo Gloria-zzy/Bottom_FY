@@ -2,7 +2,7 @@ package com.example.administrator.bottom.frag;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
