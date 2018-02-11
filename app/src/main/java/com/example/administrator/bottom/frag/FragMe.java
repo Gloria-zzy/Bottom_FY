@@ -38,7 +38,6 @@ import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UploadPortraitName;
-import com.example.administrator.bottom.ui.ChatMainActivity;
 import com.example.administrator.bottom.utils.DownloadUtil;
 import com.example.administrator.bottom.utils.UploadUtil;
 import com.example.administrator.zxinglibrary.android.CaptureActivity;
@@ -236,21 +235,21 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         });
 
         // 已抢订单
-        view.findViewById(R.id.tv_taken_orders).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                if (Config.loginStatus == 1) {
-                    Intent intent = new Intent(getActivity(), ChatMainActivity.class);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                } else if (Config.loginStatus == 0) {
-                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
-                    startActivity(intent);
-                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                }
-            }
-        });
+//        view.findViewById(R.id.tv_taken_orders).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                if (Config.loginStatus == 1) {
+//                    Intent intent = new Intent(getActivity(), ChatMainActivity.class);
+//                    startActivity(intent);
+//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                } else if (Config.loginStatus == 0) {
+//                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
+//                    startActivity(intent);
+//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                }
+//            }
+//        });
 
         // 绑定按钮到选择相册中图片
         view.findViewById(R.id.tv_ic).setOnClickListener(new View.OnClickListener() {

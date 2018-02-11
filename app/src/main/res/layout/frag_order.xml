@@ -6,16 +6,15 @@
     android:orientation="vertical"
     android:paddingTop="20sp">
 
-
-    <SearchView
-        android:id="@+id/searchView"
-        style="@style/default_text"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/searchview_line"
-        android:gravity="center"
-        android:queryHint="@string/search_qryHint" />
+    <!--<SearchView-->
+        <!--android:id="@+id/searchView"-->
+        <!--style="@style/default_text"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="37dp"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:background="@drawable/searchview_line"-->
+        <!--android:gravity="center"-->
+        <!--android:queryHint="@string/search_qryHint" />-->
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -53,6 +52,8 @@
                 android:text="历史订单"
                 android:textColor="#FFFAFAFA" />
         </LinearLayout>
+
+        <include layout="@layout/ease_search_bar" />
 
         <RelativeLayout
             android:layout_width="match_parent"

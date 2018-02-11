@@ -82,6 +82,10 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     
     @Override
     protected void setUpView() {
+
+        //不显示title bar
+        this.hideTitleBar();
+
         conversationList.addAll(loadConversationList());
         conversationListView.init(conversationList);
         

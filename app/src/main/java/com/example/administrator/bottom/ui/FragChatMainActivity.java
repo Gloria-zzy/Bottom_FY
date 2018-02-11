@@ -2,6 +2,7 @@ package com.example.administrator.bottom.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -28,11 +29,11 @@ import java.util.Map;
  */
 
 public class FragChatMainActivity extends Fragment {
-    private TextView unreadLabel;
+//    private TextView unreadLabel;
     private Button[] mTabs;
     private EaseConversationListFragment conversationListFragment;
     private EaseContactListFragment contactListFragment;
-    private SettingsFragment settingFragment;
+//    private SettingsFragment settingFragment;
     private android.support.v4.app.Fragment[] fragments;
     private int index;
     private int currentTabIndex;
@@ -60,7 +61,7 @@ public class FragChatMainActivity extends Fragment {
         * */
 
         // 控件绑定
-        unreadLabel = (TextView) view.findViewById(R.id.unread_msg_number);
+//        unreadLabel = (TextView) view.findViewById(R.id.unread_msg_number);
         // 用数组来存放三个按钮
         mTabs = new Button[3];
         // 三个按钮用来跳转到各自的fragment
@@ -69,12 +70,13 @@ public class FragChatMainActivity extends Fragment {
         // 联系人列表按钮
         mTabs[1] = (Button) view.findViewById(R.id.btn_address_list);
         // 设置按钮
-        mTabs[2] = (Button) view.findViewById(R.id.btn_setting);
+//        mTabs[2] = (Button) view.findViewById(R.id.btn_setting);
 
         // set first tab as selected
         mTabs[0].setSelected(true);
+        mTabs[0].setBackgroundResource(R.drawable.item_sublime_text);
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             mTabs[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -85,7 +87,7 @@ public class FragChatMainActivity extends Fragment {
 
         conversationListFragment = new EaseConversationListFragment();
         contactListFragment = new EaseContactListFragment();
-        settingFragment = new SettingsFragment();
+//        settingFragment = new SettingsFragment();
         contactListFragment.setContactsMap(getContacts());
 
         // 设置会话列表里的会话点击事件，就是点击会话之后的处理，即弹出会话窗口，会话窗口类是ChatActivity
@@ -107,7 +109,7 @@ public class FragChatMainActivity extends Fragment {
         });
 
         // 将三个fragment存入数组
-        fragments = new android.support.v4.app.Fragment[]{conversationListFragment, contactListFragment, settingFragment};
+        fragments = new android.support.v4.app.Fragment[]{conversationListFragment, contactListFragment};
         // add and show first fragment
         getChildFragmentManager().beginTransaction().add(R.id.fragment_container, conversationListFragment)
                 .add(R.id.fragment_container, contactListFragment).hide(contactListFragment).show(conversationListFragment)
@@ -130,21 +132,23 @@ public class FragChatMainActivity extends Fragment {
             case R.id.btn_address_list:
                 index = 1;
                 break;
-            case R.id.btn_setting:
-                index = 2;
-                break;
+//            case R.id.btn_setting:
+//                index = 2;
+//                break;
         }
         // 如果选中的页面和当前页面不一致
         if (currentTabIndex != index) {
             FragmentTransaction trx = getChildFragmentManager().beginTransaction();
             // 将当前页面隐藏
             trx.hide(fragments[currentTabIndex]);
+            mTabs[currentTabIndex].setBackgroundResource(Color.TRANSPARENT);
             // 如果选中的页面还没有被添加到transaction里面，那么就进行添加
             if (!fragments[index].isAdded()) {
                 trx.add(R.id.fragment_container, fragments[index]);
             }
             // 呈现选中的页面
             trx.show(fragments[index]).commit();
+            mTabs[index].setBackgroundResource(R.drawable.item_sublime_text);
         }
         // 将当前页面（跳转之前的页面）的选中状态设置为false
         mTabs[currentTabIndex].setSelected(false);

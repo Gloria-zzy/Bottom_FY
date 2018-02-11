@@ -95,7 +95,6 @@ public class FragOrder extends Fragment {
 
             pager = (ViewPager) view.findViewById(R.id.vp_fragOrder);
             tv1 = (TextView) view.findViewById(R.id.page_current);
-//            tv1.setTextColor(Color.BLUE);
             tv2 = (TextView) view.findViewById(R.id.page_history);
             tv1.setOnClickListener(new FragOrder.MyClickListener(0));
             tv2.setOnClickListener(new FragOrder.MyClickListener(1));

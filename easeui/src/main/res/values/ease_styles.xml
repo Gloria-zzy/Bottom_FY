@@ -167,4 +167,13 @@
         <item name="android:includeFontPadding">false</item>
         <item name="android:background">@drawable/ease_edit_text_bg</item>
     </style>
+
+    <style name="TopStatus">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/item_banner</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingTop">20sp</item>
+    </style>
+
 </resources>
