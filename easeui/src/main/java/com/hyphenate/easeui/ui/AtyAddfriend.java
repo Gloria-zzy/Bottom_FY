@@ -118,7 +118,7 @@ public class AtyAddfriend extends AppCompatActivity {
                 if(s.length() == 11){
                     tv_phone.setVisibility(View.INVISIBLE);
                     eiv_userhead.setVisibility(View.INVISIBLE);
-                    
+
                     Log.i(TAG, "user downloading");
                     phone = s.toString();
                     //上传手机号
