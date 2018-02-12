@@ -320,7 +320,8 @@ int drawable ee_9 0x7f0500b8
 int drawable googleg_disabled_color_18 0x7f0500b9
 int drawable googleg_standard_color_18 0x7f0500ba
 int drawable ic_launcher 0x7f0500bb
-int drawable recall_message_bg 0x7f0500bc
+int drawable item_banner 0x7f0500bc
+int drawable recall_message_bg 0x7f0500bd
 int id adjust_height 0x7f060000
 int id adjust_width 0x7f060001
 int id alert_message 0x7f060002
@@ -819,13 +820,14 @@ int style MyAlertDialog 0x7f0a000a
 int style MyDialogStyle 0x7f0a000b
 int style MyDialogStyleBottom 0x7f0a000c
 int style MyDialogStyleTop 0x7f0a000d
-int style bottom_line_edit_text_style 0x7f0a000e
-int style chat_content_date_style 0x7f0a000f
-int style chat_text_date_style 0x7f0a0010
-int style chat_text_name_style 0x7f0a0011
-int style devide_line_eee 0x7f0a0012
-int style horizontal_slide 0x7f0a0013
-int style nornal_style 0x7f0a0014
+int style TopStatus 0x7f0a000e
+int style bottom_line_edit_text_style 0x7f0a000f
+int style chat_content_date_style 0x7f0a0010
+int style chat_text_date_style 0x7f0a0011
+int style chat_text_name_style 0x7f0a0012
+int style devide_line_eee 0x7f0a0013
+int style horizontal_slide 0x7f0a0014
+int style nornal_style 0x7f0a0015
 int[] styleable EaseChatExtendMenu { 0x7f02001c }
 int styleable EaseChatExtendMenu_numColumns 0
 int[] styleable EaseChatMessageList { 0x7f020018, 0x7f020019, 0x7f02001a, 0x7f02001b }

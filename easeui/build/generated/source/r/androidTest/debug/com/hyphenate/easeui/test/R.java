@@ -580,7 +580,8 @@ public final class R {
     public static final int googleg_disabled_color_18=0x7f0500b9;
     public static final int googleg_standard_color_18=0x7f0500ba;
     public static final int ic_launcher=0x7f0500bb;
-    public static final int recall_message_bg=0x7f0500bc;
+    public static final int item_banner=0x7f0500bc;
+    public static final int recall_message_bg=0x7f0500bd;
   }
   public static final class id {
     public static final int adjust_height=0x7f060000;
@@ -1089,13 +1090,14 @@ public final class R {
     public static final int MyDialogStyle=0x7f0a000b;
     public static final int MyDialogStyleBottom=0x7f0a000c;
     public static final int MyDialogStyleTop=0x7f0a000d;
-    public static final int bottom_line_edit_text_style=0x7f0a000e;
-    public static final int chat_content_date_style=0x7f0a000f;
-    public static final int chat_text_date_style=0x7f0a0010;
-    public static final int chat_text_name_style=0x7f0a0011;
-    public static final int devide_line_eee=0x7f0a0012;
-    public static final int horizontal_slide=0x7f0a0013;
-    public static final int nornal_style=0x7f0a0014;
+    public static final int TopStatus=0x7f0a000e;
+    public static final int bottom_line_edit_text_style=0x7f0a000f;
+    public static final int chat_content_date_style=0x7f0a0010;
+    public static final int chat_text_date_style=0x7f0a0011;
+    public static final int chat_text_name_style=0x7f0a0012;
+    public static final int devide_line_eee=0x7f0a0013;
+    public static final int horizontal_slide=0x7f0a0014;
+    public static final int nornal_style=0x7f0a0015;
   }
   public static final class styleable {
     /**

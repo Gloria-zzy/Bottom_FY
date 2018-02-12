@@ -168,12 +168,12 @@
         "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_row_received_voice_call.xml"
     },
     {
-        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ee_31.png.flat",
-        "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_31.png"
-    },
-    {
         "merged": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim_head_out.xml.flat",
         "source": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\bundles\\debug\\res\\anim\\head_out.xml"
+    },
+    {
+        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ee_31.png.flat",
+        "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ee_31.png"
     },
     {
         "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_row_sent_message.xml.flat",
@@ -292,12 +292,12 @@
         "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_layout_chat_primary_menu.xml"
     },
     {
-        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_common_google_signin_btn_icon_light_focused.xml.flat",
-        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.4.0.aar\\155f5da8971ab9c101f1a23d3da53a8e\\res\\drawable\\common_google_signin_btn_icon_light_focused.xml"
-    },
-    {
         "merged": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_ease_chat_location_selector.xml.flat",
         "source": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable\\ease_chat_location_selector.xml"
+    },
+    {
+        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable_common_google_signin_btn_icon_light_focused.xml.flat",
+        "source": "C:\\Users\\Administrator\\.gradle\\caches\\transforms-1\\files-1.1\\play-services-base-11.4.0.aar\\155f5da8971ab9c101f1a23d3da53a8e\\res\\drawable\\common_google_signin_btn_icon_light_focused.xml"
     },
     {
         "merged": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_row_received_picture.xml.flat",
@@ -308,12 +308,12 @@
         "source": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_new_friends_icon.png"
     },
     {
-        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_widget_chat_primary_menu.xml.flat",
-        "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_chat_primary_menu.xml"
-    },
-    {
         "merged": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_record_animate_06.png.flat",
         "source": "E:\\J2EE\\keshe\\Bottom_1\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_record_animate_06.png"
+    },
+    {
+        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\layout_ease_widget_chat_primary_menu.xml.flat",
+        "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\layout\\ease_widget_chat_primary_menu.xml"
     },
     {
         "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_mm_listitem_disable.9.png.flat",
@@ -1806,6 +1806,10 @@
     {
         "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4_ease_chat_location_pressed.png.flat",
         "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ease_chat_location_pressed.png"
+    },
+    {
+        "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_item_banner.png.flat",
+        "source": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\item_banner.png"
     },
     {
         "merged": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4_ease_chatto_bg_normal.9.png.flat",

@@ -12672,9 +12672,9 @@
                     "startLine": 524,
                     "startColumn": 4,
                     "startOffset": 34666,
-                    "endLine": 532,
+                    "endLine": 530,
                     "endColumn": 12,
-                    "endOffset": 35179
+                    "endOffset": 35008
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
@@ -12682,133 +12682,154 @@
                         "startLine": 474,
                         "startColumn": 4,
                         "startOffset": 30891,
-                        "endLine": 482,
+                        "endLine": 480,
                         "endColumn": 12,
-                        "endOffset": 31404
+                        "endOffset": 31233
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 533,
+                    "startLine": 531,
                     "startColumn": 4,
-                    "startOffset": 35184,
-                    "endLine": 540,
+                    "startOffset": 35013,
+                    "endLine": 539,
                     "endColumn": 12,
-                    "endOffset": 35553
+                    "endOffset": 35526
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 483,
+                        "startLine": 481,
                         "startColumn": 4,
-                        "startOffset": 31409,
-                        "endLine": 490,
+                        "startOffset": 31238,
+                        "endLine": 489,
                         "endColumn": 12,
-                        "endOffset": 31778
+                        "endOffset": 31751
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 541,
+                    "startLine": 540,
                     "startColumn": 4,
-                    "startOffset": 35558,
-                    "endLine": 550,
+                    "startOffset": 35531,
+                    "endLine": 547,
                     "endColumn": 12,
-                    "endOffset": 36065
+                    "endOffset": 35900
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 491,
+                        "startLine": 490,
                         "startColumn": 4,
-                        "startOffset": 31783,
-                        "endLine": 500,
+                        "startOffset": 31756,
+                        "endLine": 497,
                         "endColumn": 12,
-                        "endOffset": 32290
+                        "endOffset": 32125
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 551,
+                    "startLine": 548,
                     "startColumn": 4,
-                    "startOffset": 36070,
-                    "endLine": 555,
+                    "startOffset": 35905,
+                    "endLine": 557,
                     "endColumn": 12,
-                    "endOffset": 36273
+                    "endOffset": 36412
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 501,
+                        "startLine": 498,
                         "startColumn": 4,
-                        "startOffset": 32295,
-                        "endLine": 505,
+                        "startOffset": 32130,
+                        "endLine": 507,
                         "endColumn": 12,
-                        "endOffset": 32498
+                        "endOffset": 32637
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 556,
+                    "startLine": 558,
                     "startColumn": 4,
-                    "startOffset": 36278,
-                    "endLine": 560,
+                    "startOffset": 36417,
+                    "endLine": 562,
                     "endColumn": 12,
-                    "endOffset": 36491
+                    "endOffset": 36620
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 506,
+                        "startLine": 508,
                         "startColumn": 4,
-                        "startOffset": 32503,
-                        "endLine": 510,
+                        "startOffset": 32642,
+                        "endLine": 512,
                         "endColumn": 12,
-                        "endOffset": 32716
+                        "endOffset": 32845
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 561,
+                    "startLine": 563,
                     "startColumn": 4,
-                    "startOffset": 36496,
-                    "endLine": 563,
+                    "startOffset": 36625,
+                    "endLine": 567,
                     "endColumn": 12,
-                    "endOffset": 36648
+                    "endOffset": 36838
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 511,
+                        "startLine": 513,
                         "startColumn": 4,
-                        "startOffset": 32721,
-                        "endLine": 513,
+                        "startOffset": 32850,
+                        "endLine": 517,
                         "endColumn": 12,
-                        "endOffset": 32873
+                        "endOffset": 33063
                     }
                 }
             },
             {
                 "to": {
-                    "startLine": 564,
+                    "startLine": 568,
                     "startColumn": 4,
-                    "startOffset": 36653,
+                    "startOffset": 36843,
+                    "endLine": 570,
+                    "endColumn": 12,
+                    "endOffset": 36995
+                },
+                "from": {
+                    "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "position": {
+                        "startLine": 518,
+                        "startColumn": 4,
+                        "startOffset": 33068,
+                        "endLine": 520,
+                        "endColumn": 12,
+                        "endOffset": 33220
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 571,
+                    "startColumn": 4,
+                    "startOffset": 37000,
                     "endColumn": 66,
-                    "endOffset": 36715
+                    "endOffset": 37062
                 },
                 "from": {
                     "file": "G:\\AStudio\\GitHub\\Bottom_FY\\easeui\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "position": {
-                        "startLine": 514,
+                        "startLine": 521,
                         "startColumn": 4,
-                        "startOffset": 32878,
+                        "startOffset": 33225,
                         "endColumn": 66,
-                        "endOffset": 32940
+                        "endOffset": 33287
                     }
                 }
             }

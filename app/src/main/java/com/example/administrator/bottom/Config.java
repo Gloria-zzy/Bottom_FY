@@ -60,6 +60,9 @@ public class Config {
 
     public static final String KEY_HXUSERNAME = "hx_username";
     public static final String KEY_HXPASSWORD = "hx_password";
+    public static final String KEY_HX_MYNAME = "hx_myname";
+    public static final String KEY_HX_FRIENDNAME = "hx_friendname";
+    public static final String KEY_HX_FRIENDSNAME = "hx_friendsname";
 
     public static final int REQUEST_READ_PHONE_STATE = 1;
     public static final int RESULT_STATUS_SUCCESS = 1;
@@ -72,18 +75,22 @@ public class Config {
     public static final String ACTION_GET_CODE = "send_pass";
     public static final String ACTION_LOGIN = "login";
     public static final String ACTION_HXLOGIN = "hx_login";
+
     public static final String ACTION_UPLOAD_ADDRESS = "upload_address";
     public static final String ACTION_UPLOAD_PORTRAIT = "upload_portraitname";
     public static final String ACTION_UPLOAD_CONTACTS = "upload_contacts";
     public static final String ACTION_UPLOAD_ORDER = "upload_order";
     public static final String ACTION_UPDATE_ORDER = "update_order";
     public static final String ACTION_UPLOAD_TOKEN = "upload_token";
+    public static final String ACTION_UPLOAD_HXFRIEND = "upload_hxfriend";
+
     public static final String ACTION_DOWNLOAD_PORTRAIT = "download_portrait";
     public static final String ACTION_DOWNLOAD_ADDRESS = "download_address";
     public static final String ACTION_DOWNLOAD_ORDERS = "download_orders";
     public static final String ACTION_DOWNLOAD_WAITING_ORDERS = "download_waiting_orders";
     public static final String ACTION_DOWNLOAD_TAKEN_ORDERS = "download_taken_orders";
     public static final String ACTION_DOWNLOAD_ONE_ORDER = "download_one_order";
+    public static final String ACTION_DOWNLOAD_HXFRIENDS = "download_hxfriends";
     public static final String ACTION_DELETE_ORDER = "delete_order";
     public static final String ACTION_TIMELINE = "timeline";
     public static final String ACTION_PUBLISH = "publish";
@@ -94,7 +101,6 @@ public class Config {
     public static final int DELAYMILLIS = 500;
 
     public static String ADDRESS = "";
-    public static Bitmap AVATAR;
 
     public static final int ACTIVITY_RESULT_NEED_REFRESH = 10000;
 
