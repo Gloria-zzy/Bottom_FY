@@ -188,7 +188,7 @@
             />
 
         <activity
-            android:name=".atys.AtyAddfriend"
+            android:name="com.hyphenate.easeui.ui.AtyAddfriend"
             android:screenOrientation="portrait"
             />
 

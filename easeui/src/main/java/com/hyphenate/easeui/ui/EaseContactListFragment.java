@@ -90,7 +90,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
     protected void initView() {
         contentContainer = (FrameLayout) getView().findViewById(R.id.content_container);
         
-        contactListLayout = (EaseContactList) getView().findViewById(R.id.contact_list);        
+        contactListLayout = (EaseContactList) getView().findViewById(R.id.contact_list);
+        // listView存储contactListLayout里的元素
         listView = contactListLayout.getListView();
         
         //search
@@ -133,7 +134,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
                 }
             });
         }
-        
+
+        // 对搜索框添加监听器
         query.addTextChangedListener(new TextWatcher() {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 contactListLayout.filter(s);
@@ -141,7 +143,6 @@ public class EaseContactListFragment extends EaseBaseFragment {
                     clearSearch.setVisibility(View.VISIBLE);
                 } else {
                     clearSearch.setVisibility(View.INVISIBLE);
-                    
                 }
             }
 

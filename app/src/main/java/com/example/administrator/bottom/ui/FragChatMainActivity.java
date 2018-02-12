@@ -6,14 +6,16 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.TextView;
 
+import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.net.DownloadHXFriends;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
@@ -21,6 +23,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +40,8 @@ public class FragChatMainActivity extends Fragment {
     private android.support.v4.app.Fragment[] fragments;
     private int index;
     private int currentTabIndex;
+
+    private final String TAG = "FragChatMain";
 
     protected InputMethodManager inputMethodManager;
 
@@ -166,12 +171,34 @@ public class FragChatMainActivity extends Fragment {
      * @return
      */
     private Map<String, EaseUser> getContacts() {
+        final Map<String, EaseUser>[] arrContacts = new HashMap[1];
         Map<String, EaseUser> contacts = new HashMap<String, EaseUser>();
         for (int i = 1; i <= 10; i++) {
             EaseUser user = new EaseUser("easeuitest" + i);
             contacts.put("easeuitest" + i, user);
         }
-        return contacts;
+
+        new DownloadHXFriends(Config.getCachedPhoneNum(getActivity()), new DownloadHXFriends.SuccessCallback() {
+            @Override
+            public void onSuccess(ArrayList<String> friendsName) {
+                arrContacts[0] = new HashMap<String, EaseUser>();
+                for (int i = 0; i < friendsName.size(); i++) {
+                    EaseUser user = new EaseUser(friendsName.get(i));
+                    arrContacts[0].put(user.getUsername(), user);
+                    Log.i(TAG, "write arrContacts");
+                    String fname = arrContacts[0].get(user.getUsername()).getUsername();
+                    Log.i(TAG, "friend name is " + fname);
+                }
+                contactListFragment.setContactsMap(arrContacts[0]);
+            }
+        }, new DownloadHXFriends.FailCallback() {
+            @Override
+            public void onFail() {
+
+            }
+        });
+
+        return arrContacts[0];
     }
 
     @Override
