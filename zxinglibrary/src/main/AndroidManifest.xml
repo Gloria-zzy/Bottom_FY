@@ -21,6 +21,8 @@ package="com.example.administrator.zxinglibrary">
         android:screenOrientation="portrait"
         android:theme="@android:style/Theme.NoTitleBar"
         android:windowSoftInputMode="adjustPan|stateHidden" />
+
+
 </application>
 
 </manifest>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/padding_search_bar"
-    android:paddingRight="27dp"
+    android:paddingRight="32dp"
     android:paddingTop="7dp"
     android:paddingBottom="7dp"
     android:background="#ededed"

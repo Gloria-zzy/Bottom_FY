@@ -12,20 +12,35 @@
         android:layout_height="wrap_content"
         hyphenate:titleBarTitle="@string/address_book" />
 
-    <include
-        android:id="@+id/search_bar_view"
-        layout="@layout/ease_search_bar_with_padding" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include
+            android:id="@+id/search_bar_view"
+            layout="@layout/ease_search_bar_with_padding" />
+
+        <ImageView
+            android:id="@+id/iv_fragContact_add"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:src="@drawable/add32"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
 
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <com.hyphenate.easeui.widget.EaseContactList
             android:id="@+id/contact_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-            <!-- hyphenate:ctsListInitialLetterBg="#abc" -->
+        <!-- hyphenate:ctsListInitialLetterBg="#abc" -->
 
     </FrameLayout>
 

@@ -14,6 +14,7 @@
 package com.hyphenate.easeui.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -29,6 +30,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -66,6 +68,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
     protected EaseContactList contactListLayout;
     protected boolean isConflict;
     protected FrameLayout contentContainer;
+    private ImageView add;
     
     private Map<String, EaseUser> contactsMap;
 
@@ -93,6 +96,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
         //search
         query = (EditText) getView().findViewById(R.id.query);
         clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
+
+        add = (ImageView) getView().findViewById(R.id.iv_fragContact_add);
     }
 
     @Override
@@ -100,6 +105,16 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
         //不显示title bar
         this.hideTitleBar();
+
+        //点击加号转到add friend
+        add.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyAddfriend.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+            }
+        });
 
         EMClient.getInstance().addConnectionListener(connectionListener);
         

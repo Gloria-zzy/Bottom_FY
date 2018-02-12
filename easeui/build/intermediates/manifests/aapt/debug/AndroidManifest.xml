@@ -6,4 +6,9 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="26" />
 
+    <application>
+
+        <!-- <activity android:name=".AtyAddfriend"></activity> -->
+    </application>
+
 </manifest>
