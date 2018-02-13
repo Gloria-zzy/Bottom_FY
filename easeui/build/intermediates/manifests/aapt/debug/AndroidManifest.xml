@@ -9,7 +9,6 @@
     <application>
 
         <!-- <activity android:name=".AtyAddfriend"></activity> -->
-        <activity android:name="com.hyphenate.easeui.ui.AtyBlank" />
     </application>
 
 </manifest>

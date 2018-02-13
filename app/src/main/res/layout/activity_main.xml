@@ -63,19 +63,19 @@
                     android:textColor="@drawable/tab_menu_deal_text" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/unread_msg_number"
-                android:layout_width="20sp"
-                android:layout_height="20sp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="1dp"
-                android:background="@drawable/em_unread_count_bg"
-                android:gravity="center"
-                android:text="2"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:visibility="visible" />
+            <!--<TextView-->
+                <!--android:id="@+id/unread_msg_number"-->
+                <!--android:layout_width="20sp"-->
+                <!--android:layout_height="20sp"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="12dp"-->
+                <!--android:layout_marginTop="1dp"-->
+                <!--android:background="@drawable/em_unread_count_bg"-->
+                <!--android:gravity="center"-->
+                <!--android:text="2"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textSize="12sp"-->
+                <!--android:visibility="visible" />-->
 
         </RelativeLayout>
 

@@ -108,7 +108,7 @@ public class AtyAddfriend extends Activity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_slide_out_top);
+//                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_slide_out_top);
             }
         });
 

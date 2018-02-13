@@ -5,7 +5,6 @@
     <application>
 
         <!-- <activity android:name=".AtyAddfriend"></activity> -->
-        <activity android:name=".ui.AtyBlank"></activity>
     </application>
 
 </manifest>
