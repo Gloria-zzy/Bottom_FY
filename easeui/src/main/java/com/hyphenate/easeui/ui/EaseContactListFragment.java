@@ -118,7 +118,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AtyAddfriend.class);
                 startActivityForResult(intent, REQUEST_CODE_REFRESH);
-                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_top, R.transition.switch_still);
             }
         });
 

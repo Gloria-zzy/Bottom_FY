@@ -190,6 +190,13 @@
         <activity
             android:name="com.hyphenate.easeui.ui.AtyAddfriend"
             android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            />
+
+        <activity
+            android:name="com.hyphenate.easeui.ui.AtyBlank"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             />
 
     </application>

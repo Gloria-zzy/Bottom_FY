@@ -1,5 +1,6 @@
 package com.hyphenate.easeui.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -41,7 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class AtyAddfriend extends AppCompatActivity {
+public class AtyAddfriend extends Activity {
 
     protected EaseContactList contactListLayout;
     protected FrameLayout contentContainer;
@@ -66,7 +67,7 @@ public class AtyAddfriend extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.aty_addfriend);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
 
         contentContainer = (FrameLayout) findViewById(R.id.content_container);
         contactListLayout = (EaseContactList) findViewById(R.id.contact_list);
@@ -76,9 +77,11 @@ public class AtyAddfriend extends AppCompatActivity {
         query = (EditText) findViewById(R.id.query);
         clearSearch = (ImageButton) findViewById(R.id.search_clear);
         errorItemContainer = (FrameLayout) findViewById(R.id.fl_error_item);
-        tv_phone = (TextView) findViewById(R.id.tv_atyAddfriend_phone);
-        eiv_userhead = findViewById(R.id.iv_userhead);
+//        tv_phone = (TextView) findViewById(R.id.tv_atyAddfriend_phone);
+//        eiv_userhead = findViewById(R.id.iv_userhead);
         add = (Button)  findViewById(R.id.btn_atyAddfriend_add);
+
+        contactListLayout.setShowSiderBar(false);
 
         // 初始化内框
         setUpView();
@@ -99,12 +102,13 @@ public class AtyAddfriend extends AppCompatActivity {
 
         inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
+
         titleBar.setLeftLayoutClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 onBackPressed();
-                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_slide_out_right);
+                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_slide_out_top);
             }
         });
 
@@ -116,8 +120,8 @@ public class AtyAddfriend extends AppCompatActivity {
                     clearSearch.setVisibility(View.INVISIBLE);
                 }
                 if(s.length() == 11){
-                    tv_phone.setVisibility(View.INVISIBLE);
-                    eiv_userhead.setVisibility(View.INVISIBLE);
+//                    tv_phone.setVisibility(View.INVISIBLE);
+//                    eiv_userhead.setVisibility(View.INVISIBLE);
 
                     Log.i(TAG, "user downloading");
                     phone = s.toString();
@@ -135,6 +139,7 @@ public class AtyAddfriend extends AppCompatActivity {
                             setContactsMap(contacts);
                             // 刷新页面
                             refresh();
+                            add.setVisibility(View.VISIBLE);
                         }
                     }, new DownloadAddress.FailCallback() {
                         @Override
@@ -156,6 +161,8 @@ public class AtyAddfriend extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 query.getText().clear();
+                contentContainer.removeAllViews();
+                add.setVisibility(View.GONE);
                 hideSoftKeyboard();
             }
         });

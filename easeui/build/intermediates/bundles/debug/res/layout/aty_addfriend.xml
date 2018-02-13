@@ -3,14 +3,14 @@
     xmlns:hyphenate="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_bg"
+    android:background="#80000000"
     android:orientation="vertical">
 
     <com.hyphenate.easeui.widget.EaseTitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        hyphenate:titleBarLeftImage="@drawable/ease_mm_title_back"
+        hyphenate:titleBarLeftImage="@drawable/ease_mm_title_back_top"
         hyphenate:titleBarTitle="添加好友" />
 
     <include
@@ -25,7 +25,7 @@
     <FrameLayout
         android:id="@+id/content_container"
         android:layout_width="match_parent"
-        android:layout_height="300sp"
+        android:layout_height="100sp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -34,23 +34,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.hyphenate.easeui.widget.EaseImageView
-            android:id="@+id/iv_userhead"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
-            android:layout_marginLeft="155sp"
-            android:layout_marginTop="80sp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ease_default_avatar" />
+        <!--<com.hyphenate.easeui.widget.EaseImageView-->
+            <!--android:id="@+id/iv_userhead"-->
+            <!--android:layout_width="60sp"-->
+            <!--android:layout_height="60sp"-->
+            <!--android:layout_marginLeft="155sp"-->
+            <!--android:layout_marginTop="80sp"-->
+            <!--android:scaleType="fitXY"-->
+            <!--android:src="@drawable/ease_default_avatar" />-->
 
-        <TextView
-            android:id="@+id/tv_atyAddfriend_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="150sp"
-            android:layout_marginTop="150sp"
-            android:text="请搜索好友"
-            android:textSize="14sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/tv_atyAddfriend_phone"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="150sp"-->
+            <!--android:layout_marginTop="150sp"-->
+            <!--android:text="请搜索好友"-->
+            <!--android:textSize="14sp" />-->
 
     </FrameLayout>
 
@@ -58,17 +58,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_atyAddfriend_add"
             android:layout_width="match_parent"
             android:layout_height="40sp"
-            android:layout_margin="10sp"
             android:background="@drawable/item_btn"
             android:text="添加好友"
             android:textColor="#fff"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:visibility="gone"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
     </LinearLayout>
 

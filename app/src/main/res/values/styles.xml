@@ -135,5 +135,12 @@
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingTop">20sp</item>
     </style>
+    
+    <style name="half_transparent">
+        <item name="android:windowBackground">@color/transparent</item>
+        <!--<item name="android:windowNoTitle">true</item>-->
+        <!--<item name="android:windowIsTranslucent">true</item>-->
+        <!--<item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>-->
+    </style>
 
 </resources>
