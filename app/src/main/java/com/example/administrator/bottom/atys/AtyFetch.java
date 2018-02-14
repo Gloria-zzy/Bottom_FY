@@ -72,6 +72,8 @@ public class AtyFetch extends AppCompatActivity {
     private String note;
     private String pickNumber;
 
+    private final String TAG = "AtyFetch";
+
     //UI组件初始化（绑定）
     private void bindView() {
         sp_pickPoint = (Spinner) findViewById(R.id.sp_atyFetch_pickPoint);
@@ -353,22 +355,25 @@ public class AtyFetch extends AppCompatActivity {
     }
 
     private void dialogChoice() {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111");
+        Log.i("AtyFetch", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111");
         final String[] trustfriend = new String[1];
-        final String items[] = new String[2];
+        final String items[][] = new String[2][10];
         //获取当前用户的好友列表，放在items中
-        new DownloadHXFriends(com.hyphenate.easeui.Config.getCachedPhoneNum(AtyFetch.this), new DownloadHXFriends.SuccessCallback() {
+
+        new DownloadHXFriends(Config.getCachedPhoneNum(AtyFetch.this), new DownloadHXFriends.SuccessCallback() {
             @Override
             public void onSuccess(ArrayList<String> friendsName) {
+                Log.i(TAG, "DownloadHXFriends onSuccess");
                 final Map<String, EaseUser>[] arrContacts = new HashMap[1];
                 arrContacts[0] = new HashMap<String, EaseUser>();
+                items[1] = new String[10];
                 for (int i = 0; i < friendsName.size(); i++) {
                     EaseUser user = new EaseUser(friendsName.get(i));
                     arrContacts[0].put(user.getUsername(), user);
 //                    Log.i(TAG, "write arrContacts");
                     String fname = arrContacts[0].get(user.getUsername()).getUsername();
 //                    Log.i(TAG, "friend name is " + fname);
-                    items[i] = new String(fname);
+                    items[0][i] = new String(fname);
                 }
 
             }
@@ -379,8 +384,13 @@ public class AtyFetch extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
+        Log.i(TAG, "outside DownloadHXFriends");
+
         //单选对话窗口
         AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+        Log.i(TAG, "after AlterDialog");
+
         //定义标题样式
         TextView title = new TextView(this);
         title.setText("好友列表");
@@ -388,37 +398,52 @@ public class AtyFetch extends AppCompatActivity {
         title.setGravity(Gravity.CENTER_VERTICAL);
         title.setTextColor(getResources().getColor(R.color.text_clo));
         title.setTextSize(20);
+        Log.i(TAG, "after set title");
+
         //设置图片
         Drawable drawable = getResources().getDrawable(R.drawable.item_trustfriend);
         drawable.setBounds(10, 10, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
         title.setCompoundDrawables(drawable, null, null, null);//setCompoundDrawables用来设置图片显示在文本的哪一端
         title.setCompoundDrawablePadding(30);//设置文字和图片间距
+        Log.i(TAG, "after set Image");
+
+        items[0] = new String[10];
+        for (int i = 0; i < 10; i++) {
+            items[0][i] = new String("" + i);
+        }
         //使用自定义title
         builder.setCustomTitle(title);
-        builder.setSingleChoiceItems(items, -1,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        try {
+            builder.setSingleChoiceItems(items[0], -1,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
 //                        Toast.makeText(AtyFetch.this, items[which],
 //                                Toast.LENGTH_SHORT).show();
-                        if (items[which].length() > 0) {
-                            trustfriend[0] = items[which];
-                        } else {
-                            trustfriend[0] = "请选择信任好友";
+                            Log.i(TAG, "inside setSingleChoiceItems");
+                            if (items[0][which].length() > 0) {
+                                trustfriend[0] = items[0][which];
+                            } else {
+                                trustfriend[0] = "请选择信任好友";
+                            }
                         }
-                    }
-                });
-        builder.setPositiveButton("信任TA", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
-                        .show();
-                tv_trustfriend.setText(trustfriend[0]);
-                trustFriend = trustfriend[0];
-            }
-        });
+                    });
+            builder.setPositiveButton("信任TA", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                    Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
+                            .show();
+                    tv_trustfriend.setText(trustfriend[0]);
+                    trustFriend = trustfriend[0];
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG, "after code set friends");
+
         builder.create().show();
     }
 

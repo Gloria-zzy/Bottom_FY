@@ -1,7 +1,6 @@
 package com.example.administrator.bottom.atys;
 
 import android.Manifest;
-import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -10,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +24,6 @@ import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.application.MainApplication;
-import com.example.administrator.bottom.frag.FragCommunity;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;

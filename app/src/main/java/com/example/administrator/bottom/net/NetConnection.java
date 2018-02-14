@@ -1,6 +1,7 @@
 package com.example.administrator.bottom.net;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.example.administrator.bottom.Config;
 
@@ -16,6 +17,9 @@ import java.net.URLConnection;
 //the base class of net affairs
 
 public class NetConnection {
+
+	private final String TAG = "NetConnection";
+
 	public NetConnection(final String url, final HttpMethod method,
 			final SuccessCallback successCallback,
 			final FailCallback failCallback, final String... kvs) {
