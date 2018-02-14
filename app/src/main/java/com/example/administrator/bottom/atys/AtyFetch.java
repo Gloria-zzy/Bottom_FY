@@ -311,7 +311,6 @@ public class AtyFetch extends AppCompatActivity {
             }
         });
 
-
         rg_orderPattern.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -348,42 +347,42 @@ public class AtyFetch extends AppCompatActivity {
         tv_trustfriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogChoice(); // 单选
+                new DownloadHXFriends(Config.getCachedPhoneNum(AtyFetch.this), new DownloadHXFriends.SuccessCallback() {
+                    @Override
+                    public void onSuccess(ArrayList<String> friendsName) {
+                        Log.i(TAG, "DownloadHXFriends onSuccess");
+                        Map<String, EaseUser> arrContacts = new HashMap();
+                        String items[][] = new String[1][friendsName.size()];
+                        items[0] = new String[friendsName.size()];
+                        for (int i = 0; i < friendsName.size(); i++) {
+                            EaseUser user = new EaseUser(friendsName.get(i));
+                            arrContacts.put(user.getUsername(), user);
+                            Log.i(TAG, "write arrContacts");
+                            String fname = arrContacts.get(user.getUsername()).getUsername();
+                            Log.i(TAG, "friend name is " + fname);
+                            items[0][i] = new String(fname);
+                        }
+                        dialogChoice(items); // 单选
+                    }
+                }, new DownloadHXFriends.FailCallback() {
+                    @Override
+                    public void onFail() {
+                        Toast.makeText(AtyFetch.this, "获取好友列表失败",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
             }
         });
 
     }
 
-    private void dialogChoice() {
+    private void dialogChoice(final String[][] items) {
         Log.i("AtyFetch", "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111");
         final String[] trustfriend = new String[1];
-        final String items[][] = new String[2][10];
+
         //获取当前用户的好友列表，放在items中
 
-        new DownloadHXFriends(Config.getCachedPhoneNum(AtyFetch.this), new DownloadHXFriends.SuccessCallback() {
-            @Override
-            public void onSuccess(ArrayList<String> friendsName) {
-                Log.i(TAG, "DownloadHXFriends onSuccess");
-                final Map<String, EaseUser>[] arrContacts = new HashMap[1];
-                arrContacts[0] = new HashMap<String, EaseUser>();
-                items[1] = new String[10];
-                for (int i = 0; i < friendsName.size(); i++) {
-                    EaseUser user = new EaseUser(friendsName.get(i));
-                    arrContacts[0].put(user.getUsername(), user);
-//                    Log.i(TAG, "write arrContacts");
-                    String fname = arrContacts[0].get(user.getUsername()).getUsername();
-//                    Log.i(TAG, "friend name is " + fname);
-                    items[0][i] = new String(fname);
-                }
-
-            }
-        }, new DownloadHXFriends.FailCallback() {
-            @Override
-            public void onFail() {
-                Toast.makeText(AtyFetch.this, "获取好友列表失败",
-                        Toast.LENGTH_SHORT).show();
-            }
-        });
 
         Log.i(TAG, "outside DownloadHXFriends");
 
@@ -407,13 +406,21 @@ public class AtyFetch extends AppCompatActivity {
         title.setCompoundDrawablePadding(30);//设置文字和图片间距
         Log.i(TAG, "after set Image");
 
-        items[0] = new String[10];
-        for (int i = 0; i < 10; i++) {
-            items[0][i] = new String("" + i);
+        if (items[0].length == 0)
+        {
+            items[0] = new String[10];
+            for (int i = 0; i < 10; i++) {
+                items[0][i] = new String("" + i);
+            }
+        } else {
+            for (int i = 0; i < items[0].length; i++) {
+                Log.i(TAG,"items:" + items[0][i]);
+            }
         }
         //使用自定义title
         builder.setCustomTitle(title);
         try {
+            // item[0] 是一个一维字符串数组，里面的元素都必须全部初始化，若有一个及以上元素为null，会抛出NullPointException异常
             builder.setSingleChoiceItems(items[0], -1,
                     new DialogInterface.OnClickListener() {
                         @Override
