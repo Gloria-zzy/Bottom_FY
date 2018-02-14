@@ -15,8 +15,7 @@
 
     <application android:debuggable="true" >
         <uses-library android:name="android.test.runner" />
-        <!-- <activity android:name=".AtyAddfriend"></activity> -->
-        <activity android:name="com.hyphenate.easeui.ui.AtyBlank" />
+
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"

@@ -1,32 +1,48 @@
 package com.example.administrator.bottom.atys;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
+import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.net.UploadOrder;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.net.DownloadHXFriends;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.administrator.bottom.Config.APP_ID;
 
@@ -43,6 +59,8 @@ public class AtyFetch extends AppCompatActivity {
     private RadioGroup rg_size;
     private LinearLayout ll_orderPattern_temp;
     private LinearLayout ll_amount;
+    private LinearLayout ll_trustfriend;
+    private TextView tv_trustfriend;
     private List<String> data_list;
     private ArrayAdapter<String> arr_adapter;
     private String pickPoint;
@@ -67,7 +85,8 @@ public class AtyFetch extends AppCompatActivity {
         rg_size = (RadioGroup) findViewById(R.id.rg_atyFetch_size);
         ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyFetch_orderPattern_temp);
         ll_amount = (LinearLayout) findViewById(R.id.ll_atyFetch_amount);
-
+        ll_trustfriend = (LinearLayout) findViewById(R.id.ll_atyFetch_trustfriend);
+        tv_trustfriend = (TextView) findViewById(R.id.tv_atyFetch_trustfriend);
     }
 
     @Override
@@ -84,12 +103,12 @@ public class AtyFetch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
+                overridePendingTransition(R.transition.switch_still, R.transition.switch_slide_out_right);
             }
         });
 
         //---------------------状态栏透明 begin----------------------------------------
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyFetch.this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -189,6 +208,7 @@ public class AtyFetch extends AppCompatActivity {
         //----------------------------收货时间 end---------------------------------
 
         ll_orderPattern_temp.setVisibility(View.GONE);
+        ll_trustfriend.setVisibility(View.GONE);
 
         findViewById(R.id.btn_atyFetch_submit).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -216,9 +236,9 @@ public class AtyFetch extends AppCompatActivity {
 //                RadioButton rb_pickPattern = (RadioButton)findViewById(rg_pickPattern.getCheckedRadioButtonId());
 //                String pickPattern = rb_pickPattern.getText().toString();
 
-                if(rg_pickPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_pickPattern_friend){
+                if (rg_pickPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_pickPattern_friend) {
                     trustFriend = "CHARLES";
-                }else trustFriend = "none";
+                } else trustFriend = "none";
 
                 switch (rg_size.getCheckedRadioButtonId()) {
                     case R.id.rb_atyFetch_size_small:
@@ -231,9 +251,9 @@ public class AtyFetch extends AppCompatActivity {
                         size = "L";
                         break;
                 }
-                if(rg_orderPattern.getCheckedRadioButtonId()== R.id.rb_atyFetch_orderPattern_temp){
+                if (rg_orderPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_orderPattern_temp) {
                     pickNumber = et_pickNumber.getText().toString();
-                }else {
+                } else {
                     pickNumber = "none";
                 }
 
@@ -241,7 +261,7 @@ public class AtyFetch extends AppCompatActivity {
                 SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
                 String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
 
-                if (rg_orderPattern.getCheckedRadioButtonId()== R.id.rb_atyFetch_orderPattern_temp && (pickNumber.equals("") || pickNumber == null)) {
+                if (rg_orderPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_orderPattern_temp && (pickNumber.equals("") || pickNumber == null)) {
                     Toast.makeText(AtyFetch.this, "取货号不能为空！", Toast.LENGTH_LONG).show();
                 } else {
                     new UploadOrder(phone, orderTime, trustFriend, size, amount, arriveAddress, arriveTime, pickPoint, pickNumber, note, new UploadOrder.SuccessCallback() {
@@ -308,6 +328,98 @@ public class AtyFetch extends AppCompatActivity {
             }
         });
 
+        rg_pickPattern.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i) {
+                    case R.id.rb_atyFetch_pickPattern_self:
+                        trustFriend = "none";
+                        ll_trustfriend.setVisibility(View.GONE);
+                        break;
+                    case R.id.rb_atyFetch_pickPattern_friend:
+                        ll_trustfriend.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+        tv_trustfriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogChoice(); // 单选
+            }
+        });
 
     }
+
+    private void dialogChoice() {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111");
+        final String[] trustfriend = new String[1];
+        final String items[] = new String[2];
+        //获取当前用户的好友列表，放在items中
+        new DownloadHXFriends(com.hyphenate.easeui.Config.getCachedPhoneNum(AtyFetch.this), new DownloadHXFriends.SuccessCallback() {
+            @Override
+            public void onSuccess(ArrayList<String> friendsName) {
+                final Map<String, EaseUser>[] arrContacts = new HashMap[1];
+                arrContacts[0] = new HashMap<String, EaseUser>();
+                for (int i = 0; i < friendsName.size(); i++) {
+                    EaseUser user = new EaseUser(friendsName.get(i));
+                    arrContacts[0].put(user.getUsername(), user);
+//                    Log.i(TAG, "write arrContacts");
+                    String fname = arrContacts[0].get(user.getUsername()).getUsername();
+//                    Log.i(TAG, "friend name is " + fname);
+                    items[i] = new String(fname);
+                }
+
+            }
+        }, new DownloadHXFriends.FailCallback() {
+            @Override
+            public void onFail() {
+                Toast.makeText(AtyFetch.this, "获取好友列表失败",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+        //单选对话窗口
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+        //定义标题样式
+        TextView title = new TextView(this);
+        title.setText("好友列表");
+        title.setPadding(20, 10, 10, 10);
+        title.setGravity(Gravity.CENTER_VERTICAL);
+        title.setTextColor(getResources().getColor(R.color.text_clo));
+        title.setTextSize(20);
+        //设置图片
+        Drawable drawable = getResources().getDrawable(R.drawable.item_trustfriend);
+        drawable.setBounds(10, 10, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+        title.setCompoundDrawables(drawable, null, null, null);//setCompoundDrawables用来设置图片显示在文本的哪一端
+        title.setCompoundDrawablePadding(30);//设置文字和图片间距
+        //使用自定义title
+        builder.setCustomTitle(title);
+        builder.setSingleChoiceItems(items, -1,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+//                        Toast.makeText(AtyFetch.this, items[which],
+//                                Toast.LENGTH_SHORT).show();
+                        if (items[which].length() > 0) {
+                            trustfriend[0] = items[which];
+                        } else {
+                            trustfriend[0] = "请选择信任好友";
+                        }
+                    }
+                });
+        builder.setPositiveButton("信任TA", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
+                        .show();
+                tv_trustfriend.setText(trustfriend[0]);
+                trustFriend = trustfriend[0];
+            }
+        });
+        builder.create().show();
+    }
+
 }
