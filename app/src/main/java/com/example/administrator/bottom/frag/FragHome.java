@@ -2,10 +2,13 @@ package com.example.administrator.bottom.frag;
 
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +16,22 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.atys.AtyDetails;
 import com.example.administrator.bottom.atys.AtyFetch;
 import com.example.administrator.bottom.atys.AtyUnlog;
+import com.example.administrator.bottom.custom.OrderView;
+import com.example.administrator.bottom.net.DownloadOrders;
+import com.example.administrator.bottom.net.Order;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import static com.example.administrator.bottom.Config.APP_ID;
 
 /**
  * Created by Administrator on 2017/10/29.
@@ -31,6 +41,13 @@ public class FragHome extends Fragment {
 
     // 代拿下单按钮
     private Button get_btn;
+    private TextView tv_delivering;
+    private TextView tv_history;
+    private TextView tv_error;
+    private int delivering_num = 0;
+    private int history_num = 0;
+    private int error_num = 0;
+
     //    private LinearLayout linearLayout;
     private String phone;
 
@@ -45,7 +62,12 @@ public class FragHome extends Fragment {
         View view = inflater.inflate(R.layout.frag_home, container, false);
         get_btn = (Button) view.findViewById(R.id.get_btn);
 //        linearLayout = (LinearLayout) view.findViewById(R.id.take_orders);
-//        fresh();
+
+        // 获得phoneNum
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
+        phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+        fresh();
+
         // 绑定下单按钮的事件
         get_btn.setOnClickListener(new View.OnClickListener() {
 
@@ -113,34 +135,46 @@ public class FragHome extends Fragment {
         gridView.setFocusable(false);
         //--------------------------九宫格 end--------------------------------------------------------
 
-        // qq自定义控件的刷新
-//        final RefreshLayout refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout_frag_home);
-//        if (refreshLayout != null) {
-//            // 刷新状态的回调
-//            refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
-//                @Override
-//                public void onRefresh() {
-//                    // 延迟3秒后刷新成功
-//                    refreshLayout.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            refreshLayout.refreshComplete();
-//                            //-----------------BEGIN-----------------
-//                            fresh();
-//                            //-----------------END-----------------
-//                        }
-//                    }, Config.DELAYMILLIS);
-//                }
-//            });
-//        }
-//        QQRefreshHeader header = new QQRefreshHeader(getActivity());
-//        refreshLayout.setRefreshHeader(header);
-//        refreshLayout.autoRefresh();
+        //bindviews
+        tv_delivering = (TextView) view.findViewById(R.id.tv_fragHome_delivering);
+        tv_history = (TextView) view.findViewById(R.id.tv_fragHome_history);
+        tv_error = (TextView) view.findViewById(R.id.tv_fragHome_error);
 
         return view;
     }
 
     public void fresh() {
+
+        new DownloadOrders(phone, new DownloadOrders.SuccessCallback() {
+
+            @Override
+            public void onSuccess(ArrayList<Order> orders) {
+                for (Order o : orders) {
+                    Log.i("hello2","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                    String orderStatus = o.getOrderStatus();
+//                    Log.i("fraghome",orderStatus + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                    if(orderStatus.equals("0")){
+                        history_num++;
+                    }else if(orderStatus.equals("1") || orderStatus.equals("2")){
+                        delivering_num++;
+                    }else if(orderStatus.equals("3")){
+                        error_num++;
+                    }
+                }
+//                Log.i("fraghome",history_num + " " + delivering_num + " " + error_num + " " + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                tv_delivering.setText(delivering_num + "");
+                tv_history.setText(history_num + "");
+                tv_error.setText(error_num + "");
+
+            }
+        }, new DownloadOrders.FailCallback() {
+
+            @Override
+            public void onFail() {
+                Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }

@@ -238,9 +238,9 @@ public class AtyFetch extends AppCompatActivity {
 //                RadioButton rb_pickPattern = (RadioButton)findViewById(rg_pickPattern.getCheckedRadioButtonId());
 //                String pickPattern = rb_pickPattern.getText().toString();
 
-                if (rg_pickPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_pickPattern_friend) {
-                    trustFriend = "CHARLES";
-                } else trustFriend = "none";
+//                if (rg_pickPattern.getCheckedRadioButtonId() == R.id.rb_atyFetch_pickPattern_friend) {
+//                    trustFriend = "CHARLES";
+//                } else trustFriend = "none";
 
                 switch (rg_size.getCheckedRadioButtonId()) {
                     case R.id.rb_atyFetch_size_small:
@@ -371,10 +371,8 @@ public class AtyFetch extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
-
             }
         });
-
     }
 
     private void dialogChoice(final String[][] items) {
@@ -393,7 +391,7 @@ public class AtyFetch extends AppCompatActivity {
         //定义标题样式
         TextView title = new TextView(this);
         title.setText("好友列表");
-        title.setPadding(20, 10, 10, 10);
+        title.setPadding(40, 10, 10, 10);
         title.setGravity(Gravity.CENTER_VERTICAL);
         title.setTextColor(getResources().getColor(R.color.text_clo));
         title.setTextSize(20);
@@ -440,8 +438,8 @@ public class AtyFetch extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
-                            .show();
+//                    Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
+//                            .show();
                     tv_trustfriend.setText(trustfriend[0]);
                     trustFriend = trustfriend[0];
                 }
