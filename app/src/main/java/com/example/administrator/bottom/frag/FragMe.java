@@ -2,6 +2,7 @@ package com.example.administrator.bottom.frag;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.Matrix;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -49,6 +50,8 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -88,6 +91,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     private String SDCARD = "/sdcard";
     private Uri cropUri;
 
+    private final String TAG = "FragMe";
+
     public FragMe() {
 
     }
@@ -96,11 +101,11 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_me, container, false);
-        phone_num = (TextView) view.findViewById(R.id.textView);
+        phone_num = view.findViewById(R.id.textView);
         showPhoneNumber();
-        avatar = (ImageView) view.findViewById(R.id.iv_avatar);
+        avatar = view.findViewById(R.id.iv_avatar);
         //login btn
-        mTextView = (TextView) view.findViewById(R.id.func_btn);
+        mTextView = view.findViewById(R.id.func_btn);
         if (Config.loginStatus == 0) {
             mTextView.setText("登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
@@ -142,22 +147,37 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         }
                     });
                     Config.loginStatus = 0;
-                    Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+                    // 重启这个Activity
+//                    Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+                    Intent intent = getActivity().getIntent();
                     intent.putExtra("page", "me");
+                    getActivity().finish();
                     startActivity(intent);
                 }
             });
 
-            // 获取头像
-            String s = null;
-            s = Config.getCachedPortraitPath(getActivity());
-
             // 获取本地头像
-            Bitmap bitmap = BitmapFactory.decodeFile(s);
+            String uri;
+            uri = Config.getCachedPortraitPath(getActivity());
+
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(new File(uri));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            // 压缩图片
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
+            Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
             if (bitmap != null) {
+                Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
+                Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
                 this.avatar.setImageBitmap(bitmap);
+
             } else {
-                // 本地头像不存在，获取服务器端头像
+                // 本地头像不存在，获取服务器端头像，并设置头像
                 Log.i("no_portrait_path", "here");
                 handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
             }
@@ -263,9 +283,6 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     startActivityForResult(intent, PHOTO_REQUEST_CUT);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
 
-                    Bitmap bitmap = intent.getParcelableExtra("data");
-
-
                 } else {
                     Intent intent = new Intent(getActivity(), AtyUnlog.class);
                     startActivity(intent);
@@ -329,7 +346,19 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         // 将头像路径保存在本地，便于下次登录时使用（这个更新的前提是本地没有已保存的路径，既然需要从服务器下载就决定了这一点）
                         // 同时在退出登录时需要清空本地保存的路径，因为该路径不支持多用户，只保存了一个用户的头像路径
                         Config.cachePortraitPath(getActivity(), path);
-                        Bitmap bitmap_1 = BitmapFactory.decodeFile(Config.getCachedPortraitPath(getActivity()));
+
+                        FileInputStream fis = null;
+                        try {
+                            fis = new FileInputStream(new File(path));
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+
+                        // 压缩图片
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
+                        Bitmap bitmap_1 = BitmapFactory.decodeStream(fis, null, options);
+
                         if (bitmap_1 != null) {
                             FragMe.this.avatar.setImageBitmap(bitmap_1);
                         }
@@ -406,6 +435,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             Bitmap bitmap = BitmapFactory.decodeFile(portraitFile.getAbsolutePath());
             if (bitmap != null) {
                 this.avatar.setImageBitmap(bitmap);
+
                 // 上传头像之前，把保存头像的路径写入本地文件中（更新头像的需要，这个路径更新是上传时更新，和下载头像时的路径更新不重叠）
                 Config.cachePortraitPath(getActivity(), portraitFile.getAbsolutePath());
             }
@@ -420,7 +450,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //        uploadUtil.setOnUploadProcessListener(getActivity());  // 设置监听器监听上传状态
 
         //定义一个Map集合，封装请求服务端时需要的参数
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         //根据服务端需要的自己决定参数
 //		params.put("userId", user.getUserId());
 
@@ -458,7 +488,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
     //获取保存头像地址的Uri
     private Uri getUploadTempFile(Uri uri) {
-        String portraitPath = "";
+        String portraitPath;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             //保存图像的文件夹路径
             portraitPath = Environment.getExternalStorageDirectory().getAbsolutePath()
@@ -559,6 +589,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
     @Override
     public void onDownloadDone(int responseCode, String message) {
+        // 当下载类实例返回成功标志时，向Handler发送成功消息，进行头像设置
         Log.i("onDownloadDone", "done");
         Message msg = Message.obtain();
         msg.what = DOWNLOAD_FILE_DONE;
@@ -566,4 +597,5 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         msg.obj = message;
         handler.sendMessage(msg);
     }
+
 }

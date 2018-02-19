@@ -1,6 +1,6 @@
 package com.example.administrator.bottom.atys;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,32 +11,26 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.app.AlertDialog;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.net.UploadOrder;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.net.DownloadHXFriends;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,8 +55,8 @@ public class AtyFetch extends AppCompatActivity {
     private LinearLayout ll_amount;
     private LinearLayout ll_trustfriend;
     private TextView tv_trustfriend;
-    private List<String> data_list;
-    private ArrayAdapter<String> arr_adapter;
+
+
     private String pickPoint;
     private String size;
     private String amount;
@@ -76,19 +70,19 @@ public class AtyFetch extends AppCompatActivity {
 
     //UI组件初始化（绑定）
     private void bindView() {
-        sp_pickPoint = (Spinner) findViewById(R.id.sp_atyFetch_pickPoint);
-        sp_arriveAddress = (Spinner) findViewById(R.id.sp_atyFetch_arriveAddress);
-        sp_arriveTime = (Spinner) findViewById(R.id.sp_atyFetch_arriveTime);
-        et_note = (EditText) findViewById(R.id.et_atyFetch_note);
-        et_pickNumber = (EditText) findViewById(R.id.tv_atyFetch_pickNumber);
-        et_amount = (EditText) findViewById(R.id.tv_atyFetch_amount);
-        rg_orderPattern = (RadioGroup) findViewById(R.id.rg_atyFetch_orderPattern);
-        rg_pickPattern = (RadioGroup) findViewById(R.id.rg_atyFetch_pickPattern);
-        rg_size = (RadioGroup) findViewById(R.id.rg_atyFetch_size);
-        ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyFetch_orderPattern_temp);
-        ll_amount = (LinearLayout) findViewById(R.id.ll_atyFetch_amount);
-        ll_trustfriend = (LinearLayout) findViewById(R.id.ll_atyFetch_trustfriend);
-        tv_trustfriend = (TextView) findViewById(R.id.tv_atyFetch_trustfriend);
+        sp_pickPoint = findViewById(R.id.sp_atyFetch_pickPoint);
+        sp_arriveAddress = findViewById(R.id.sp_atyFetch_arriveAddress);
+        sp_arriveTime = findViewById(R.id.sp_atyFetch_arriveTime);
+        et_note = findViewById(R.id.et_atyFetch_note);
+        et_pickNumber = findViewById(R.id.tv_atyFetch_pickNumber);
+        et_amount = findViewById(R.id.tv_atyFetch_amount);
+        rg_orderPattern = findViewById(R.id.rg_atyFetch_orderPattern);
+        rg_pickPattern = findViewById(R.id.rg_atyFetch_pickPattern);
+        rg_size = findViewById(R.id.rg_atyFetch_size);
+        ll_orderPattern_temp = findViewById(R.id.ll_atyFetch_orderPattern_temp);
+        ll_amount = findViewById(R.id.ll_atyFetch_amount);
+        ll_trustfriend = findViewById(R.id.ll_atyFetch_trustfriend);
+        tv_trustfriend = findViewById(R.id.tv_atyFetch_trustfriend);
     }
 
     @Override
@@ -96,7 +90,9 @@ public class AtyFetch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.aty_fetch2);
-        getSupportActionBar().hide();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         bindView();
 
@@ -127,14 +123,16 @@ public class AtyFetch extends AppCompatActivity {
         //----------------------------快递点 begin---------------------------------
 
         // pick_point快递点数据
-        data_list = new ArrayList<String>();
+        List<String> data_list;
+        data_list = new ArrayList<>();
         data_list.add("北门盘锦花园新生活");
         data_list.add("北门盘锦花园内右拐第七家");
         data_list.add("小东门外菜鸟驿站");
         data_list.add("中苑老食堂菜鸟驿站");
 
+        ArrayAdapter<String> arr_adapter;
         // 适配器 android.R.layout.simple_spinner_item
-        arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
+        arr_adapter = new ArrayAdapter<>(this, R.layout.item_spinner, data_list);
         // 设置样式 android.R.layout.simple_spinner_dropdown_item
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         // 加载适配器到pick_point（填充数据）
@@ -155,16 +153,16 @@ public class AtyFetch extends AppCompatActivity {
 
         //----------------------------收货地点 begin---------------------------------
         // 新建data_list存放数据
-        data_list = new ArrayList<String>();
+        data_list = new ArrayList<>();
         SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-        String abr = sharedPreferences.getString(Config.ADDRESS, "");
+        String abr = sharedPreferences.getString(Config.KEY_SAVED_ADDRESS, "");
         data_list.add(abr);
         data_list.add("明德楼");
         data_list.add("文德楼");
         data_list.add("信息中心");
 
         //适配器
-        arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
+        arr_adapter = new ArrayAdapter<>(this, R.layout.item_spinner, data_list);
         //设置样式
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         //加载适配器
@@ -185,12 +183,12 @@ public class AtyFetch extends AppCompatActivity {
 
         //----------------------------收货时间 begin---------------------------------
         //数据
-        data_list = new ArrayList<String>();
+        data_list = new ArrayList<>();
         data_list.add("18：30~20：30");
         data_list.add("20：30~22：00");
 
         //适配器
-        arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
+        arr_adapter = new ArrayAdapter<>(this, R.layout.item_spinner, data_list);
         //设置样式
         arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
         //加载适配器
@@ -200,7 +198,6 @@ public class AtyFetch extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 arriveTime = (String) sp_arriveTime.getSelectedItem();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -273,7 +270,7 @@ public class AtyFetch extends AppCompatActivity {
 
                             //-------------------下单成功 给自己发一条推送-----------------------
                             SharedPreferences sharedPreferences = AtyFetch.this.getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-                            final String deviceId = sharedPreferences.getString(Config.DEVICEID, "");
+                            final String deviceId = sharedPreferences.getString(Config.KEY_DEVICEID, "");
 
                             Runnable networkTask = new Runnable() {
 
@@ -351,7 +348,7 @@ public class AtyFetch extends AppCompatActivity {
                     @Override
                     public void onSuccess(ArrayList<String> friendsName) {
                         Log.i(TAG, "DownloadHXFriends onSuccess");
-                        Map<String, EaseUser> arrContacts = new HashMap();
+                        Map<String, EaseUser> arrContacts = new HashMap<>();
                         String items[][] = new String[1][friendsName.size()];
                         items[0] = new String[friendsName.size()];
                         for (int i = 0; i < friendsName.size(); i++) {
@@ -360,7 +357,7 @@ public class AtyFetch extends AppCompatActivity {
                             Log.i(TAG, "write arrContacts");
                             String fname = arrContacts.get(user.getUsername()).getUsername();
                             Log.i(TAG, "friend name is " + fname);
-                            items[0][i] = new String(fname);
+                            items[0][i] = fname;
                         }
                         dialogChoice(items); // 单选
                     }
@@ -371,8 +368,10 @@ public class AtyFetch extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+
             }
         });
+
     }
 
     private void dialogChoice(final String[][] items) {
@@ -408,7 +407,7 @@ public class AtyFetch extends AppCompatActivity {
         {
             items[0] = new String[10];
             for (int i = 0; i < 10; i++) {
-                items[0][i] = new String("" + i);
+                items[0][i] = "" + i;
             }
         } else {
             for (int i = 0; i < items[0].length; i++) {

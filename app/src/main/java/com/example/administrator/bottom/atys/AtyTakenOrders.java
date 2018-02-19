@@ -1,30 +1,18 @@
 package com.example.administrator.bottom.atys;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
-import com.example.administrator.bottom.net.DownloadTakenOrders;
-import com.example.administrator.bottom.net.Order;
-import com.example.administrator.bottom.net.UpdateOrder;
-
-import java.util.ArrayList;
-
-import static com.example.administrator.bottom.Config.APP_ID;
 
 public class AtyTakenOrders extends AppCompatActivity {
 

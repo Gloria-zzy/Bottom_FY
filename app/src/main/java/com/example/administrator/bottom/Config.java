@@ -2,7 +2,6 @@ package com.example.administrator.bottom;
 
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Bitmap;
 
 public class Config {
 
@@ -17,7 +16,7 @@ public class Config {
 
     public static final String PORTRAITPATH = "";
 
-    public static final String DEVICEID = "deviceid";
+    public static final String KEY_DEVICEID = "deviceid";
     public static final String KEY_TOKEN = "token";
     public static final String KEY_ACTION = "action";
     public static final String KEY_PHONE_NUM = "item_phone";
@@ -83,6 +82,7 @@ public class Config {
     public static final String ACTION_UPDATE_ORDER = "update_order";
     public static final String ACTION_UPLOAD_TOKEN = "upload_token";
     public static final String ACTION_UPLOAD_HXFRIEND = "upload_hxfriend";
+    public static final String ACTION_UPLOAD_DEVICEID = "upload_deviceid";
 
     public static final String ACTION_DOWNLOAD_PORTRAIT = "download_portrait";
     public static final String ACTION_DOWNLOAD_ADDRESS = "download_address";
@@ -100,7 +100,7 @@ public class Config {
 
     public static final int DELAYMILLIS = 500;
 
-    public static String ADDRESS = "";
+    public static final String KEY_SAVED_ADDRESS = "saved_address";
 
     public static final int ACTIVITY_RESULT_NEED_REFRESH = 10000;
 
@@ -119,10 +119,10 @@ public class Config {
         e.commit();
     }
 
-    public static void cacheAddress(Context context, String token) {
+    public static void cacheAddress(Context context, String address) {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
-        e.putString(ADDRESS, token);
+        e.putString(KEY_SAVED_ADDRESS, address);
         e.commit();
     }
 
@@ -142,14 +142,14 @@ public class Config {
     {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
-        e.putString(DEVICEID, deviceID);
+        e.putString(KEY_DEVICEID, deviceID);
         e.commit();
     }
 
     public static String getCachedDeviceID(Context context)
     {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
-                .getString(DEVICEID, null);
+                .getString(KEY_DEVICEID, null);
     }
 
     public static void cachePortraitPath(Context context, String path)

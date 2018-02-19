@@ -106,7 +106,7 @@ public class AtyUpdateOrder extends AppCompatActivity {
         //数据
         data_list = new ArrayList<String>();
         SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-        String abr = sharedPreferences.getString(Config.ADDRESS, "");
+        String abr = sharedPreferences.getString(Config.KEY_SAVED_ADDRESS, "");
         data_list.add(abr);
         data_list.add("明德楼");
         data_list.add("文德楼");
