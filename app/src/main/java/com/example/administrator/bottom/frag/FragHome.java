@@ -15,14 +15,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.platform.comapi.map.L;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyDetails;
 import com.example.administrator.bottom.atys.AtyFetch;
+import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.net.DownloadOrders;
@@ -44,6 +47,9 @@ public class FragHome extends Fragment {
     private TextView tv_delivering;
     private TextView tv_history;
     private TextView tv_error;
+    private LinearLayout ll_delivering;
+    private LinearLayout ll_history;
+    private LinearLayout ll_error;
     private int delivering_num = 0;
     private int history_num = 0;
     private int error_num = 0;
@@ -139,6 +145,39 @@ public class FragHome extends Fragment {
         tv_delivering = (TextView) view.findViewById(R.id.tv_fragHome_delivering);
         tv_history = (TextView) view.findViewById(R.id.tv_fragHome_history);
         tv_error = (TextView) view.findViewById(R.id.tv_fragHome_error);
+        ll_delivering = (LinearLayout) view.findViewById(R.id.ll_fragHome_delivering);
+        ll_history = (LinearLayout)  view.findViewById(R.id.ll_fraghome_history);
+        ll_error = (LinearLayout) view.findViewById(R.id.ll_fragHome_error);
+
+        ll_delivering.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+                intent.putExtra("page", "order");
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+        ll_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+                intent.putExtra("page", "order_history");
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+
+        ll_error.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+                intent.putExtra("page", "order");
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
 
         return view;
     }
@@ -150,9 +189,7 @@ public class FragHome extends Fragment {
             @Override
             public void onSuccess(ArrayList<Order> orders) {
                 for (Order o : orders) {
-                    Log.i("hello2","!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                     String orderStatus = o.getOrderStatus();
-//                    Log.i("fraghome",orderStatus + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
                     if(orderStatus.equals("0")){
                         history_num++;
@@ -162,7 +199,6 @@ public class FragHome extends Fragment {
                         error_num++;
                     }
                 }
-//                Log.i("fraghome",history_num + " " + delivering_num + " " + error_num + " " + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 tv_delivering.setText(delivering_num + "");
                 tv_history.setText(history_num + "");
                 tv_error.setText(error_num + "");

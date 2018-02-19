@@ -1,5 +1,6 @@
 package com.example.administrator.bottom.frag;
 
+import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -10,10 +11,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -48,6 +55,9 @@ public class FragOrder extends Fragment {
     private ImageView top;
     private String phone;
     private int selection = 0; //0:current page;    1:history page;
+    protected EditText query;
+    protected ImageButton clearSearch;
+    protected InputMethodManager inputMethodManager;
 
     private ViewPager pager;
     private List<View> views;
@@ -57,6 +67,11 @@ public class FragOrder extends Fragment {
 
     public FragOrder() {
 
+    }
+
+    @SuppressLint("ValidFragment")
+    public FragOrder(String history) {
+        selection = 1;
     }
 
     @Nullable
@@ -176,6 +191,36 @@ public class FragOrder extends Fragment {
                 }
             });
             //---------------------------BACK TO TOP end-------------------------------
+
+            //---------------------------SEARCH begin-------------------------------
+            inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            query = (EditText) view.findViewById(com.hyphenate.easeui.R.id.query);
+            clearSearch = (ImageButton) view.findViewById(com.hyphenate.easeui.R.id.search_clear);
+            // 对搜索框添加监听器
+            query.addTextChangedListener(new TextWatcher() {
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                    contactListLayout.filter(s);
+                    if (s.length() > 0) {
+                        clearSearch.setVisibility(View.VISIBLE);
+                    } else {
+                        clearSearch.setVisibility(View.INVISIBLE);
+                    }
+                }
+
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                public void afterTextChanged(Editable s) {
+                }
+            });
+            clearSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    query.getText().clear();
+                    hideSoftKeyboard();
+                }
+            });
+            //---------------------------SEARCH end-------------------------------
         }
         return view;
     }
@@ -297,8 +342,8 @@ public class FragOrder extends Fragment {
 
         PagerAdapter adapter = new FragOrder.MyPagerAdapter();
         pager.setAdapter(adapter);
-        tvs.get(0).setTextColor(Color.rgb(35, 149, 213));
-        tvs.get(0).setBackgroundResource(R.drawable.item_sublime_text);
+        tvs.get(selection).setTextColor(Color.rgb(35, 149, 213));
+        tvs.get(selection).setBackgroundResource(R.drawable.item_sublime_text);
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -362,6 +407,14 @@ public class FragOrder extends Fragment {
             //return super.instantiateItem(container, position);
             container.addView(views.get(position));
             return views.get(position);
+        }
+    }
+
+    protected void hideSoftKeyboard() {
+        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+            if (getActivity().getCurrentFocus() != null)
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 

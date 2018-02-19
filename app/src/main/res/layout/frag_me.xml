@@ -86,19 +86,19 @@
                 <ImageView style="@style/img_arrow" />
             </LinearLayout>
 
-            <View style="@style/bg_line" />
+            <!--<View style="@style/bg_line" />-->
 
-            <LinearLayout
-                android:id="@+id/tv_taken_orders"
-                style="@style/bottom_layout">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/tv_taken_orders"-->
+                <!--style="@style/bottom_layout">-->
 
-                <TextView
+                <!--<TextView-->
 
-                    style="@style/usertext"
-                    android:text="已抢订单" />
+                    <!--style="@style/usertext"-->
+                    <!--android:text="已抢订单" />-->
 
-                <ImageView style="@style/img_arrow" />
-            </LinearLayout>
+                <!--<ImageView style="@style/img_arrow" />-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 

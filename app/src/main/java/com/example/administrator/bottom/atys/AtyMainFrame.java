@@ -93,6 +93,9 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
             } else if (page.equals("order")) {
                 Log.i(TAG, "page order");
                 showFragOrder();
+            } else if (page.equals("order_history")) {
+                Log.i(TAG, "page order history");
+                showFragOrderHistory();
             } else if (page.equals("community")) {
                 Log.i(TAG, "page community");
                 showFragCommunity();
@@ -254,6 +257,17 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         clearSelected();
         tabOrder.setSelected(true);
         fragOrder = new FragOrder();
+        transaction.add(R.id.fragment_container, fragOrder);
+        transaction.show(fragOrder);
+        transaction.commit();
+    }
+
+    public void showFragOrderHistory() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        hideAllFragment(transaction);
+        clearSelected();
+        tabOrder.setSelected(true);
+        fragOrder = new FragOrder("history");
         transaction.add(R.id.fragment_container, fragOrder);
         transaction.show(fragOrder);
         transaction.commit();
