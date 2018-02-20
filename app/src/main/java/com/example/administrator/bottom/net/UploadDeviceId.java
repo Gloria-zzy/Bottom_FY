@@ -10,7 +10,7 @@ import org.json.JSONObject;
  */
 
 public class UploadDeviceId {
-    public UploadDeviceId(String phone, String deviceID, final UploadHXFriend.SuccessCallback successCallback, final UploadHXFriend.FailCallback failCallback) {
+    public UploadDeviceId(String phone, String deviceID, final UploadDeviceId.SuccessCallback successCallback, final UploadDeviceId.FailCallback failCallback) {
 
         new NetConnection(Config.SERVER_URL, HttpMethod.POST, new NetConnection.SuccessCallback() {
 

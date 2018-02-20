@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,11 @@ public class FragOrder extends Fragment {
     private ViewPager pager;
     private List<View> views;
     private List<TextView> tvs = new ArrayList<TextView>();
-    TextView tv1;
-    TextView tv2;
+    private TextView tv1;
+    private TextView tv2;
+
+    private final int CODE_REFRESH = 1;
+    private final String TAG = "FragOrder";
 
     public FragOrder() {
 
@@ -100,17 +104,17 @@ public class FragOrder extends Fragment {
         } else {
             view = inflater.inflate(R.layout.frag_order, container, false);
 
-            scrollView1 = (ScrollView) inflater.inflate(R.layout.mod_current_order, container, false).findViewById(R.id.current_order_scroll);
-            scrollView2 = (ScrollView) inflater.inflate(R.layout.mod_history_order, container, false).findViewById(R.id.history_order_scroll);
+            scrollView1 = inflater.inflate(R.layout.mod_current_order, container, false).findViewById(R.id.current_order_scroll);
+            scrollView2 = inflater.inflate(R.layout.mod_history_order, container, false).findViewById(R.id.history_order_scroll);
 
-            swipeRefreshLayout = (MultiSwipeRefreshLayout) view.findViewById(R.id.srl_fragOrder);
+            swipeRefreshLayout = view.findViewById(R.id.srl_fragOrder);
 
-            ll = (LinearLayout) scrollView1.findViewById(R.id.current_order_ll);
-            history = (LinearLayout) scrollView2.findViewById(R.id.history_order_ll);
+            ll = scrollView1.findViewById(R.id.current_order_ll);
+            history = scrollView2.findViewById(R.id.history_order_ll);
 
-            pager = (ViewPager) view.findViewById(R.id.vp_fragOrder);
-            tv1 = (TextView) view.findViewById(R.id.page_current);
-            tv2 = (TextView) view.findViewById(R.id.page_history);
+            pager = view.findViewById(R.id.vp_fragOrder);
+            tv1 = view.findViewById(R.id.page_current);
+            tv2 = view.findViewById(R.id.page_history);
             tv1.setOnClickListener(new FragOrder.MyClickListener(0));
             tv2.setOnClickListener(new FragOrder.MyClickListener(1));
             tvs.add(tv1);
@@ -282,7 +286,7 @@ public class FragOrder extends Fragment {
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), AtyDetails.class);
                             intent.putExtra("orderNumber", orderNumber);
-                            startActivity(intent);
+                            startActivityForResult(intent, CODE_REFRESH);
                             getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         }
                     });
@@ -419,6 +423,15 @@ public class FragOrder extends Fragment {
             if (getActivity().getCurrentFocus() != null)
                 inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CODE_REFRESH) {
+            Log.i(TAG, "refresh");
+            fresh();
         }
     }
 

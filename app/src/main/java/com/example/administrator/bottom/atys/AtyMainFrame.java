@@ -27,6 +27,7 @@ import com.example.administrator.bottom.application.MainApplication;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
+import com.example.administrator.bottom.net.UploadDeviceId;
 import com.example.administrator.bottom.ui.FragChatMainActivity;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -128,6 +129,17 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                         CloudPushService pushService = PushServiceFactory.getCloudPushService();
                         String deviceId = pushService.getDeviceId();
                         Config.cacheDeviceID(AtyMainFrame.this, deviceId);
+                        new UploadDeviceId(Config.getCachedPhoneNum(AtyMainFrame.this), deviceId, new UploadDeviceId.SuccessCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.i(TAG, "upload deviceID succ");
+                            }
+                        }, new UploadDeviceId.FailCallback() {
+                            @Override
+                            public void onFail() {
+                                Log.w(TAG, "upload deviceID fail");
+                            }
+                        });
                         Log.i(TAG, "AliPush deviceID:" + deviceId);
                     }
                 }
