@@ -14,6 +14,7 @@
 package com.hyphenate.easeui.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -237,10 +238,12 @@ public class EaseContactListFragment extends EaseBaseFragment {
         new DownloadHXFriends(Config.getCachedPhoneNum(getActivity()), new DownloadHXFriends.SuccessCallback() {
             @Override
             public void onSuccess(ArrayList<String> friendsName) {
+                final String APP_ID = "com.charles.secret";
                 final Map<String, EaseUser>[] arrContacts = new HashMap[1];
                 arrContacts[0] = new HashMap<String, EaseUser>();
                 for (int i = 0; i < friendsName.size(); i++) {
                     EaseUser user = new EaseUser(friendsName.get(i));
+                    user.setAvatar(getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE).getString(Config.getCachedPortraitPath(getContext()), ""));
                     arrContacts[0].put(user.getUsername(), user);
                     Log.i(TAG, "write arrContacts");
                     String fname = arrContacts[0].get(user.getUsername()).getUsername();
