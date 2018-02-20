@@ -1,12 +1,17 @@
 package com.example.administrator.bottom.atys;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -14,16 +19,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
 import com.example.administrator.bottom.net.DownloadOneOrder;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
+import com.example.administrator.bottom.net.UpdateOrder;
+import com.example.administrator.bottom.net.UploadOrder;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.net.DownloadHXFriends;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.administrator.bottom.Config.APP_ID;
 import static com.example.administrator.bottom.Config.cacheAddress;
@@ -53,6 +66,7 @@ public class AtyDetails extends AppCompatActivity {
     private TextView tv_taker;
     private TextView tv_note;
     private TextView tv_orderStatus;
+    private TextView tv_change;
 
     private LinearLayout ll_orderPattern_temp;
     private LinearLayout ll_pickPattern_self;
@@ -72,6 +86,8 @@ public class AtyDetails extends AppCompatActivity {
     private String orderStatus;
     private String pickNumber;
 
+    private boolean changed = false; //false:unchanged true:changed
+
     //UI组件初始化
     private void bindView() {
         tv_orderNumber = (TextView) findViewById(R.id.tv_atyDetails_orderNumber);
@@ -85,6 +101,7 @@ public class AtyDetails extends AppCompatActivity {
         tv_taker = (TextView) findViewById(R.id.tv_atyDetails_taker);
         tv_note = (TextView) findViewById(R.id.tv_atyDetails_note);
         tv_orderStatus = (TextView) findViewById(R.id.tv_atyDetails_orderStatus);
+        tv_change = (TextView) findViewById(R.id.tv_atyDetails_change);
         ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyDetails_orderPattern_temp);
         ll_pickPattern_self = (LinearLayout) findViewById(R.id.ll_atyDetails_pickPattern_self);
         ll_pickPattern_friend = (LinearLayout) findViewById(R.id.ll_atyDetails_pickPattern_friend);
@@ -124,130 +141,302 @@ public class AtyDetails extends AppCompatActivity {
         }
         //---------------------状态栏透明 end----------------------------------------
 
-//        final RefreshLayout refreshLayout = (RefreshLayout) findViewById(R.id.refreshLayout_taken_orders);
-//        if (refreshLayout != null) {
-//            // 刷新状态的回调
-//            refreshLayout.setRefreshListener(new RefreshLayout.OnRefreshListener() {
-//                @Override
-//                public void onRefresh() {
-//                    // 延迟3秒后刷新成功
-//                    refreshLayout.postDelayed(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            refreshLayout.refreshComplete();
-                            //-----------------BEGIN-----------------
 
-//                            SharedPreferences sharedPreferences = AtyDetails.this.getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-//                            phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-                            new DownloadOneOrder(orderNumber, new DownloadOneOrder.SuccessCallback() {
+        SharedPreferences sharedPreferences = AtyDetails.this.getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
+        phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+        fresh();
 
-                                @Override
-                                public void onSuccess(ArrayList<Order> orders) {
+        findViewById(R.id.btn_atyDetails_code).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AtyDetails.this, AtyGenCode.class);
+                intent.putExtra("code", orderNumber);
+                startActivity(intent);
+                AtyDetails.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+            }
+        });
 
-                                    //        订单号   order_number
-                                    //        下单时间 order_time
-                                    //        信任好友 trust_friend
-                                    //        快递体积 size(L M S)
-                                    //        收货地点 arrive_address
-                                    //        收货时间 arrive_time
-                                    //        快递点   pick_point
-                                    //        取货号   pick_number
-                                    //        派送员   taker
-                                    //        备注     note
-                                    //        状态     order_status(int)
-
-                                    for (Order o : orders) {
-                                        orderNumber = o.getOrderNumber();
-                                        orderTime = o.getOrderTime();
-                                        trustFriend = o.getTrust_friend();
-                                        switch (o.getSize()){
-                                            case "S":
-                                                size = "小";
-                                                break;
-                                            case "M":
-                                                size = "中";
-                                                break;
-                                            case "L":
-                                                size = "大";
-                                                break;
-                                        }
-                                        arriveAddress = o.getArriveAddress();
-                                        arriveTime = o.getArriveTime();
-                                        pickPoint = o.getPickPoint();
-                                        pickNumber = o.getPickNumber();
-                                        if(o.getTaker().equals("0")){
-                                            taker = "暂无";
-                                        }
-                                        note = o.getNote();
-                                        if (o.getOrderStatus().equals("0")){
-                                            orderStatus = "已结单";
-                                        }else{
-                                            orderStatus = "派送中";
-                                        }
-                                        if (note.equals("none")) {
-                                            note = "无";
-                                        }
-
-                                        tv_orderNumber.setText(orderNumber);
-                                        tv_orderTime.setText(orderTime);
-                                        tv_trustFriend.setText(trustFriend);
-                                        tv_size.setText(size);
-                                        tv_arriveAddress.setText(arriveAddress);
-                                        tv_arriveTime.setText(arriveTime);
-                                        tv_pickPoint.setText(pickPoint);
-                                        tv_pickNumber.setText(pickNumber);
-                                        tv_taker.setText(taker);
-                                        tv_note.setText(note);
-                                        tv_orderStatus.setText(orderStatus);
-
-                                        if (pickPoint.equals("null")) {
-                                            //老用户
-                                            ll_orderPattern_temp.setVisibility(View.GONE);
-                                        } else {
-                                            //临时下单
-                                            ll_orderPattern_temp.setVisibility(View.VISIBLE);
-                                        }
-                                        if (trustFriend.equals("none")) {
-                                            //自己拿
-                                            ll_pickPattern_self.setVisibility(View.VISIBLE);
-                                            ll_pickPattern_friend.setVisibility(View.GONE);
-                                        } else {
-                                            //信任好友代拿
-                                            ll_pickPattern_self.setVisibility(View.GONE);
-                                            ll_pickPattern_friend.setVisibility(View.VISIBLE);
-                                        }
-
-                                    }
-                                }
-                            }, new DownloadOneOrder.FailCallback() {
-
-                                @Override
-                                public void onFail() {
-                                    Toast.makeText(AtyDetails.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                                }
-                            });
-
-                            findViewById(R.id.btn_atyDetails_code).setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(AtyDetails.this, AtyGenCode.class);
-                                    intent.putExtra("code", orderNumber);
-                                    startActivity(intent);
-                                    AtyDetails.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                                }
-                            });
-
-
-                            //-----------------END-----------------
-//                        }
-//                    }, Config.DELAYMILLIS);
-//                }
-//            });
-//        }
-//        QQRefreshHeader header = new QQRefreshHeader(this);
-//        refreshLayout.setRefreshHeader(header);
-//        refreshLayout.autoRefresh();
-
+        tv_change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String items[][] = new String[1][2];
+                items[0] = new String[2];
+                items[0][0] = "自己拿";
+                items[0][1] = "信任好友代拿";
+                dialogChoosePattern(items);
+            }
+        });
 
     }
+
+    private void dialogChoosePattern(final String[][] items) {
+        final String[] pattern = new String[1];
+        //单选对话窗口
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+
+        //定义标题样式
+        TextView title = new TextView(this);
+        title.setText("取货方式");
+        title.setPadding(40, 10, 10, 10);
+        title.setGravity(Gravity.CENTER_VERTICAL);
+        title.setTextColor(getResources().getColor(R.color.text_clo));
+        title.setTextSize(20);
+
+        //设置图片
+        Drawable drawable = getResources().getDrawable(R.drawable.item_trustfriend);
+        drawable.setBounds(10, 10, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+        title.setCompoundDrawables(drawable, null, null, null);//setCompoundDrawables用来设置图片显示在文本的哪一端
+        title.setCompoundDrawablePadding(30);//设置文字和图片间距
+
+        if (items[0].length == 0) {
+            items[0] = new String[10];
+            for (int i = 0; i < 10; i++) {
+                items[0][i] = "" + i;
+            }
+        } else {
+            for (int i = 0; i < items[0].length; i++) {
+            }
+        }
+        //使用自定义title
+        builder.setCustomTitle(title);
+        try {
+            // item[0] 是一个一维字符串数组，里面的元素都必须全部初始化，若有一个及以上元素为null，会抛出NullPointException异常
+            builder.setSingleChoiceItems(items[0], -1,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+//                        Toast.makeText(AtyFetch.this, items[which],
+//                                Toast.LENGTH_SHORT).show();
+                            pattern[0] = items[0][which];
+                        }
+                    });
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+//                    Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
+//                            .show();
+                    if (pattern[0].equals("自己拿")) {
+                        trustFriend = "none";
+                        changed = true;
+                        Log.i("atydetails", changed + "");
+                        new UpdateOrder(orderNumber, orderTime, trustFriend, size, arriveAddress, arriveTime, pickPoint, pickNumber, note, new UpdateOrder.SuccessCallback() {
+
+                            @Override
+                            public void onSuccess() {
+
+                                Toast.makeText(AtyDetails.this, "修改成功！", Toast.LENGTH_LONG).show();
+                                fresh();
+
+                            }
+                        }, new UpdateOrder.FailCallback() {
+
+                            @Override
+                            public void onFail() {
+                                Toast.makeText(AtyDetails.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    } else {
+                        new DownloadHXFriends(Config.getCachedPhoneNum(AtyDetails.this), new DownloadHXFriends.SuccessCallback() {
+                            @Override
+                            public void onSuccess(ArrayList<String> friendsName) {
+                                Map<String, EaseUser> arrContacts = new HashMap<>();
+                                String items[][] = new String[1][friendsName.size()];
+                                items[0] = new String[friendsName.size()];
+                                for (int i = 0; i < friendsName.size(); i++) {
+                                    EaseUser user = new EaseUser(friendsName.get(i));
+                                    arrContacts.put(user.getUsername(), user);
+                                    String fname = arrContacts.get(user.getUsername()).getUsername();
+                                    items[0][i] = fname;
+                                }
+                                dialogChooseFriend(items); // 单选
+                            }
+                        }, new DownloadHXFriends.FailCallback() {
+                            @Override
+                            public void onFail() {
+                                Toast.makeText(AtyDetails.this, "获取好友列表失败",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        builder.create().show();
+    }
+
+    private void dialogChooseFriend(final String[][] items) {
+        final String[] trustfriend = new String[1];
+        //单选对话窗口
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+
+        //定义标题样式
+        TextView title = new TextView(this);
+        title.setText("好友列表");
+        title.setPadding(40, 10, 10, 10);
+        title.setGravity(Gravity.CENTER_VERTICAL);
+        title.setTextColor(getResources().getColor(R.color.text_clo));
+        title.setTextSize(20);
+
+        //设置图片
+        Drawable drawable = getResources().getDrawable(R.drawable.item_trustfriend);
+        drawable.setBounds(10, 10, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+        title.setCompoundDrawables(drawable, null, null, null);//setCompoundDrawables用来设置图片显示在文本的哪一端
+        title.setCompoundDrawablePadding(30);//设置文字和图片间距
+
+        if (items[0].length == 0) {
+            items[0] = new String[10];
+            for (int i = 0; i < 10; i++) {
+                items[0][i] = "" + i;
+            }
+        } else {
+            for (int i = 0; i < items[0].length; i++) {
+            }
+        }
+        //使用自定义title
+        builder.setCustomTitle(title);
+        try {
+            // item[0] 是一个一维字符串数组，里面的元素都必须全部初始化，若有一个及以上元素为null，会抛出NullPointException异常
+            builder.setSingleChoiceItems(items[0], -1,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+//                        Toast.makeText(AtyFetch.this, items[which],
+//                                Toast.LENGTH_SHORT).show();
+                            if (items[0][which].length() > 0) {
+                                trustfriend[0] = items[0][which];
+                            } else {
+                                trustfriend[0] = "请选择信任好友";
+                            }
+                        }
+                    });
+            builder.setPositiveButton("信任TA", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+//                    Toast.makeText(AtyFetch.this, trustfriend[0], Toast.LENGTH_SHORT)
+//                            .show();
+                    trustFriend = trustfriend[0];
+                    changed = true;
+                    new UpdateOrder(orderNumber, orderTime, trustFriend, size, arriveAddress, arriveTime, pickPoint, pickNumber, note, new UpdateOrder.SuccessCallback() {
+
+                        @Override
+                        public void onSuccess() {
+
+                            Toast.makeText(AtyDetails.this, "修改成功！", Toast.LENGTH_LONG).show();
+                            fresh();
+
+                        }
+                    }, new UpdateOrder.FailCallback() {
+
+                        @Override
+                        public void onFail() {
+                            Toast.makeText(AtyDetails.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        builder.create().show();
+    }
+
+    public void fresh() {
+        new DownloadOneOrder(orderNumber, new DownloadOneOrder.SuccessCallback() {
+
+            @Override
+            public void onSuccess(ArrayList<Order> orders) {
+
+                //        订单号   order_number
+                //        下单时间 order_time
+                //        信任好友 trust_friend
+                //        快递体积 size(L M S)
+                //        收货地点 arrive_address
+                //        收货时间 arrive_time
+                //        快递点   pick_point
+                //        取货号   pick_number
+                //        派送员   taker
+                //        备注     note
+                //        状态     order_status(int)
+
+                for (Order o : orders) {
+                    orderNumber = o.getOrderNumber();
+                    orderTime = o.getOrderTime();
+                    trustFriend = o.getTrust_friend();
+                    switch (o.getSize()) {
+                        case "S":
+                            size = "小";
+                            break;
+                        case "M":
+                            size = "中";
+                            break;
+                        case "L":
+                            size = "大";
+                            break;
+                    }
+                    arriveAddress = o.getArriveAddress();
+                    arriveTime = o.getArriveTime();
+                    pickPoint = o.getPickPoint();
+                    pickNumber = o.getPickNumber();
+                    if (o.getTaker().equals("0")) {
+                        taker = "暂无";
+                    }
+                    note = o.getNote();
+                    if (o.getOrderStatus().equals("0")) {
+                        orderStatus = "已结单";
+                    } else {
+                        orderStatus = "派送中";
+                    }
+                    if (note.equals("none")) {
+                        note = "无";
+                    }
+
+                    tv_orderNumber.setText(orderNumber);
+                    tv_orderTime.setText(orderTime);
+                    tv_trustFriend.setText(trustFriend);
+                    tv_size.setText(size);
+                    tv_arriveAddress.setText(arriveAddress);
+                    tv_arriveTime.setText(arriveTime);
+                    tv_pickPoint.setText(pickPoint);
+                    tv_pickNumber.setText(pickNumber);
+                    tv_taker.setText(taker);
+                    tv_note.setText(note);
+                    tv_orderStatus.setText(orderStatus);
+
+                    if (pickPoint.equals("null")) {
+                        //老用户
+                        ll_orderPattern_temp.setVisibility(View.GONE);
+                    } else {
+                        //临时下单
+                        ll_orderPattern_temp.setVisibility(View.VISIBLE);
+                    }
+                    if (trustFriend.equals("none")) {
+                        //自己拿
+                        ll_pickPattern_self.setVisibility(View.VISIBLE);
+                        ll_pickPattern_friend.setVisibility(View.GONE);
+                    } else {
+                        //信任好友代拿
+                        ll_pickPattern_self.setVisibility(View.GONE);
+                        ll_pickPattern_friend.setVisibility(View.VISIBLE);
+                    }
+
+                }
+            }
+        }, new DownloadOneOrder.FailCallback() {
+
+            @Override
+            public void onFail() {
+                Toast.makeText(AtyDetails.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }

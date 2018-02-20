@@ -179,27 +179,27 @@ public class AtyUpdateOrder extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                takenum = takenum_edittext.getText().toString();
-                note = note_edittext.getText().toString();
-                new UpdateOrder(phone,taker,order_num,point,takenum,loc, note,date,status, new UpdateOrder.SuccessCallback() {
-
-                    @Override
-                    public void onSuccess() {
-
-
-                        Toast.makeText(AtyUpdateOrder.this, "修改成功", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(AtyUpdateOrder.this, AtyMainFrame.class);
-                        i.putExtra("page","order");
-                        startActivity(i);
-                        AtyUpdateOrder.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                    }
-                }, new UpdateOrder.FailCallback() {
-
-                    @Override
-                    public void onFail() {
-                        Toast.makeText(AtyUpdateOrder.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                    }
-                });
+//                takenum = takenum_edittext.getText().toString();
+//                note = note_edittext.getText().toString();
+//                new UpdateOrder(phone,taker,order_num,point,takenum,loc, note,date,status, new UpdateOrder.SuccessCallback() {
+//
+//                    @Override
+//                    public void onSuccess() {
+//
+//
+//                        Toast.makeText(AtyUpdateOrder.this, "修改成功", Toast.LENGTH_LONG).show();
+//                        Intent i = new Intent(AtyUpdateOrder.this, AtyMainFrame.class);
+//                        i.putExtra("page","order");
+//                        startActivity(i);
+//                        AtyUpdateOrder.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+//                    }
+//                }, new UpdateOrder.FailCallback() {
+//
+//                    @Override
+//                    public void onFail() {
+//                        Toast.makeText(AtyUpdateOrder.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+//                    }
+//                });
             }
         });
 

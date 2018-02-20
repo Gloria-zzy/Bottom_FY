@@ -155,7 +155,6 @@ public class FragHome extends Fragment {
                 Intent intent = new Intent(getActivity(), AtyMainFrame.class);
                 intent.putExtra("page", "order");
                 startActivity(intent);
-                getActivity().finish();
             }
         });
 
@@ -165,7 +164,6 @@ public class FragHome extends Fragment {
                 Intent intent = new Intent(getActivity(), AtyMainFrame.class);
                 intent.putExtra("page", "order_history");
                 startActivity(intent);
-                getActivity().finish();
             }
         });
 
@@ -175,7 +173,6 @@ public class FragHome extends Fragment {
                 Intent intent = new Intent(getActivity(), AtyMainFrame.class);
                 intent.putExtra("page", "order");
                 startActivity(intent);
-                getActivity().finish();
             }
         });
 

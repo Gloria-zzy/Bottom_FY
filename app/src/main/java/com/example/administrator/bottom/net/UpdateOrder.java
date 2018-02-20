@@ -4,9 +4,27 @@ import com.example.administrator.bottom.Config;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
+//        订单号   order_number
+//        下单时间 order_time
+//        信任好友 trust_friend
+//        快递体积 size(L M S)
+//        收货地点 arrive_address
+//        收货时间 arrive_time
+//        快递点   pick_point
+//        取货号   pick_number
+//        派送员   taker
+//        备注     note
+//        状态     order_status(int)
 public class UpdateOrder {
-    public UpdateOrder(String phone, String order_taker, String order_num , String point, String takenum, String location, String note, String date,String status, final SuccessCallback successCallback, final FailCallback failCallback) {
+    public UpdateOrder(String orderNumber,
+                       String orderTime,
+                       String trustFriend,
+                       String size,
+                       String arriveAddress,
+                       String arriveTime,
+                       String pickPoint,
+                       String pickNumber,
+                       String note, final SuccessCallback successCallback, final FailCallback failCallback) {
         new NetConnection(Config.SERVER_URL, HttpMethod.POST, new NetConnection.SuccessCallback() {
 
             @Override
@@ -41,7 +59,16 @@ public class UpdateOrder {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_UPDATE_ORDER, Config.KEY_ORDER_NUMBER, order_num, Config.KEY_TAKER, order_taker,Config.KEY_PICK_POINT, point, Config.KEY_PICK_NUMBER, takenum,Config.KEY_ARRIVE_ADDRESS, location, Config.KEY_NOTE, note,Config.KEY_ORDER_TIME,date, Config.KEY_PHONE_NUM, phone,Config.KEY_ORDER_STATUS,status);
+        }, Config.KEY_ACTION, Config.ACTION_UPDATE_ORDER,
+                Config.KEY_ORDER_NUMBER, orderNumber,
+                Config.KEY_ORDER_TIME,orderTime,
+                Config.KEY_TRUST_FRIEND,trustFriend,
+                Config.KEY_SIZE,size,
+                Config.KEY_ARRIVE_ADDRESS,arriveAddress,
+                Config.KEY_ARRIVE_TIME,arriveTime,
+                Config.KEY_PICK_POINT,pickPoint,
+                Config.KEY_PICK_NUMBER,pickNumber,
+                Config.KEY_NOTE, note);
     }
 
     public static interface SuccessCallback {

@@ -120,6 +120,10 @@ public class FragOrder extends Fragment {
             initView();
             initViewPager();
 
+            if(selection == 1){
+                pager.setCurrentItem(selection);
+            }
+
             if (Config.loginStatus == 1) {
                 // 获得phoneNum
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
@@ -266,11 +270,11 @@ public class FragOrder extends Fragment {
                     }
 //                    newov.setTv_note(note);
                     if (trustFriend.equals("none")) {
-                        //信任好友代拿
-                        newov.setTv_pickPattern("信任好友代拿");
-                    } else {
                         //自己拿
                         newov.setTv_pickPattern("自己拿");
+                    } else {
+                        //信任好友代拿
+                        newov.setTv_pickPattern("信任好友代拿");
                     }
 
                     newov.getLl_modOrder_allAround().setOnClickListener(new View.OnClickListener() {
