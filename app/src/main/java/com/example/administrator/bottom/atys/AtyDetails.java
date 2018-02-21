@@ -86,7 +86,8 @@ public class AtyDetails extends AppCompatActivity {
     private String orderStatus;
     private String pickNumber;
 
-    private boolean changed = false; //false:unchanged true:changed
+    private boolean changed = false; //false:unchanged; true:changed
+    private boolean trustOrderDetail = false; //false:ordinary order detail; true:trust order detail
 
     //UI组件初始化
     private void bindView() {
@@ -117,6 +118,9 @@ public class AtyDetails extends AppCompatActivity {
         Intent intent = getIntent();
         setIntent(intent);
         orderNumber = intent.getStringExtra("orderNumber");
+        if(intent.getStringExtra("pattern").equals("trust orders")){
+            trustOrderDetail = true;
+        }
 
         bindView();
         findViewById(R.id.iv_atyDetails_back).setOnClickListener(new View.OnClickListener() {
@@ -426,6 +430,11 @@ public class AtyDetails extends AppCompatActivity {
                         //信任好友代拿
                         ll_pickPattern_self.setVisibility(View.GONE);
                         ll_pickPattern_friend.setVisibility(View.VISIBLE);
+                    }
+
+                    if(trustOrderDetail){
+                        ll_orderPattern_temp.setVisibility(View.GONE);
+                        tv_change.setVisibility(View.GONE);
                     }
 
                 }

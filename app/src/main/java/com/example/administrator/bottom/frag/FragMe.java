@@ -2,7 +2,6 @@ package com.example.administrator.bottom.frag;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.graphics.Matrix;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +35,7 @@ import com.example.administrator.bottom.atys.AtyAddressMng;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyAboutUD;
+import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.bottom.net.DownloadPortrait;
@@ -74,6 +75,9 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     private ImageView avatar;
     private File portraitFile;
 
+    private LinearLayout linearLayout_id;
+    private TextView textView_id;
+
     final int PHOTO_REQUEST_GALLERY = 1;// 从相册中选择
     final int PHOTO_REQUEST_CUT = 2;// 剪切结果结果
     final int REQUEST_CODE_GETIMAGE_BYSDCARD = 3;// 上传头像
@@ -102,11 +106,14 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_me, container, false);
         phone_num = view.findViewById(R.id.textView);
-        showPhoneNumber();
         avatar = view.findViewById(R.id.iv_avatar);
+        linearLayout_id = view.findViewById(R.id.ll_fragMe_id);
+        textView_id = view.findViewById(R.id.tv_fragMe_id);
+        showPhoneNumber();
         //login btn
         mTextView = view.findViewById(R.id.func_btn);
         if (Config.loginStatus == 0) {
+            linearLayout_id.setVisibility(View.GONE);
             mTextView.setText("登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,6 +124,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 }
             });
         } else {
+            linearLayout_id.setVisibility(View.VISIBLE);
             mTextView.setText("退出登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -254,22 +262,22 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         });
 
-        // 已抢订单
-//        view.findViewById(R.id.tv_taken_orders).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//                if (Config.loginStatus == 1) {
-//                    Intent intent = new Intent(getActivity(), ChatMainActivity.class);
-//                    startActivity(intent);
-//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//                } else if (Config.loginStatus == 0) {
-//                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
-//                    startActivity(intent);
-//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//                }
-//            }
-//        });
+        // 信任订单
+        view.findViewById(R.id.tv_trust_orders).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                if (Config.loginStatus == 1) {
+                    Intent intent = new Intent(getActivity(), AtyTrustOrders.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                } else if (Config.loginStatus == 0) {
+                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                }
+            }
+        });
 
         // 绑定按钮到选择相册中图片
         view.findViewById(R.id.tv_ic).setOnClickListener(new View.OnClickListener() {
@@ -379,6 +387,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         if (Config.loginStatus == 1) {
             phone_num.setText(phone);
+            textView_id.setText(phone);
         } else {
             phone_num.setText("未登录");
         }

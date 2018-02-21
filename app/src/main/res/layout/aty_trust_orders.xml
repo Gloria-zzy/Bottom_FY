@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.administrator.bottom.atys.AtyTakenOrders">
+    tools:context="com.example.administrator.bottom.atys.AtyTrustOrders">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,18 +29,19 @@
                 android:layout_marginRight="30dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="已抢订单"
+                android:text="信任订单"
                 android:textColor="@color/white" />
 
         </LinearLayout>
 
-        <com.example.administrator.bottom.custom.RefreshLayout
+        <com.example.administrator.bottom.custom.MultiSwipeRefreshLayout
             android:id="@+id/refreshLayout_taken_orders"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/transparent">
 
             <ScrollView
+                android:id="@+id/sv_trustOrders"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -55,6 +56,6 @@
 
 
             </ScrollView>
-        </com.example.administrator.bottom.custom.RefreshLayout>
+        </com.example.administrator.bottom.custom.MultiSwipeRefreshLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

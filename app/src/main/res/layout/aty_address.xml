@@ -116,7 +116,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/room_et"
+                android:id="@+id/et_mng_room"
                 android:layout_height="25dp"
                 android:layout_width="match_parent"
                 android:layout_marginBottom="20sp"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="5sp"
                 android:background="@drawable/sp_line"
-                android:layout_alignBottom="@+id/room_et"
+                android:layout_alignBottom="@+id/et_mng_room"
                 ></View>
         </RelativeLayout>
 

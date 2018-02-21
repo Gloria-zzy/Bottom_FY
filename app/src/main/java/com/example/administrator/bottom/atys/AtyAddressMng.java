@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -50,9 +48,9 @@ public class AtyAddressMng extends Activity {
     //UI组件初始化
     private void bindView() {
 
-        area_spinner = (Spinner) findViewById(R.id.area_spinner_mng);
-        building_spinner = (Spinner) findViewById(R.id.building_spinner_mng);
-        room_et = (EditText) findViewById(R.id.room_et);
+        area_spinner = (Spinner) findViewById(R.id.sp_mng_area);
+        building_spinner = (Spinner) findViewById(R.id.sp_mng_building);
+        room_et = (EditText) findViewById(R.id.et_mng_room);
     }
 
     @Override
@@ -96,7 +94,7 @@ public class AtyAddressMng extends Activity {
             //---------------------状态栏透明 end----------------------------------------
 
             bindView();
-            findViewById(R.id.Address_mng_back).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.iv_mng_back).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     finish();
@@ -154,7 +152,7 @@ public class AtyAddressMng extends Activity {
             building_spinner.setAdapter(arr_adapter);
 
             //show current address!!!!
-            address = (TextView) findViewById(R.id.address_text);
+            address = (TextView) findViewById(R.id.tv_mng_address);
             // 获得phoneNum
             SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
             String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
@@ -198,7 +196,7 @@ public class AtyAddressMng extends Activity {
 
                 }
             });
-            findViewById(R.id.btn_change_Address).setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.btn_mng_submit).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     room = room_et.getText().toString();
@@ -232,7 +230,7 @@ public class AtyAddressMng extends Activity {
         setContentView(R.layout.aty_address_mng);
 
         bindView();
-        findViewById(R.id.Address_mng_back).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.iv_mng_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -281,7 +279,7 @@ public class AtyAddressMng extends Activity {
         building_spinner.setAdapter(arr_adapter);
 
         //show current address!!!!
-        address = (TextView) findViewById(R.id.address_text);
+        address = (TextView) findViewById(R.id.tv_mng_address);
         // 获得phoneNum
         SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
         String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
@@ -325,7 +323,7 @@ public class AtyAddressMng extends Activity {
 
             }
         });
-        findViewById(R.id.btn_change_Address).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_mng_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 room = room_et.getText().toString();

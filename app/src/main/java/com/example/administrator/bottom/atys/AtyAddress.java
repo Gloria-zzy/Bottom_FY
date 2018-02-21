@@ -50,7 +50,7 @@ public class AtyAddress extends Activity {
         agree.setChecked(true);
         area_spinner = (Spinner) findViewById(R.id.area_spinner);
         building_spinner = (Spinner) findViewById(R.id.building_spinner);
-        room_edittext = (EditText) findViewById(R.id.room_et);
+        room_edittext = (EditText) findViewById(R.id.et_mng_room);
     }
 
     @Override

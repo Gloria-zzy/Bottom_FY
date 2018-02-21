@@ -310,7 +310,7 @@
 
                     <ImageView
                         style="@style/spinner_btn"
-                        android:layout_alignBottom="@+id/area_spinner_mng"
+                        android:layout_alignBottom="@+id/sp_mng_area"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="4dp"
@@ -345,7 +345,7 @@
 
                     <ImageView
                         style="@style/spinner_btn"
-                        android:layout_alignBottom="@+id/area_spinner_mng"
+                        android:layout_alignBottom="@+id/sp_mng_area"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="4dp"
@@ -393,7 +393,7 @@
 
                     <ImageView
                         style="@style/spinner_btn"
-                        android:layout_alignBottom="@+id/area_spinner_mng"
+                        android:layout_alignBottom="@+id/sp_mng_area"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="4dp"

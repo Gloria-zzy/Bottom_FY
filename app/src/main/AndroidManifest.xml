@@ -99,7 +99,7 @@
 
 
         <activity android:name=".atys.AtyGenCode" />
-        <activity android:name=".atys.AtyTakenOrders" />
+        <activity android:name=".atys.AtyTrustOrders" />
         <activity android:name=".atys.AtyUpdateOrder" />
         <activity android:name=".atys.AtyAboutUD"></activity>
         <activity android:name=".atys.AtyDetails"></activity>

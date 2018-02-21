@@ -7,9 +7,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-public class DownloadTakenOrders {
-    public DownloadTakenOrders(String phone, final SuccessCallback successCallback, final FailCallback failCallback) {
+//        手机号   phone
+//        订单号   order_number
+//        下单时间 order_time
+//        快递体积 size(L M S)
+//        收货地点 arrive_address
+//        收货时间 arrive_time
+//        派送员   taker
+//        备注     note
+//        状态     order_status(int)
+public class DownloadTrustOrders {
+    public DownloadTrustOrders(String phone, final SuccessCallback successCallback, final FailCallback failCallback) {
         new NetConnection(Config.SERVER_URL, HttpMethod.POST, new NetConnection.SuccessCallback() {
 
             @Override
@@ -66,7 +74,7 @@ public class DownloadTakenOrders {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_DOWNLOAD_TAKEN_ORDERS, Config.KEY_PHONE_NUM, phone);
+        }, Config.KEY_ACTION, Config.ACTION_DOWNLOAD_TRUST_ORDERS, Config.KEY_PHONE_NUM, phone);
     }
 
     public static interface SuccessCallback {

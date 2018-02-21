@@ -40,20 +40,54 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="70dp"-->
-
-                <TextView
-                    android:id="@+id/textView"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:layout_centerVertical="true"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="28dp"
-
                     android:layout_marginStart="28dp"
                     android:layout_toEndOf="@+id/iv_avatar"
-                    android:layout_toRightOf="@+id/iv_avatar"
-                    android:text="未登录"
-                    android:textSize="20dp" />
+                    android:layout_toRightOf="@+id/iv_avatar">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="未登录"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/white_grey"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_fragMe_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="8sp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="id : "
+                            android:textSize="14dp"
+                            android:textColor="@color/white_grey"/>
+
+                        <TextView
+                            android:id="@+id/tv_fragMe_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="12345678910"
+                            android:textSize="14dp"
+                            android:textColor="@color/white_grey"/>
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
 
             </RelativeLayout>
         </LinearLayout>
@@ -86,19 +120,19 @@
                 <ImageView style="@style/img_arrow" />
             </LinearLayout>
 
-            <!--<View style="@style/bg_line" />-->
+            <View style="@style/bg_line" />
 
-            <!--<LinearLayout-->
-                <!--android:id="@+id/tv_taken_orders"-->
-                <!--style="@style/bottom_layout">-->
+            <LinearLayout
+                android:id="@+id/tv_trust_orders"
+                style="@style/bottom_layout">
 
-                <!--<TextView-->
+                <TextView
 
-                    <!--style="@style/usertext"-->
-                    <!--android:text="已抢订单" />-->
+                    style="@style/usertext"
+                    android:text="信任订单" />
 
-                <!--<ImageView style="@style/img_arrow" />-->
-            <!--</LinearLayout>-->
+                <ImageView style="@style/img_arrow" />
+            </LinearLayout>
 
         </LinearLayout>
 

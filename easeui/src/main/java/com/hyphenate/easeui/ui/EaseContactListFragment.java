@@ -244,6 +244,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
                 for (int i = 0; i < friendsName.size(); i++) {
                     EaseUser user = new EaseUser(friendsName.get(i));
                     user.setAvatar(getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE).getString(Config.getCachedPortraitPath(getContext()), ""));
+                    Log.i("contact avatar", user.getAvatar());
                     arrContacts[0].put(user.getUsername(), user);
                     Log.i(TAG, "write arrContacts");
                     String fname = arrContacts[0].get(user.getUsername()).getUsername();

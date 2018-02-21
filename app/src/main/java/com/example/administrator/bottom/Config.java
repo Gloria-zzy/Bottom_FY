@@ -88,7 +88,7 @@ public class Config {
     public static final String ACTION_DOWNLOAD_ADDRESS = "download_address";
     public static final String ACTION_DOWNLOAD_ORDERS = "download_orders";
     public static final String ACTION_DOWNLOAD_WAITING_ORDERS = "download_waiting_orders";
-    public static final String ACTION_DOWNLOAD_TAKEN_ORDERS = "download_taken_orders";
+    public static final String ACTION_DOWNLOAD_TRUST_ORDERS = "download_trust_orders";
     public static final String ACTION_DOWNLOAD_ONE_ORDER = "download_one_order";
     public static final String ACTION_DOWNLOAD_HXFRIENDS = "download_hxfriends";
     public static final String ACTION_DELETE_ORDER = "delete_order";
