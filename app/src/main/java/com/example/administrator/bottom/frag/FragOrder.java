@@ -286,6 +286,7 @@ public class FragOrder extends Fragment {
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), AtyDetails.class);
                             intent.putExtra("orderNumber", orderNumber);
+                            intent.putExtra("pattern","");
                             startActivityForResult(intent, CODE_REFRESH);
                             getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         }

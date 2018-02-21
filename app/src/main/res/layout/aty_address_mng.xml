@@ -201,6 +201,12 @@
                 android:gravity="center"
                 android:text="提交修改"
                 android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="140sp"
+                android:src="@drawable/item_mng_bg"/>
+
         </LinearLayout>
     </ScrollView>
 

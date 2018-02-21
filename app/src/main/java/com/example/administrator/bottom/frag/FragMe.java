@@ -298,6 +298,24 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 }
             }
         });
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Config.loginStatus == 1) {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, null);
+                    intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
+                    startActivityForResult(intent, PHOTO_REQUEST_CUT);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+
+                } else {
+                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                }
+            }
+        });
 
         // 制作团队
         view.findViewById(R.id.team).setOnClickListener(new View.OnClickListener() {
