@@ -45,7 +45,7 @@ public class HuanXinLogin {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_HXLOGIN, Config.KEY_HXUSERNAME, userName, Config.KEY_HXPASSWORD, password);
+        }, Config.KEY_ACTION, Config.ACTION_HXLOGIN, Config.KEY_HX_USERNAME, userName, Config.KEY_HX_PASSWORD, password);
     }
 
     public static interface SuccessCallback {

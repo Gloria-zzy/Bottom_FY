@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyAddressMng;
@@ -74,6 +75,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     private String IMAGE_UNSPECIFIED = "image/*";
     private ImageView avatar;
     private File portraitFile;
+    private String hxPortraitPath;
 
     private LinearLayout linearLayout_id;
     private TextView textView_id;
@@ -182,8 +184,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             if (bitmap != null) {
                 Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
                 Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
-                this.avatar.setImageBitmap(bitmap);
-
+//                this.avatar.setImageBitmap(bitmap);
+                Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT)).into(avatar);
             } else {
                 // 本地头像不存在，获取服务器端头像，并设置头像
                 Log.i("no_portrait_path", "here");
@@ -354,6 +356,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                             DownloadUtil downloadUtil = new DownloadUtil();
                             downloadUtil.setOnDownloadProcessListener(FragMe.this);
                             downloadUtil.downLoad(Config.SERVER_URL_PORTRAITPATH + portrait, portrait);
+                            // 同时将图片的URL保存为环信头像（此时没有上传头像，因此hxPortraitPath不存在）
+                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT, Config.SERVER_URL_PORTRAITPATH + portrait);
                             Log.i("Handler", "download Pics");
                         }
                     }, new DownloadPortrait.FailCallback() {
@@ -380,14 +384,15 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                             e.printStackTrace();
                         }
 
-                        // 压缩图片
-                        BitmapFactory.Options options = new BitmapFactory.Options();
-                        options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
-                        Bitmap bitmap_1 = BitmapFactory.decodeStream(fis, null, options);
-
-                        if (bitmap_1 != null) {
-                            FragMe.this.avatar.setImageBitmap(bitmap_1);
-                        }
+//                        // 压缩图片
+//                        BitmapFactory.Options options = new BitmapFactory.Options();
+//                        options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
+//                        Bitmap bitmap_1 = BitmapFactory.decodeStream(fis, null, options);
+//
+//                        if (bitmap_1 != null) {
+//                            FragMe.this.avatar.setImageBitmap(bitmap_1);
+//                        }
+                        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT)).into(avatar);
                     } else if (msg.arg1 == UploadUtil.UPLOAD_SERVER_ERROR_CODE) {
                     }
                     break;
@@ -458,13 +463,16 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         } else if (requestCode == REQUEST_CODE_GETIMAGE_BYSDCARD) {
             // 剪裁结束上传头像
             toUploadFile();
-
-            Bitmap bitmap = BitmapFactory.decodeFile(portraitFile.getAbsolutePath());
+            String portraitPath = portraitFile.getAbsolutePath();
+            Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
             if (bitmap != null) {
                 this.avatar.setImageBitmap(bitmap);
 
-                // 上传头像之前，把保存头像的路径写入本地文件中（更新头像的需要，这个路径更新是上传时更新，和下载头像时的路径更新不重叠）
-                Config.cachePortraitPath(getActivity(), portraitFile.getAbsolutePath());
+                // 上传并设置好头像之后，把保存头像的路径写入本地文件中（更新头像的需要，这个路径更新是上传时更新，和下载头像时的路径更新不重叠）
+                Config.cachePortraitPath(getActivity(), portraitPath);
+
+                // 同时将头像的URL（由于选择头像上传，因此hxPortraitPath此时肯定存在）保存到本地
+                Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT, hxPortraitPath);
             }
         }
 
@@ -543,6 +551,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         // 照片命名
         String cropFileName = "crop_" + timeStamp + "." + ext;
+        hxPortraitPath = Config.SERVER_URL_PORTRAITPATH + cropFileName;
         new UploadPortraitName(Config.getCachedPhoneNum(getActivity()), cropFileName, new UploadPortraitName.SuccessCallback() {
             @Override
             public void onSuccess() {

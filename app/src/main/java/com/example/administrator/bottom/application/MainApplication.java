@@ -1,62 +1,55 @@
 package com.example.administrator.bottom.application;
 
-import android.app.ActivityManager;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.pm.PackageManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.common.util.SharedPreferencesUtils;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.example.administrator.bottom.atys.AtyMainFrame;
+import com.example.administrator.bottom.Config;
+import com.example.administrator.bottom.net.DownloadHXFriends;
+import com.example.administrator.bottom.net.DownloadPortrait;
+import com.example.administrator.zxinglibrary.common.Constant;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMOptions;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.hyphenate.util.EMLog;
 
-import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainApplication extends Application {
     private static final String TAG = "Init";
-    private static AtyMainFrame mainActivity;
+    private Context appContext = null;
+    private EaseUI easeUI = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        // 阿里云初始化
         initCloudChannel(this);
 
-        EaseUI.getInstance().init(this, null);
+        if (EaseUI.getInstance().init(this, null)) {
+            //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+            EMClient.getInstance().setDebugMode(true);
 
-        EMOptions options = new EMOptions();
-// 默认添加好友时，是不需要验证的，改成需要验证
-        options.setAcceptInvitationAlways(false);
-// 是否自动将消息附件上传到环信服务器，默认为True是使用环信服务器上传下载，如果设为 false，需要开发者自己处理附件消息的上传和下载
-        options.setAutoTransferMessageAttachments(true);
-// 是否自动下载附件类消息的缩略图等，默认为 true 这里和上边这个参数相关联
-        options.setAutoDownloadThumbnail(true);
-
-        Context appContext = this;
-        int pid = android.os.Process.myPid();
-        String processAppName = getAppName(pid);
-// 如果APP启用了远程的service，此application:onCreate会被调用2次
-// 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
-// 默认的APP会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就立即返回
-
-        if (processAppName == null ||!processAppName.equalsIgnoreCase(appContext.getPackageName())) {
-            Log.e(TAG, "enter the service process!");
-
-            // 则此application::onCreate 是被service 调用的，直接返回
-            return;
+            easeUI = EaseUI.getInstance();
+            setEaseUIProviders();
+//            setGlobalListeners();
         }
-
-//初始化
-        EMClient.getInstance().init(getApplicationContext(), options);
-//在做打包混淆时，关闭debug模式，避免消耗不必要的资源
-        EMClient.getInstance().setDebugMode(true);
     }
 
     /**
      * 初始化阿里云推送通道
+     *
      * @param applicationContext
      */
     private void initCloudChannel(Context applicationContext) {
@@ -67,6 +60,7 @@ public class MainApplication extends Application {
             public void onSuccess(String response) {
                 Log.d(TAG, "init cloudchannel success");
             }
+
             @Override
             public void onFailed(String errorCode, String errorMessage) {
                 Log.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
@@ -74,34 +68,122 @@ public class MainApplication extends Application {
         });
     }
 
-    public static void setMainActivity(AtyMainFrame activity) {
-        mainActivity = activity;
-    }
-
-    public static void setConsoleText(String text) {
-        if (mainActivity != null && text != null) {
-            mainActivity.appendConsoleText(text);
+    private EaseUser getUserInfo(String username) {
+        //获取 EaseUser实例, 这里从内存中读取
+        //如果你是从服务器中读读取到的，最好在本地进行缓存
+        EaseUser user = null;
+        //如果用户是本人，就设置自己的头像
+        if (username.equals(EMClient.getInstance().getCurrentUser())) {
+            // 设置Username
+            user = new EaseUser(username);
+            // 设置头像
+            user.setAvatar(Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT));
+            // 暂时用ID替代
+            user.setNick(Config.getCachedPreference(this, Config.KEY_PHONE_NUM));
+            return user;
         }
-    }
-
-    // 获得App的名字
-    private String getAppName(int pID) {
-        String processName = null;
-        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-        List l = am.getRunningAppProcesses();
-        Iterator i = l.iterator();
-        PackageManager pm = this.getPackageManager();
-        while (i.hasNext()) {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
-            try {
-                if (info.pid == pID) {
-                    processName = info.processName;
-                    return processName;
-                }
-            } catch (Exception e) {
-                 Log.d("Process", "Error>> :"+ e.toString());
+//        if (user==null && getRobotList()!=null){
+//            user=getRobotList().get(username);
+//        }
+        //收到别人的消息，设置别人的头像
+//        if (contactList != null && contactList.containsKey(username)) {
+//            user = contactList.get(username);
+//        } else { //如果内存中没有，则将本地数据库中的取出到内存中
+//            contactList = getContactList();
+//            user = contactList.get(username);
+//        }
+        //如果用户不是你的联系人，则进行初始化
+        if (user == null) {
+            Config.setContactPortraitList();
+            if (Config.getContactPortrait(username) != null) {
+                user = new EaseUser(username);
+                // 设置头像
+                user.setAvatar(Config.getContactPortrait(username));
+            }
+//            EaseCommonUtils.setUserInitialLetter(user);
+        } else {
+            if (TextUtils.isEmpty(user.getNickname())) {//如果名字为空，则显示环信号码
+                user.setNick(user.getUsername());
             }
         }
-        return processName;
+//        Log.i(TAG, "Portrait：" + user.getAvatar());
+        return user;
     }
+
+    protected void setEaseUIProviders() {
+        // set profile provider if you want easeUI to handle avatar and nickname
+        easeUI.setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                return getUserInfo(username);
+            }
+        });
+    }
+
+    /**
+     * set global listener
+     */
+    protected void setGlobalListeners(){
+        registerMessageListener();
+    }
+
+    /**
+     * Global listener
+     * If this event already handled by an activity, you don't need handle it again
+     * activityList.size() <= 0 means all activities already in background or not in Activity Stack
+     */
+    protected void registerMessageListener() {
+//        messageListener = new EMMessageListener() {
+//            private BroadcastReceiver broadCastReceiver = null;
+//            @Override
+//            public void onMessageReceived(List<EMMessage> messages) {
+//                for (EMMessage message : messages) {
+//                    EMLog.d(TAG, "onMessageReceived id : " + message.getMsgId());
+//                    //接收并处理扩展消息
+//                    String userName=message.getStringAttribute(Constant.USER_NAME,"");
+//                    String userId=message.getStringAttribute(Constant.USER_ID,"");
+//                    String userPic=message.getStringAttribute(Constant.HEAD_IMAGE_URL,"");
+//                    String hxIdFrom=message.getFrom();
+//                    System.out.println("helper接收到的用户名："+userName+"helper接收到的id："+userId+"helper头像："+userPic);
+//                    EaseUser easeUser=new EaseUser(hxIdFrom);
+//                    easeUser.setAvatar(userPic);
+//                    easeUser.setNick(userName);
+//                    //存入内存
+//                    getContactList();
+//                    contactList.put(hxIdFrom,easeUser);
+//                    //存入db
+//                    UserDao dao=new UserDao(appContext);
+//                    List<EaseUser> users=new ArrayList<EaseUser>();
+//                    users.add(easeUser);
+//                    dao.saveContactList(users);
+//                    // in background, do not refresh UI, notify it in notification bar
+////                    if(!easeUI.hasForegroundActivies()){
+////                        getNotifier().onNewMsg(message);
+////                    }
+//                }
+//            }
+//            @Override
+//            public void onCmdMessageReceived(List<EMMessage> messages) {
+//                for (EMMessage message : messages) {
+//                    EMLog.d(TAG, "receive command message");
+//                    //get message body
+//                    //end of red packet code
+//                    //获取扩展属性 此处省略
+//                    //maybe you need get extension of your message
+//                    //message.getStringAttribute("");
+//                }
+//            }
+//            @Override
+//            public void onMessageRead(List<EMMessage> messages) {
+//            }
+//            @Override
+//            public void onMessageDelivered(List<EMMessage> message) {
+//            }
+//            @Override
+//            public void onMessageChanged(EMMessage message, Object change) {
+//            }
+//        };
+//        EMClient.getInstance().chatManager().addMessageListener(messageListener);
+    }
+
 }

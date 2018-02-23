@@ -13,11 +13,12 @@
  */
 package com.hyphenate.easeui.ui;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -43,6 +44,7 @@ import com.hyphenate.easeui.Config;
 import com.hyphenate.easeui.R;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.net.DownloadHXFriends;
+import com.hyphenate.easeui.net.DownloadPortrait;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseContactList;
 import com.hyphenate.exceptions.HyphenateException;
@@ -58,7 +60,6 @@ import java.util.Map.Entry;
 
 /**
  * contact list
- *
  */
 public class EaseContactListFragment extends EaseBaseFragment {
     private static final String TAG = "EaseContactListFragment";
@@ -67,7 +68,6 @@ public class EaseContactListFragment extends EaseBaseFragment {
     protected boolean hidden;
     protected ImageButton clearSearch;
     protected EditText query;
-    protected Handler handler = new Handler();
     protected EaseUser toBeProcessUser;
     protected String toBeProcessUsername;
     protected EaseContactList contactListLayout;
@@ -78,6 +78,10 @@ public class EaseContactListFragment extends EaseBaseFragment {
     private Map<String, EaseUser> contactsMap;
 
     private final int REQUEST_CODE_REFRESH = 1;
+    private final int REFRESH_PORTRAITLIST = 2;
+    private final int REFRESH_VIEW = 3;
+
+    private int countContact;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -235,33 +239,13 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     // refresh ui
     public void refresh() {
-        new DownloadHXFriends(Config.getCachedPhoneNum(getActivity()), new DownloadHXFriends.SuccessCallback() {
-            @Override
-            public void onSuccess(ArrayList<String> friendsName) {
-                final String APP_ID = "com.charles.secret";
-                final Map<String, EaseUser>[] arrContacts = new HashMap[1];
-                arrContacts[0] = new HashMap<String, EaseUser>();
-                for (int i = 0; i < friendsName.size(); i++) {
-                    EaseUser user = new EaseUser(friendsName.get(i));
-                    user.setAvatar(getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE).getString(Config.getCachedPortraitPath(getContext()), ""));
-                    Log.i("contact avatar", user.getAvatar());
-                    arrContacts[0].put(user.getUsername(), user);
-                    Log.i(TAG, "write arrContacts");
-                    String fname = arrContacts[0].get(user.getUsername()).getUsername();
-                    Log.i(TAG, "friend name is " + fname);
-                }
-                setContactsMap(arrContacts[0]);
-                getContactList();
-                contactListLayout.refresh();
-            }
-        }, new DownloadHXFriends.FailCallback() {
-            @Override
-            public void onFail() {
-                getContactList();
-                contactListLayout.refresh();
-            }
-        });
-
+        if (Config.contactPortraitList == null) {
+            refreshContactList();
+            return;
+        }
+        getContactList();
+        // 更新界面
+        contactListLayout.refresh();
     }
 
 
@@ -362,6 +346,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     /**
      * set contacts map, key is the hyphenate id
+     *
      * @param contactsMap
      */
     public void setContactsMap(Map<String, EaseUser> contactsMap) {
@@ -370,7 +355,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     public interface EaseContactListItemClickListener {
         /**
-         * on click event for item in contact list 
+         * on click event for item in contact list
+         *
          * @param user --the user of item
          */
         void onListItemClicked(EaseUser user);
@@ -378,6 +364,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     /**
      * set contact list item click listener
+     *
      * @param listItemClickListener
      */
     public void setContactListItemClickListener(EaseContactListItemClickListener listItemClickListener) {
@@ -389,8 +376,81 @@ public class EaseContactListFragment extends EaseBaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_REFRESH) {
             Log.i(TAG, "refresh");
-            refresh();
+            refreshContactList();
         }
+    }
 
+    private void refreshContactList() {
+        new DownloadHXFriends(Config.getCachedPhoneNum(getActivity()), new DownloadHXFriends.SuccessCallback() {
+            @Override
+            public void onSuccess(ArrayList<String> friendsName) {
+                final Map<String, EaseUser>[] arrContacts = new HashMap[1];
+                arrContacts[0] = new HashMap<>();
+                for (int i = 0; i < friendsName.size(); i++) {
+                    EaseUser user = new EaseUser(friendsName.get(i));
+                    arrContacts[0].put(user.getUsername(), user);
+                    Log.i(TAG, "write arrContacts");
+                    String fname = arrContacts[0].get(user.getUsername()).getUsername();
+                    Log.i(TAG, "friend name is " + fname);
+                }
+                setContactsMap(arrContacts[0]);
+                handler.sendEmptyMessage(REFRESH_PORTRAITLIST);
+            }
+        }, new DownloadHXFriends.FailCallback() {
+            @Override
+            public void onFail() {
+
+            }
+        });
+    }
+
+    // 刷新Config中的头像键值对表
+    private void refreshPortraitList() {
+        Config.resetContactPortraitList();
+        countContact = 0;
+        Iterator<Entry<String, EaseUser>> iterator = contactsMap.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Entry<String, EaseUser> entry = iterator.next();
+            EaseUser eu = entry.getValue();
+            final String userName = eu.getUsername();
+            new DownloadPortrait(userName, new DownloadPortrait.SuccessCallback() {
+                @Override
+                public void onSuccess(String portrait) {
+                    Config.putContactPortraitList(userName, Config.SERVER_URL_PORTRAITPATH + portrait);
+                    countContact++;
+                    if (countContact == contactsMap.size()) {
+                        Log.i(TAG, "countContac:" + countContact);
+                        handler.sendEmptyMessage(REFRESH_VIEW);
+                    }
+                }
+            }, new DownloadPortrait.FailCallback() {
+                @Override
+                public void onFail() {
+
+                }
+            });
+        }
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case REFRESH_PORTRAITLIST:
+                    refreshPortraitList();
+                    break;
+                case REFRESH_VIEW:
+                    getContactList();
+                    // 更新界面
+                    contactListLayout.refresh();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
+
+    public void forOutRefresh() {
+        refreshContactList();
     }
 }

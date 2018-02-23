@@ -3,6 +3,9 @@ package com.hyphenate.easeui;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Config {
 
     public static final String SERVER_URL = "http://101.132.190.102:8080/TestServer/api.jsp";
@@ -14,7 +17,7 @@ public class Config {
 
 //    public static final String SERVER_URL = "http://172.20.10.8:8080/TestServer/api.jsp";
 
-    public static final String PORTRAITPATH = "";
+    public static final String PORTRAITPATH = "portrait_path";
 
     public static final String DEVICEID = "deviceid";
     public static final String KEY_TOKEN = "token";
@@ -42,26 +45,18 @@ public class Config {
     public static final String KEY_ADDRESS_BUILDING = "address_building";
     public static final String KEY_ADDRESS_ROOM = "address_room";
 
-    public static final String KEY_ORDER_NUMBER = "order_number";
-    public static final String KEY_TAKER = "taker";
-    public static final String KEY_ARRIVE_ADDRESS = "arrive_address";
-    public static final String KEY_NOTE = "note";
-    public static final String KEY_ORDER_TIME = "order_time";
-    public static final String KEY_TRUST_FRIEND = "trust_friend";
-    public static final String KEY_SIZE = "size";
-    public static final String KEY_AMOUNT = "amount";
-    public static final String KEY_ARRIVE_TIME = "arrive_time";
-    public static final String KEY_PICK_POINT = "pick_point";
-    public static final String KEY_PICK_NUMBER = "pick_number";
-    public static final String KEY_ORDER_STATUS = "order_status";
-
     public static final String KEY_PORTRAIT = "portrait";
 
+    // 环信Config
     public static final String KEY_HXUSERNAME = "hx_username";
+    public static final String KEY_HX_NIKENAME = "hx_nickname";
     public static final String KEY_HXPASSWORD = "hx_password";
     public static final String KEY_HX_MYNAME = "hx_myname";
     public static final String KEY_HX_FRIENDNAME = "hx_friendname";
     public static final String KEY_HX_FRIENDSNAME = "hx_friendsname";
+    public static final int HX_USERID = 1;
+    public static final int HX_NICKNAME = 2;
+    public static final int HX_PORTRAIT = 2;
 
     public static final int REQUEST_READ_PHONE_STATE = 1;
     public static final int RESULT_STATUS_SUCCESS = 1;
@@ -71,16 +66,6 @@ public class Config {
     public static final String APP_ID = "com.charles.secret";
     public static final String CHARSET = "utf-8";
 
-    public static final String ACTION_GET_CODE = "send_pass";
-    public static final String ACTION_LOGIN = "login";
-    public static final String ACTION_HXLOGIN = "hx_login";
-
-    public static final String ACTION_UPLOAD_ADDRESS = "upload_address";
-    public static final String ACTION_UPLOAD_PORTRAIT = "upload_portraitname";
-    public static final String ACTION_UPLOAD_CONTACTS = "upload_contacts";
-    public static final String ACTION_UPLOAD_ORDER = "upload_order";
-    public static final String ACTION_UPDATE_ORDER = "update_order";
-    public static final String ACTION_UPLOAD_TOKEN = "upload_token";
     public static final String ACTION_UPLOAD_HXFRIEND = "upload_hxfriend";
 
     public static final String ACTION_DOWNLOAD_PORTRAIT = "download_portrait";
@@ -99,12 +84,14 @@ public class Config {
 
     public static final int DELAYMILLIS = 500;
 
-    public static String ADDRESS = "";
+    public static final String KEY_SAVED_ADDRESS = "saved_address";
 
     public static final int ACTIVITY_RESULT_NEED_REFRESH = 10000;
 
     //if user has already login , then loginStatue = 1
     public static int loginStatus = 0;
+
+    public static Map<String, String> contactPortraitList;
 
     public static String getCachedToken(Context context) {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
@@ -121,7 +108,7 @@ public class Config {
     public static void cacheAddress(Context context, String token) {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
-        e.putString(ADDRESS, token);
+        e.putString(KEY_SAVED_ADDRESS, token);
         e.commit();
     }
 
@@ -137,31 +124,61 @@ public class Config {
         e.commit();
     }
 
-    public static void cacheDeviceID(Context context, String deviceID)
-    {
+    public static void cacheDeviceID(Context context, String deviceID) {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
         e.putString(DEVICEID, deviceID);
         e.commit();
     }
 
-    public static String getCachedDeviceID(Context context)
-    {
+    public static String getCachedDeviceID(Context context) {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .getString(DEVICEID, null);
     }
 
-    public static void cachePortraitPath(Context context, String path)
-    {
+    public static void cachePortraitPath(Context context, String path) {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
         e.putString(PORTRAITPATH, path);
         e.commit();
     }
 
-    public static String getCachedPortraitPath(Context context)
-    {
+    public static String getCachedPortraitPath(Context context) {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .getString(PORTRAITPATH, null);
     }
+
+    public static void cachePreference(Context context, String preference, String value) {
+        Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+                .edit();
+        e.putString(preference, value);
+        e.apply();
+    }
+
+    public static String getCachedPreference(Context context, String preference) {
+        return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+                .getString(preference, null);
+    }
+
+    public static void resetContactPortraitList() {
+        contactPortraitList = new HashMap<>();
+    }
+
+    public static void putContactPortraitList(String key, String value) {
+        if (contactPortraitList != null) {
+            contactPortraitList.put(key, value);
+        }
+    }
+
+    public static String getContactPortrait(String key) {
+        if (contactPortraitList != null) {
+            return contactPortraitList.get(key);
+        }
+        return null;
+    }
+
+    public static Map<String, String> getContactPortraitList() {
+        return contactPortraitList;
+    }
+
 }

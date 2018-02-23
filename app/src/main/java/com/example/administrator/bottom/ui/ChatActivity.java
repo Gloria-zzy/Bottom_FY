@@ -12,10 +12,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.atys.AtyAboutUD;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.ui.EaseChatFragment;
+import com.hyphenate.easeui.ui.MyChatFragment;
 
 public class ChatActivity extends FragmentActivity {
     public static ChatActivity activityInstance;
@@ -61,7 +61,7 @@ public class ChatActivity extends FragmentActivity {
         activityInstance = this;
         //user or group id
         toChatUsername = getIntent().getExtras().getString(EaseConstant.EXTRA_USER_ID);
-        chatFragment = new EaseChatFragment();
+        chatFragment = new MyChatFragment();
         //set arguments
         chatFragment.setArguments(getIntent().getExtras());
         getSupportFragmentManager().beginTransaction().add(R.id.container, chatFragment).commit();

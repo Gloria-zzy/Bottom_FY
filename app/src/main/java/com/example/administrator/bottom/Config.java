@@ -3,6 +3,8 @@ package com.example.administrator.bottom;
 import android.content.Context;
 import android.content.SharedPreferences.Editor;
 
+import java.util.Map;
+
 public class Config {
 
     public static final String SERVER_URL = "http://101.132.190.102:8080/TestServer/api.jsp";
@@ -14,7 +16,7 @@ public class Config {
 
 //    public static final String SERVER_URL = "http://172.20.10.8:8080/TestServer/api.jsp";
 
-    public static final String PORTRAITPATH = "";
+    public static final String PORTRAITPATH = "portrait_path";
 
     public static final String KEY_DEVICEID = "deviceid";
     public static final String KEY_TOKEN = "token";
@@ -57,8 +59,10 @@ public class Config {
 
     public static final String KEY_PORTRAIT = "portrait";
 
-    public static final String KEY_HXUSERNAME = "hx_username";
-    public static final String KEY_HXPASSWORD = "hx_password";
+    public static final String KEY_HX_PORTRAIT = "hx_portrait";
+    public static final String KEY_HX_NICKNAME = "hx_nickname";
+    public static final String KEY_HX_USERNAME = "hx_username";
+    public static final String KEY_HX_PASSWORD = "hx_password";
     public static final String KEY_HX_MYNAME = "hx_myname";
     public static final String KEY_HX_FRIENDNAME = "hx_friendname";
     public static final String KEY_HX_FRIENDSNAME = "hx_friendsname";
@@ -107,6 +111,8 @@ public class Config {
     //if user has already login , then loginStatue = 1
     public static int loginStatus = 0;
 
+    public static Map<String, String> contactPortraitList;
+
     public static String getCachedToken(Context context) {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .getString(KEY_TOKEN, null);
@@ -138,31 +144,50 @@ public class Config {
         e.commit();
     }
 
-    public static void cacheDeviceID(Context context, String deviceID)
-    {
+    public static void cacheDeviceID(Context context, String deviceID) {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
         e.putString(KEY_DEVICEID, deviceID);
         e.commit();
     }
 
-    public static String getCachedDeviceID(Context context)
-    {
+    public static String getCachedDeviceID(Context context) {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .getString(KEY_DEVICEID, null);
     }
 
-    public static void cachePortraitPath(Context context, String path)
-    {
+    public static void cachePortraitPath(Context context, String path) {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
         e.putString(PORTRAITPATH, path);
         e.commit();
     }
 
-    public static String getCachedPortraitPath(Context context)
-    {
+    public static String getCachedPortraitPath(Context context) {
         return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .getString(PORTRAITPATH, null);
+    }
+
+    public static String getCachedPreference(Context context, String preference) {
+        return context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+                .getString(preference, null);
+    }
+
+    public static void cachePreference(Context context, String preference, String value) {
+        Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
+                .edit();
+        e.putString(preference, value);
+        e.apply();
+    }
+
+    public static void setContactPortraitList () {
+        contactPortraitList = com.hyphenate.easeui.Config.getContactPortraitList();
+    }
+
+    public static String getContactPortrait(String key) {
+        if (contactPortraitList != null) {
+            return contactPortraitList.get(key);
+        }
+        return null;
     }
 }
