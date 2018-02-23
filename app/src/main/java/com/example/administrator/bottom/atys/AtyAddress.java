@@ -46,11 +46,11 @@ public class AtyAddress extends Activity {
     //UI组件初始化
     private void bindView() {
 
-        agree = (CheckBox) findViewById(R.id.rb_agree);
+        agree = (CheckBox) findViewById(R.id.cb_address_agree);
         agree.setChecked(true);
-        area_spinner = (Spinner) findViewById(R.id.area_spinner);
-        building_spinner = (Spinner) findViewById(R.id.building_spinner);
-        room_edittext = (EditText) findViewById(R.id.et_mng_room);
+        area_spinner = (Spinner) findViewById(R.id.sp_address_area);
+        building_spinner = (Spinner) findViewById(R.id.sp_address_building);
+        room_edittext = (EditText) findViewById(R.id.et_address_room);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AtyAddress extends Activity {
             }
         });
 
-        findViewById(R.id.agreement).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.tv_address_agreement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(AtyAddress.this, AtyAgreement.class));
@@ -155,7 +155,7 @@ public class AtyAddress extends Activity {
             }
         });
 
-        findViewById(R.id.btnAddress).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.btn_address_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

@@ -171,25 +171,28 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             uri = Config.getCachedPortraitPath(getActivity());
 
             FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(new File(uri));
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            if (uri != null && uri != "") {
 
-            // 压缩图片
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
-            Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
-            if (bitmap != null) {
-                Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
-                Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
+                try {
+                    fis = new FileInputStream(new File(uri));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                // 压缩图片
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
+                Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
+                if (bitmap != null) {
+                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
+                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
 //                this.avatar.setImageBitmap(bitmap);
-                Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT)).into(avatar);
-            } else {
-                // 本地头像不存在，获取服务器端头像，并设置头像
-                Log.i("no_portrait_path", "here");
-                handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
+                    Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT)).into(avatar);
+                } else {
+                    // 本地头像不存在，获取服务器端头像，并设置头像
+                    Log.i("no_portrait_path", "here");
+                    handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
+                }
             }
         }
 

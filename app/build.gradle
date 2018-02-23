@@ -6,9 +6,10 @@ android {
     useLibrary 'org.apache.http.legacy'
     defaultConfig {
         applicationId "com.example.administrator.bottom"
+        multiDexEnabled true
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'x86'
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
         minSdkVersion 17
         targetSdkVersion 26
