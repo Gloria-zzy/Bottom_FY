@@ -1,11 +1,14 @@
 package com.example.administrator.bottom.atys;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -55,6 +58,8 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
 
     // 用来在log输出中标志这个Activity的信息
     private String TAG;
+
+    protected static final int PHONE_STATE_GRANTED = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +118,17 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
             showFragHome();
         }
 
+
+
+
         // 申请 读取手机状态 权限
         AndPermission.with(this)
                 .permission(Manifest.permission.READ_PHONE_STATE).callback(new PermissionListener() {
             @Override
             public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
 
+                // 申请写入文件权限
+                handler.sendEmptyMessage(PHONE_STATE_GRANTED);
                 String permission = Manifest.permission.READ_PHONE_STATE;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     int i = ContextCompat.checkSelfPermission(getApplicationContext(), permission);
@@ -152,6 +162,24 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         }).start();
 
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case PHONE_STATE_GRANTED:
+                    AndPermission.with(getApplicationContext()).permission(Manifest.permission.WRITE_EXTERNAL_STORAGE).callback(new PermissionListener() {
+                        @Override
+                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {}
+
+                        @Override
+                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {}
+                    }).start();
+            }
+            super.handleMessage(msg);
+        }
+    };
 
     //UI组件初始化与事件绑定
     private void bindView() {

@@ -114,7 +114,10 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         showPhoneNumber();
         //login btn
         mTextView = view.findViewById(R.id.func_btn);
-        if (Config.loginStatus == 0) {
+        String token = Config.getCachedToken(getActivity());
+        String phone = Config.getCachedPhoneNum(getActivity());
+        Log.i(TAG, "Token:" + token);
+        if (token == null || token.equals("")) {
             linearLayout_id.setVisibility(View.GONE);
             mTextView.setText("登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
@@ -125,7 +128,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 }
             });
-        } else {
+        } else if (token.equals(phone)) {
             linearLayout_id.setVisibility(View.VISIBLE);
             mTextView.setText("退出登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
@@ -166,33 +169,34 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 }
             });
 
-            // 获取本地头像
+            // 获取本地头像地址
             String uri;
-            uri = Config.getCachedPortraitPath(getActivity());
+            uri = Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()));
 
             FileInputStream fis = null;
             if (uri != null && uri != "") {
-
-                try {
-                    fis = new FileInputStream(new File(uri));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
-                // 压缩图片
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
-                Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
-                if (bitmap != null) {
-                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
-                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
+//
+//                try {
+//                    fis = new FileInputStream(new File(uri));
+//                } catch (FileNotFoundException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                // 压缩图片
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
+//                Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
+//                if (bitmap != null) {
+//                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
+//                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
 //                this.avatar.setImageBitmap(bitmap);
-                    Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT)).into(avatar);
-                } else {
-                    // 本地头像不存在，获取服务器端头像，并设置头像
-                    Log.i("no_portrait_path", "here");
-                    handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
-                }
+                    Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()))).into(avatar);
+//                }
+            } else {
+                // 本地头像地址不存在，获取服务器端头像，并设置头像
+                Log.i("no_portrait_path", "here");
+
+                handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
             }
         }
 
@@ -347,21 +351,23 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     new DownloadPortrait(Config.getCachedPhoneNum(getActivity()), new DownloadPortrait.SuccessCallback() {
                         @Override
                         public void onSuccess(String portrait) {
-                            // 检查写入文件权限
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getActivity().checkSelfPermission(
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                                getActivity().requestPermissions(new String[]{
-                                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                                }, 1);
-                            }
+//                            // 检查写入文件权限
+//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getActivity().checkSelfPermission(
+//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+//                                getActivity().requestPermissions(new String[]{
+//                                        Manifest.permission.READ_EXTERNAL_STORAGE,
+//                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+//                                }, 1);
+//                            }
                             // 获得文件名后向服务器请求下载头像文件
                             DownloadUtil downloadUtil = new DownloadUtil();
                             downloadUtil.setOnDownloadProcessListener(FragMe.this);
                             downloadUtil.downLoad(Config.SERVER_URL_PORTRAITPATH + portrait, portrait);
                             // 同时将图片的URL保存为环信头像（此时没有上传头像，因此hxPortraitPath不存在）
                             Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT, Config.SERVER_URL_PORTRAITPATH + portrait);
-                            Log.i("Handler", "download Pics");
+                            // 另一种保存头像URL的形式
+                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()), Config.SERVER_URL_PORTRAITPATH + portrait);
+                            Log.i("Handler", "download Pics and the PortraitURL:" + Config.SERVER_URL_PORTRAITPATH + portrait);
                         }
                     }, new DownloadPortrait.FailCallback() {
                         @Override
@@ -374,7 +380,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
                 case DOWNLOAD_FILE_DONE:
                     //响应返回的结果
-                    if (msg.arg1 == UploadUtil.UPLOAD_SUCCESS_CODE) {
+                    if (msg.arg1 == DownloadUtil.DOWNLOAD_SUCC) {
                         String path = (String) msg.obj;
                         // 将头像路径保存在本地，便于下次登录时使用（这个更新的前提是本地没有已保存的路径，既然需要从服务器下载就决定了这一点）
                         // 同时在退出登录时需要清空本地保存的路径，因为该路径不支持多用户，只保存了一个用户的头像路径
@@ -387,16 +393,13 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                             e.printStackTrace();
                         }
 
-//                        // 压缩图片
-//                        BitmapFactory.Options options = new BitmapFactory.Options();
-//                        options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
-//                        Bitmap bitmap_1 = BitmapFactory.decodeStream(fis, null, options);
-//
-//                        if (bitmap_1 != null) {
-//                            FragMe.this.avatar.setImageBitmap(bitmap_1);
-//                        }
-                        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT)).into(avatar);
-                    } else if (msg.arg1 == UploadUtil.UPLOAD_SERVER_ERROR_CODE) {
+                        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()))).into(avatar);
+                    } else if (msg.arg1 == DownloadUtil.DOWNLOAD_FAIL) {
+                        try {
+                            Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()))).into(avatar);
+                        } catch (Exception e) {
+                            Log.i(TAG, "no portrait URL");
+                        }
                     }
                     break;
                 default:
@@ -476,6 +479,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
                 // 同时将头像的URL（由于选择头像上传，因此hxPortraitPath此时肯定存在）保存到本地
                 Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT, hxPortraitPath);
+                // 直接将头像保存为(Portrait+Username, PortraitPath)的形式，在sharedPreference中
+                Config.cachePreference(getActivity(), Config.getCachedPhoneNum(getActivity()), hxPortraitPath);
             }
         }
 

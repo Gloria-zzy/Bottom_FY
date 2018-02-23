@@ -1,30 +1,20 @@
 package com.example.administrator.bottom.application;
 
+import android.Manifest;
 import android.app.Application;
-import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
-import com.alibaba.sdk.android.push.common.util.SharedPreferencesUtils;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
-import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.net.DownloadHXFriends;
-import com.example.administrator.bottom.net.DownloadPortrait;
-import com.example.administrator.zxinglibrary.common.Constant;
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.utils.EaseCommonUtils;
-import com.hyphenate.util.EMLog;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainApplication extends Application {
     private static final String TAG = "Init";
@@ -45,6 +35,7 @@ public class MainApplication extends Application {
             setEaseUIProviders();
 //            setGlobalListeners();
         }
+
     }
 
     /**
@@ -86,19 +77,15 @@ public class MainApplication extends Application {
 //            user=getRobotList().get(username);
 //        }
         //收到别人的消息，设置别人的头像
-//        if (contactList != null && contactList.containsKey(username)) {
-//            user = contactList.get(username);
-//        } else { //如果内存中没有，则将本地数据库中的取出到内存中
-//            contactList = getContactList();
-//            user = contactList.get(username);
-//        }
-        //如果用户不是你的联系人，则进行初始化
         if (user == null) {
             Config.setContactPortraitList();
-            if (Config.getContactPortrait(username) != null) {
+            String portraitPath;
+//            portraitPath = Config.getContactPortrait(username);
+            portraitPath = Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username);
+            if (portraitPath != null) {
                 user = new EaseUser(username);
                 // 设置头像
-                user.setAvatar(Config.getContactPortrait(username));
+                user.setAvatar(portraitPath);
             }
 //            EaseCommonUtils.setUserInitialLetter(user);
         } else {

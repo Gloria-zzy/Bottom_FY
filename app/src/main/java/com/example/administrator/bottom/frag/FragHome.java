@@ -79,16 +79,17 @@ public class FragHome extends Fragment {
 
             @Override
             public void onClick(View v) {
-                if (Config.loginStatus == 0) {
+                String token = Config.getCachedToken(getActivity());
+                String phone = Config.getCachedPhoneNum(getActivity());
+                if (token != null && !token.equals("") && token.equals(phone)) {
+                    // 用户已登录
+                    // 这个startActivityforResult没有写对应的onActivityResult函数进行处理
+                    startActivityForResult(new Intent(getActivity(), AtyFetch.class), Activity.RESULT_FIRST_USER);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                } else {
                     // 用户未登录
                     Intent intent = new Intent(getActivity(), AtyUnlog.class);
                     startActivity(intent);
-                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                } else {
-                    // 用户已登录
-
-                    // 这个startActivityforResult没有写对应的onActivityResult函数进行处理
-                    startActivityForResult(new Intent(getActivity(), AtyFetch.class), Activity.RESULT_FIRST_USER);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 }
             }

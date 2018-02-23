@@ -78,10 +78,11 @@ public class EaseContactListFragment extends EaseBaseFragment {
     private Map<String, EaseUser> contactsMap;
 
     private final int REQUEST_CODE_REFRESH = 1;
-    private final int REFRESH_PORTRAITLIST = 2;
-    private final int REFRESH_VIEW = 3;
+    private final int MSG_REFRESH_PORTRAITLIST = 2;
+    private final int MSG_REFRESH_VIEW = 3;
 
-    private int countContact;
+    private int countPortrait;
+    private boolean needRefreshView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,12 +106,13 @@ public class EaseContactListFragment extends EaseBaseFragment {
         listView = contactListLayout.getListView();
 
         //search
-        query = (EditText) getView().findViewById(R.id.query);
-        clearSearch = (ImageButton) getView().findViewById(R.id.search_clear);
+        query = getView().findViewById(R.id.query);
+        clearSearch = getView().findViewById(R.id.search_clear);
 
-        add = (ImageView) getView().findViewById(R.id.iv_fragContact_add);
+        add = getView().findViewById(R.id.iv_fragContact_add);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void setUpView() {
 
@@ -239,13 +241,14 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     // refresh ui
     public void refresh() {
-        if (Config.contactPortraitList == null) {
-            refreshContactList();
-            return;
-        }
-        getContactList();
-        // 更新界面
-        contactListLayout.refresh();
+        refreshContactList();
+//        if (Config.contactPortraitList == null) {
+//            refreshContactList();
+//            return;
+//        }
+//        getContactList();
+//        // 更新界面
+//        contactListLayout.refresh();
     }
 
 
@@ -394,7 +397,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
                     Log.i(TAG, "friend name is " + fname);
                 }
                 setContactsMap(arrContacts[0]);
-                handler.sendEmptyMessage(REFRESH_PORTRAITLIST);
+                handler.sendEmptyMessage(MSG_REFRESH_PORTRAITLIST);
             }
         }, new DownloadHXFriends.FailCallback() {
             @Override
@@ -407,20 +410,30 @@ public class EaseContactListFragment extends EaseBaseFragment {
     // 刷新Config中的头像键值对表
     private void refreshPortraitList() {
         Config.resetContactPortraitList();
-        countContact = 0;
+        countPortrait = 0;
+        needRefreshView = false;
         Iterator<Entry<String, EaseUser>> iterator = contactsMap.entrySet().iterator();
         while (iterator.hasNext()) {
             Entry<String, EaseUser> entry = iterator.next();
             EaseUser eu = entry.getValue();
             final String userName = eu.getUsername();
+            // 不能当头像有变化时下载。你咋知道有没有变化？那不还是得问问服务器有没有变化吗，所以还得全部下载下来，加个判断，要是和原来没两样就不用刷新了
+
             new DownloadPortrait(userName, new DownloadPortrait.SuccessCallback() {
                 @Override
                 public void onSuccess(String portrait) {
+                    // 下载成功的头像个数+1
+                    countPortrait++;
                     Config.putContactPortraitList(userName, Config.SERVER_URL_PORTRAITPATH + portrait);
-                    countContact++;
-                    if (countContact == contactsMap.size()) {
-                        Log.i(TAG, "countContac:" + countContact);
-                        handler.sendEmptyMessage(REFRESH_VIEW);
+                    // 当头像路径变化时，缓存（sharedPreference）头像新路径
+                    if (portrait != null && !portrait.equals(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + userName))) {
+                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + userName, Config.SERVER_URL_PORTRAITPATH + portrait);
+                        needRefreshView = true;
+                    }
+                    // 当‘头像变化标志’不为0，且所有头像都下载完毕时刷新页面
+                    if (countPortrait == contactsMap.size() && needRefreshView) {
+                        Log.i(TAG, "countPortrait:" + countPortrait);
+                        handler.sendEmptyMessage(MSG_REFRESH_VIEW);
                     }
                 }
             }, new DownloadPortrait.FailCallback() {
@@ -437,10 +450,10 @@ public class EaseContactListFragment extends EaseBaseFragment {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case REFRESH_PORTRAITLIST:
+                case MSG_REFRESH_PORTRAITLIST:
                     refreshPortraitList();
                     break;
-                case REFRESH_VIEW:
+                case MSG_REFRESH_VIEW:
                     getContactList();
                     // 更新界面
                     contactListLayout.refresh();

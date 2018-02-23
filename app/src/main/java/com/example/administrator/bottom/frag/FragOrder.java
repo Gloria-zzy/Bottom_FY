@@ -81,8 +81,10 @@ public class FragOrder extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view;
-        if (Config.loginStatus == 0) {
+        View view = null;
+        String token = Config.getCachedToken(getActivity());
+        String phone = Config.getCachedPhoneNum(getActivity());
+        if (token == null || token.equals("")) {
             view = inflater.inflate(R.layout.aty_unlog, container, false);
             view.findViewById(R.id.to_login).setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -101,7 +103,8 @@ public class FragOrder extends Fragment {
                     startActivity(i);
                 }
             });
-        } else {
+            return view;
+        } else if (token.equals(phone)) {
             view = inflater.inflate(R.layout.frag_order, container, false);
 
             scrollView1 = inflater.inflate(R.layout.mod_current_order, container, false).findViewById(R.id.current_order_scroll);
@@ -229,6 +232,7 @@ public class FragOrder extends Fragment {
                 }
             });
             //---------------------------SEARCH end-------------------------------
+            return view;
         }
         return view;
     }
