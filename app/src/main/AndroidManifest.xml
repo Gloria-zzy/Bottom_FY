@@ -75,9 +75,12 @@
             android:name="com.alibaba.app.appsecret"
             android:value="a1cd71f9bb0232b709d171e509e48866" /> <!-- 请填写你自己的appSecret -->
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".atys.AtyLogin" />
-        <activity android:name=".atys.AtyAddress" />
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".atys.AtyLogin"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity android:name=".atys.AtyAddress"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".atys.AtyTimeline" />
         <activity android:name=".atys.AtyMessage" />
         <activity android:name=".atys.AtyPubMessage" />
@@ -90,9 +93,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".atys.AtyFetch" />
+        <activity android:name=".atys.AtyFetch"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".atys.AtyMail" />
-        <activity android:name=".atys.AtyAddressMng" />
+        <activity android:name=".atys.AtyAddressMng"
+            android:windowSoftInputMode="adjustResize|stateHidden"/>
         <activity android:name=".atys.AtyAgreement" />
         <activity android:name=".atys.AtyLocateSchool" />
         <activity android:name=".atys.AtyUnlog" />
@@ -173,9 +178,9 @@
                     />-->
 
         <activity android:name=".ui.ChatActivity"
-            android:launchMode="singleTask"
+
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             />
         <activity
             android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"

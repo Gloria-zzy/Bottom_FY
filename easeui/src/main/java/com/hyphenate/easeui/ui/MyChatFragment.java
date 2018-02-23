@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.Config;
