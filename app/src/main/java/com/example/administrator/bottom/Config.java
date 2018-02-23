@@ -12,9 +12,6 @@ public class Config {
     public static final String SERVER_URL_UPLOADPORTRAIT = "http://101.132.190.102:8080/TestServer/UploadPics.jsp";
     public static final String SERVER_URL_UPLOADPORTRAITNAME = "http://101.132.190.102:8080/TestServer/UploadPicsName.jsp";
     public static final String SERVER_URL_PORTRAITPATH = "http://101.132.190.102:8080/TestServer/img/";
-//    public static final String SERVER_URL = "http://10.0.171.71:8080/TestServer/api.jsp";
-
-//    public static final String SERVER_URL = "http://172.20.10.8:8080/TestServer/api.jsp";
 
     public static final String PORTRAITPATH = "portrait_path";
 

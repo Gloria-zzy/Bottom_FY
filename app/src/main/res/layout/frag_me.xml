@@ -28,8 +28,8 @@
                 <com.example.administrator.bottom.custom.ImageViewPlus
                     android:id="@+id/iv_avatar"
                     style=""
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="65sp"
+                    android:layout_height="65sp"
                     android:layout_gravity="center"
                     android:layout_marginBottom="10sp"
                     android:src="@drawable/item_head" />

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -25,12 +26,15 @@ import com.hyphenate.EMConversationListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeui.Config;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.net.DownloadPortrait;
 import com.hyphenate.easeui.widget.EaseConversationList;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +52,11 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     protected FrameLayout errorItemContainer;
 
     protected boolean isConflict;
+
+    private int countPortrait;
+    private boolean needRefreshView;
+
+    private final String TAG = "ConversationListFrag";
     
     protected EMConversationListener convListener = new EMConversationListener(){
 
@@ -229,7 +238,7 @@ public class EaseConversationListFragment extends EaseBaseFragment{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        List<EMConversation> list = new ArrayList<EMConversation>();
+        List<EMConversation> list = new ArrayList<>();
         for (Pair<Long, EMConversation> sortItem : sortList) {
             list.add(sortItem.second);
         }
@@ -271,7 +280,8 @@ public class EaseConversationListFragment extends EaseBaseFragment{
         super.onHiddenChanged(hidden);
         this.hidden = hidden;
         if (!hidden && !isConflict) {
-            refresh();
+            // 其中包括了refresh
+            downloadPortrait();
         }
     }
 
@@ -279,7 +289,7 @@ public class EaseConversationListFragment extends EaseBaseFragment{
     public void onResume() {
         super.onResume();
         if (!hidden) {
-            refresh();
+            downloadPortrait();
         }
     }
     
@@ -311,6 +321,39 @@ public class EaseConversationListFragment extends EaseBaseFragment{
      */
     public void setConversationListItemClickListener(EaseConversationListItemClickListener listItemClickListener){
         this.listItemClickListener = listItemClickListener;
+    }
+
+    private void downloadPortrait() {
+        Iterator<EMConversation> iterator = conversationList.iterator();
+        countPortrait = 0;
+        needRefreshView = false;
+        while (iterator.hasNext()) {
+            EMConversation conversation = iterator.next();
+            final String username = conversation.conversationId();
+            new DownloadPortrait(username, new DownloadPortrait.SuccessCallback() {
+                @Override
+                public void onSuccess(String portrait) {
+                    // 下载成功的头像个数+1
+                    countPortrait++;
+                    Config.putContactPortraitList(username, Config.SERVER_URL_PORTRAITPATH + portrait);
+                    // 当头像路径变化时，缓存（sharedPreference）头像新路径
+                    if (portrait != null && !portrait.equals(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + username))) {
+                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + username, Config.SERVER_URL_PORTRAITPATH + portrait);
+                        needRefreshView = true;
+                    }
+                    // 当‘头像变化标志’不为0，且所有头像都下载完毕时刷新页面
+                    if (countPortrait == conversationList.size() && needRefreshView) {
+                        Log.i(TAG, "countPortrait:" + countPortrait);
+                        refresh();
+                    }
+                }
+            }, new DownloadPortrait.FailCallback() {
+                @Override
+                public void onFail() {
+
+                }
+            });
+        }
     }
 
 }

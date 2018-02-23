@@ -63,6 +63,7 @@ public class DownloadUtil {
                     }
                 } catch (Exception e) {
                     Log.i("downloadFile", "failed");
+                    sendMessage(DOWNLOAD_FAIL, "");
                     e.printStackTrace();
                 }
             }

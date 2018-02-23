@@ -48,9 +48,10 @@ public class Config {
     public static final String KEY_PORTRAIT = "portrait";
 
     // 环信Config
-    public static final String KEY_HXUSERNAME = "hx_username";
+    public static final String KEY_HX_PORTRAIT = "hx_portrait";
+    public static final String KEY_HX_USERNAME = "hx_username";
     public static final String KEY_HX_NIKENAME = "hx_nickname";
-    public static final String KEY_HXPASSWORD = "hx_password";
+    public static final String KEY_HX_PASSWORD = "hx_password";
     public static final String KEY_HX_MYNAME = "hx_myname";
     public static final String KEY_HX_FRIENDNAME = "hx_friendname";
     public static final String KEY_HX_FRIENDSNAME = "hx_friendsname";

@@ -107,6 +107,7 @@ public class AtyAddfriend extends Activity {
 
             @Override
             public void onClick(View v) {
+                hideSoftKeyboard();
                 onBackPressed();
 //                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_slide_out_top);
             }
@@ -120,8 +121,6 @@ public class AtyAddfriend extends Activity {
                     clearSearch.setVisibility(View.INVISIBLE);
                 }
                 if(s.length() == 11){
-//                    tv_phone.setVisibility(View.INVISIBLE);
-//                    eiv_userhead.setVisibility(View.INVISIBLE);
 
                     Log.i(TAG, "user downloading");
                     phone = s.toString();
@@ -189,7 +188,7 @@ public class AtyAddfriend extends Activity {
 
     protected void setUpView() {
 
-        contactList = new ArrayList<EaseUser>();
+        contactList = new ArrayList<>();
         getContactList();
         //init list
         contactListLayout.init(contactList);
@@ -264,7 +263,6 @@ public class AtyAddfriend extends Activity {
 
             }
         });
-
     }
 
     /**
