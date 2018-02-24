@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.ui.EaseChatFragment;
@@ -56,10 +57,8 @@ public class ChatActivity extends FragmentActivity {
         /*
         *  以上用于避免extends EaseBaseActivity，已经将EaseBaseActivity中的有价值内容复制过来了
         * */
-        getWindow().setSoftInputMode
-                (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN|
-                        WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.aty_chat_chat);
+        SoftHideKeyBoardUtil.assistActivity(this);
         activityInstance = this;
         //user or group id
         toChatUsername = getIntent().getExtras().getString(EaseConstant.EXTRA_USER_ID);

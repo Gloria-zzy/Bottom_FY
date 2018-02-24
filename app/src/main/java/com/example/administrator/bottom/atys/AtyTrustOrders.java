@@ -93,7 +93,7 @@ public class AtyTrustOrders extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                refresh();
+                fresh();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

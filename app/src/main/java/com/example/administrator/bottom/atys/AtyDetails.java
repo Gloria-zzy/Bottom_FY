@@ -435,6 +435,7 @@ public class AtyDetails extends AppCompatActivity {
                     if(trustOrderDetail){
                         ll_orderPattern_temp.setVisibility(View.GONE);
                         tv_change.setVisibility(View.GONE);
+                        ll_pickPattern_friend.setVisibility(View.GONE);
                     }
 
                 }
