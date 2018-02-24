@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +19,11 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.platform.comapi.map.L;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.atys.AtyDetails;
 import com.example.administrator.bottom.atys.AtyFetch;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyUnlog;
-import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
 
@@ -72,7 +68,7 @@ public class FragHome extends Fragment {
         // 获得phoneNum
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
         phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-        fresh();
+        refresh();
 
         // 绑定下单按钮的事件
         get_btn.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +176,7 @@ public class FragHome extends Fragment {
         return view;
     }
 
-    public void fresh() {
+    public void refresh() {
 
         new DownloadOrders(phone, new DownloadOrders.SuccessCallback() {
 

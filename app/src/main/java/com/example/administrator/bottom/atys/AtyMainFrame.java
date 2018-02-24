@@ -26,7 +26,6 @@ import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.application.MainApplication;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
@@ -287,7 +286,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         transaction.add(R.id.fragment_container, fragHome);
         transaction.show(fragHome);
         transaction.commit();
-        fragHome.fresh();
+        fragHome.refresh();
     }
 
     public void showFragOrder() {

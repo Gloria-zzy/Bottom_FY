@@ -131,7 +131,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
         EMClient.getInstance().addConnectionListener(connectionListener);
 
-        contactList = new ArrayList<EaseUser>();
+        contactList = new ArrayList<>();
         getContactList();
         //init list
         contactListLayout.init(contactList);
@@ -190,6 +190,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
         this.hidden = hidden;
         if (!hidden) {
             refresh();
+            refreshContactList();
         }
     }
 
@@ -198,6 +199,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
         super.onResume();
         if (!hidden) {
             refresh();
+            refreshContactList();
         }
     }
 
@@ -241,14 +243,14 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     // refresh ui
     public void refresh() {
-        refreshContactList();
+//        refreshContactList();
 //        if (Config.contactPortraitList == null) {
 //            refreshContactList();
 //            return;
 //        }
-//        getContactList();
-//        // 更新界面
-//        contactListLayout.refresh();
+        getContactList();
+        // 更新界面
+        contactListLayout.refresh();
     }
 
 
@@ -259,7 +261,6 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
         super.onDestroy();
     }
-
 
     /**
      * get contact list and sort, will filter out users in blacklist
@@ -454,9 +455,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
                     refreshPortraitList();
                     break;
                 case MSG_REFRESH_VIEW:
-                    getContactList();
-                    // 更新界面
-                    contactListLayout.refresh();
+                    refresh();
                     break;
             }
             super.handleMessage(msg);

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,8 +40,6 @@ import com.example.administrator.bottom.net.Order;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.administrator.bottom.Config.APP_ID;
-
 /**
  * Created by Administrator on 2017/10/29.
  */
@@ -54,17 +51,19 @@ public class FragOrder extends Fragment {
     private ScrollView scrollView2;
     private MultiSwipeRefreshLayout swipeRefreshLayout;
     private ImageView top;
-    private String phone;
     private int selection = 0; //0:current page;    1:history page;
     protected EditText query;
     protected ImageButton clearSearch;
     protected InputMethodManager inputMethodManager;
-
     private ViewPager pager;
+
+    private String phone;
+
     private List<View> views;
     private List<TextView> tvs = new ArrayList<TextView>();
     private TextView tv1;
     private TextView tv2;
+    protected boolean hidden;
 
     private final int CODE_REFRESH = 1;
     private final String TAG = "FragOrder";
@@ -127,31 +126,24 @@ public class FragOrder extends Fragment {
             initView();
             initViewPager();
 
-            if(selection == 1){
+            if (selection == 1) {
                 pager.setCurrentItem(selection);
             }
 
-            if (Config.loginStatus == 1) {
-                // 获得phoneNum
-                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-                phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-                fresh();
-            }
-
             //---------------------解决RefreshLayout和ScrollView的冲突 begin-----------------------------------
-            scrollView1.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+            scrollView1.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged() {
-                    if(selection == 0){
-                        swipeRefreshLayout.setEnabled(scrollView1.getScrollY()==0);
+                    if (selection == 0) {
+                        swipeRefreshLayout.setEnabled(scrollView1.getScrollY() == 0);
                     }
                 }
             });
-            scrollView2.getViewTreeObserver().addOnScrollChangedListener(new  ViewTreeObserver.OnScrollChangedListener() {
+            scrollView2.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
                 @Override
                 public void onScrollChanged() {
-                    if(selection == 1){
-                        swipeRefreshLayout.setEnabled(scrollView2.getScrollY()==0);
+                    if (selection == 1) {
+                        swipeRefreshLayout.setEnabled(scrollView2.getScrollY() == 0);
                     }
                 }
             });
@@ -159,11 +151,11 @@ public class FragOrder extends Fragment {
 
             //---------------------------下拉刷新 begin-------------------------------
             //setColorSchemeResources()可以改变加载图标的颜色。
-            swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue,R.color.theme_blue, R.color.colorPrimary,R.color.contents_text});
+            swipeRefreshLayout.setColorSchemeResources(new int[]{R.color.blue, R.color.theme_blue, R.color.colorPrimary, R.color.contents_text});
             swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
-                    fresh();
+                    refresh();
                     swipeRefreshLayout.setRefreshing(false);
                 }
             });
@@ -237,7 +229,24 @@ public class FragOrder extends Fragment {
         return view;
     }
 
-    public void fresh() {
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        this.hidden = hidden;
+        if (!hidden) {
+            refresh();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!hidden) {
+            refresh();
+        }
+    }
+
+    public void refresh() {
 
         if (ll != null) {
             ll.removeAllViews();
@@ -245,7 +254,7 @@ public class FragOrder extends Fragment {
         if (history != null) {
             history.removeAllViews();
         }
-        new DownloadOrders(phone, new DownloadOrders.SuccessCallback() {
+        new DownloadOrders(Config.getCachedPhoneNum(getActivity()), new DownloadOrders.SuccessCallback() {
 
             @Override
             public void onSuccess(ArrayList<Order> orders) {
@@ -270,7 +279,6 @@ public class FragOrder extends Fragment {
                     final OrderView newov = new OrderView(getActivity());
                     newov.setTv_size(size);
                     newov.setTv_orderNumber(orderNumber);
-//                    newov.setTv_arriveAddress(arriveAddress);
                     newov.setTv_arriveTime(arriveTime);
                     newov.setTv_orderTime(orderTime);
                     if (note.equals("none")) {
@@ -290,7 +298,7 @@ public class FragOrder extends Fragment {
                         public void onClick(View view) {
                             Intent intent = new Intent(getActivity(), AtyDetails.class);
                             intent.putExtra("orderNumber", orderNumber);
-                            intent.putExtra("pattern","");
+                            intent.putExtra("pattern", "");
                             startActivityForResult(intent, CODE_REFRESH);
                             getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         }
@@ -436,7 +444,7 @@ public class FragOrder extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODE_REFRESH) {
             Log.i(TAG, "refresh");
-            fresh();
+            refresh();
         }
     }
 
