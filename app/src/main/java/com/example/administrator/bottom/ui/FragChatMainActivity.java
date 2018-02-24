@@ -101,6 +101,7 @@ public class FragChatMainActivity extends Fragment {
             @Override
             public void onListItemClicked(EMConversation conversation) {
                 startActivity(new Intent(getActivity(), ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId()));
+//                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
         });
 
@@ -110,6 +111,7 @@ public class FragChatMainActivity extends Fragment {
             @Override
             public void onListItemClicked(EaseUser user) {
                 startActivity(new Intent(getActivity(), ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, user.getUsername()));
+//                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
         });
 
