@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 public class AtyTrustOrders extends AppCompatActivity {
 
     private String phone;
-    private LinearLayout sv;
+    private LinearLayout ll;
     private String number;
     private String point;
     private String takenum;
@@ -42,6 +43,8 @@ public class AtyTrustOrders extends AppCompatActivity {
 
     private ScrollView scrollView;
     private MultiSwipeRefreshLayout swipeRefreshLayout;
+
+    private final String TAG = "AtyTrustOrders";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,10 +76,10 @@ public class AtyTrustOrders extends AppCompatActivity {
         });
 
         bindView();
-        fresh();
 
         SharedPreferences sharedPreferences = AtyTrustOrders.this.getSharedPreferences(Config.APP_ID, Context.MODE_PRIVATE);
         phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+        refresh();
 
         //---------------------解决RefreshLayout和ScrollView的冲突 begin-----------------------------------
         scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -93,7 +96,7 @@ public class AtyTrustOrders extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fresh();
+                refresh();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
@@ -104,20 +107,24 @@ public class AtyTrustOrders extends AppCompatActivity {
 
     //UI组件初始化
     private void bindView() {
-        sv = (LinearLayout) findViewById(R.id.sv_taken_orders);
+        ll = (LinearLayout) findViewById(R.id.ll_taken_orders);
         scrollView = (ScrollView) findViewById(R.id.sv_trustOrders);
         swipeRefreshLayout = (MultiSwipeRefreshLayout) findViewById(R.id.refreshLayout_taken_orders);
     }
 
-    public void fresh() {
+    public void refresh() {
 
-        if (sv != null) {
-            sv.removeAllViews();
+        Log.i(TAG, "refresh()");
+
+        if (ll != null) {
+            ll.removeAllViews();
         }
         new DownloadTrustOrders(phone, new DownloadTrustOrders.SuccessCallback() {
 
             @Override
             public void onSuccess(ArrayList<Order> orders) {
+
+                Log.i(TAG, "refresh() success");
 
                 //        订单号   order_number
                 //        下单时间 order_time
@@ -159,17 +166,14 @@ public class AtyTrustOrders extends AppCompatActivity {
                         public void onClick(View view) {
                             Intent intent = new Intent(AtyTrustOrders.this, AtyDetails.class);
                             intent.putExtra("orderNumber", orderNumber);
-                            intent.putExtra("pattern","trust orders");
+                            intent.putExtra("pattern", "trust orders");
                             startActivity(intent);
                             AtyTrustOrders.this.overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         }
                     });
-
-//                    if (orderStatus.equals("0")) {
-//                        history.addView(newov);
-//                    } else {
-//                        ll.addView(newov);
-//                    }
+                    if (trustFriend.equals(phone)) {
+                        ll.addView(newov);
+                    }
                 }
             }
         }, new DownloadTrustOrders.FailCallback() {

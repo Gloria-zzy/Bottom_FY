@@ -79,6 +79,7 @@ public class AtyAddressMng extends Activity {
             });
         } else {
             setContentView(R.layout.aty_address_mng);
+            //键盘不覆盖，需放在setContentView之后
             SoftHideKeyBoardUtil.assistActivity(this);
 
             //---------------------状态栏透明 begin----------------------------------------

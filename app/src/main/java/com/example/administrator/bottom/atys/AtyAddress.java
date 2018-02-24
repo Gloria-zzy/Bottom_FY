@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
 import com.example.administrator.bottom.net.UploadAddress;
 
 import java.util.ArrayList;
@@ -60,6 +61,8 @@ public class AtyAddress extends Activity {
                 (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN|
                         WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.aty_address);
+        //键盘不覆盖，需放在setContentView之后
+        SoftHideKeyBoardUtil.assistActivity(this);
 
         bindView();
         findViewById(R.id.Address_back).setOnClickListener(new View.OnClickListener() {
