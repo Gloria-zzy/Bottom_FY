@@ -233,7 +233,8 @@ public class FragOrder extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         this.hidden = hidden;
-        if (!hidden) {
+        String token = Config.getCachedToken(getActivity());
+        if (!hidden && token != null && token != "") {
             refresh();
         }
     }
@@ -241,7 +242,8 @@ public class FragOrder extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (!hidden) {
+        String token = Config.getCachedToken(getActivity());
+        if (!hidden && token != null && token != "") {
             refresh();
         }
     }
