@@ -408,7 +408,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
         });
     }
 
-    // 刷新Config中的头像键值对表
+    // 若联系人有增减或联系人头像有变化则刷新界面
     private void refreshPortraitList() {
         Config.resetContactPortraitList();
         countPortrait = 0;

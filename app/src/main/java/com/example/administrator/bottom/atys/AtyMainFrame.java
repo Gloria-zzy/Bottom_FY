@@ -40,7 +40,7 @@ import java.util.List;
  * Created by Administrator on 2017/10/31.
  */
 
-public class AtyMainFrame extends FragmentActivity implements View.OnClickListener {
+public class AtyMainFrame extends FragmentActivity implements View.OnClickListener, FragHome.OnFragHomeListener {
 
     private LinearLayout tabHome;
     private LinearLayout tabOrder;
@@ -117,9 +117,6 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
             showFragHome();
         }
 
-
-
-
         // 申请 读取手机状态 权限
         AndPermission.with(this)
                 .permission(Manifest.permission.READ_PHONE_STATE).callback(new PermissionListener() {
@@ -170,10 +167,12 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 case PHONE_STATE_GRANTED:
                     AndPermission.with(getApplicationContext()).permission(Manifest.permission.WRITE_EXTERNAL_STORAGE).callback(new PermissionListener() {
                         @Override
-                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {}
+                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+                        }
 
                         @Override
-                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {}
+                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+                        }
                     }).start();
             }
             super.handleMessage(msg);
@@ -233,6 +232,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 // 如果选中的frag已经实例化，就跳转（transaction）到这个实例上，如果没有实例化就新建一个实例
                 if (fragHome == null) {
                     fragHome = new FragHome();
+                    fragHome.setOnFragHomeListener(this);
                     transaction.add(R.id.fragment_container, fragHome);
                 } else {
                     transaction.show(fragHome);
@@ -283,6 +283,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         clearSelected();
         tabHome.setSelected(true);
         fragHome = new FragHome();
+        fragHome.setOnFragHomeListener(this);
         transaction.add(R.id.fragment_container, fragHome);
         transaction.show(fragHome);
         transaction.commit();
@@ -294,7 +295,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         hideAllFragment(transaction);
         clearSelected();
         tabOrder.setSelected(true);
-        fragOrder = new FragOrder();
+        fragOrder = new FragOrder(FragOrder.SHOW_CURRENT);
         transaction.add(R.id.fragment_container, fragOrder);
         transaction.show(fragOrder);
         transaction.commit();
@@ -305,7 +306,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         hideAllFragment(transaction);
         clearSelected();
         tabOrder.setSelected(true);
-        fragOrder = new FragOrder("history");
+        fragOrder = new FragOrder(FragOrder.SHOW_HISTORY);
         transaction.add(R.id.fragment_container, fragOrder);
         transaction.show(fragOrder);
         transaction.commit();
@@ -337,5 +338,44 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     public void appendConsoleText(String text) {
         Log.i(TAG, text);
         Toast.makeText(AtyMainFrame.this, text, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onItemsClicked(int responseCode) {
+        Log.i(TAG, "onItemsClicked entered");
+        switch (responseCode) {
+            case FragHome.DELIVERING_ORDERS_CLIKED:
+                if (fragOrder != null) {
+                    Log.i(TAG, "DELIVERING_ORDERS_CLIKED");
+                    fragOrder.selectTv(FragOrder.SHOW_CURRENT);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    hideAllFragment(transaction);
+                    clearSelected();
+                    tabOrder.setSelected(true);
+                    transaction.show(fragOrder);
+                    transaction.commit();
+                } else {
+                    showFragOrder();
+                }
+                break;
+            case FragHome.HISTORY_ORDERS_CLIKED:
+                if (fragOrder != null) {
+                    Log.i(TAG, "HISTORY_ORDERS_CLIKED");
+                    fragOrder.selectTv(FragOrder.SHOW_HISTORY);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    hideAllFragment(transaction);
+                    clearSelected();
+                    tabOrder.setSelected(true);
+                    transaction.show(fragOrder);
+                    transaction.commit();
+                } else {
+                    showFragOrderHistory();
+                }
+                break;
+            case FragHome.ERROR_ORDERS_CLIKED:
+
+                break;
+            default:
+        }
     }
 }

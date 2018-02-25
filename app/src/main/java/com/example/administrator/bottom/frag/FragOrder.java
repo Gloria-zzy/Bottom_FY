@@ -68,13 +68,16 @@ public class FragOrder extends Fragment {
     private final int CODE_REFRESH = 1;
     private final String TAG = "FragOrder";
 
+    public static final int SHOW_HISTORY = 1;
+    public static final int SHOW_CURRENT = 0;
+
     public FragOrder() {
 
     }
 
     @SuppressLint("ValidFragment")
-    public FragOrder(String history) {
-        selection = 1;
+    public FragOrder(int selection) {
+        this.selection = selection;
     }
 
     @Nullable
@@ -325,11 +328,23 @@ public class FragOrder extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (Config.loginStatus == 1) {
+        String token = Config.getCachedToken(getActivity());
+        if (token != null && token != "") {
             tv1.setOnClickListener(new FragOrder.MyClickListener(0));
             tv2.setOnClickListener(new FragOrder.MyClickListener(1));
         }
+    }
 
+    public void selectTv(int selection) {
+        switch (selection) {
+            case SHOW_CURRENT:
+                tv1.performClick();
+                break;
+            case SHOW_HISTORY:
+                tv2.performClick();
+                break;
+            default:
+        }
     }
 
     private class MyClickListener implements View.OnClickListener {

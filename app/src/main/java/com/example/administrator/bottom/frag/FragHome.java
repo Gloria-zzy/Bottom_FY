@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,12 @@ public class FragHome extends Fragment {
 
     //    private LinearLayout linearLayout;
     private String phone;
+
+    public static final int DELIVERING_ORDERS_CLIKED = 1;
+    public static final int HISTORY_ORDERS_CLIKED = 2;
+    public static final int ERROR_ORDERS_CLIKED = 3;
+
+    private final String TAG = "FragHome";
 
     // 默认构造函数
     public FragHome() {
@@ -143,33 +150,38 @@ public class FragHome extends Fragment {
         tv_history = (TextView) view.findViewById(R.id.tv_fragHome_history);
         tv_error = (TextView) view.findViewById(R.id.tv_fragHome_error);
         ll_delivering = (LinearLayout) view.findViewById(R.id.ll_fragHome_delivering);
-        ll_history = (LinearLayout)  view.findViewById(R.id.ll_fraghome_history);
+        ll_history = (LinearLayout) view.findViewById(R.id.ll_fraghome_history);
         ll_error = (LinearLayout) view.findViewById(R.id.ll_fragHome_error);
 
         ll_delivering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
-                intent.putExtra("page", "order");
-                startActivity(intent);
+                Log.i(TAG, "delivering clicked");
+                onFragHomeListener.onItemsClicked(DELIVERING_ORDERS_CLIKED);
+//                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+//                intent.putExtra("page", "order");
+//                startActivity(intent);
             }
         });
 
         ll_history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
-                intent.putExtra("page", "order_history");
-                startActivity(intent);
+                Log.i(TAG, "history clicked");
+                onFragHomeListener.onItemsClicked(HISTORY_ORDERS_CLIKED);
+//                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+//                intent.putExtra("page", "order_history");
+//                startActivity(intent);
             }
         });
 
         ll_error.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
-                intent.putExtra("page", "order");
-                startActivity(intent);
+                onFragHomeListener.onItemsClicked(ERROR_ORDERS_CLIKED);
+//                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
+//                intent.putExtra("page", "order");
+//                startActivity(intent);
             }
         });
 
@@ -185,11 +197,11 @@ public class FragHome extends Fragment {
                 for (Order o : orders) {
                     String orderStatus = o.getOrderStatus();
 
-                    if(orderStatus.equals("0")){
+                    if (orderStatus.equals("0")) {
                         history_num++;
-                    }else if(orderStatus.equals("1") || orderStatus.equals("2")){
+                    } else if (orderStatus.equals("1") || orderStatus.equals("2")) {
                         delivering_num++;
-                    }else if(orderStatus.equals("3")){
+                    } else if (orderStatus.equals("3")) {
                         error_num++;
                     }
                 }
@@ -207,6 +219,17 @@ public class FragHome extends Fragment {
         });
 
     }
+
+    private OnFragHomeListener onFragHomeListener;
+
+    public interface OnFragHomeListener {
+        void onItemsClicked(int responseCode);
+    }
+
+    public void setOnFragHomeListener(OnFragHomeListener onFragHomeListener) {
+        this.onFragHomeListener = onFragHomeListener;
+    }
 }
+
 
 
