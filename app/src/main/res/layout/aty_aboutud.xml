@@ -8,6 +8,7 @@
     android:background="@drawable/item_plain_bg">
 
     <LinearLayout
+        android:id="@+id/title"
         style="@style/TopStatus">
 
         <ImageView

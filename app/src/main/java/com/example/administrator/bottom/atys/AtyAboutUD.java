@@ -4,13 +4,17 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.LinearLayout;
 
 import com.example.administrator.bottom.R;
 
 public class AtyAboutUD extends AppCompatActivity {
+
+    private final String TAG = "AtyAboutUD";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,5 +44,15 @@ public class AtyAboutUD extends AppCompatActivity {
                 overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
             }
         });
+
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.title);
+        int w = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        linearLayout.measure(w, h);
+        int height = linearLayout.getMeasuredHeight();
+        int width = linearLayout.getMeasuredWidth();
+        Log.i(TAG, "height is " + height + " width is " + width);
     }
 }

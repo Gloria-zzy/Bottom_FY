@@ -26,7 +26,7 @@ public class SoftHideKeyBoardUtil {
     //为适应华为小米等手机键盘上方出现黑条或不适配
     private int contentHeight;//获取setContentView本来view的高度
     private boolean isfirst = true;//只用获取一次
-    private  int statusBarHeight;//状态栏高度
+    private  int statusBarHeight = 35;//状态栏高度
     private SoftHideKeyBoardUtil(Activity activity) {
         //1､找到Activity的最外层布局控件，它其实是一个DecorView,它所用的控件就是FrameLayout
         FrameLayout content = (FrameLayout) activity.findViewById(android.R.id.content);
