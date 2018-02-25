@@ -28,6 +28,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
+import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
 import com.example.administrator.bottom.net.UploadOrder;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.net.DownloadHXFriends;
@@ -97,6 +98,7 @@ public class AtyFetch extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+        SoftHideKeyBoardUtil.assistActivity(this);
         bindView();
 
         // 绑定回退按钮事件

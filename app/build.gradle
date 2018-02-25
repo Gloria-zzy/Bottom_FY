@@ -11,7 +11,7 @@ android {
             //选择要添加的对应cpu类型的.so库。
             abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
-        minSdkVersion 17
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -54,4 +54,6 @@ dependencies {
     // 环信即时聊天SDK
 //    implementation files('libs/hyphenatechat_3.3.8.jar')
     implementation project(':easeui')
+    //解决闪退 解决Android应用的方法总数限制
+    compile 'com.android.support:multidex:1.0.0'
 }

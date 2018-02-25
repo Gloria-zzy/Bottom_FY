@@ -278,6 +278,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 if (Config.loginStatus == 1) {
                     Intent intent = new Intent(getActivity(), AtyTrustOrders.class);
+                    intent.putExtra("TAG","init");
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 } else if (Config.loginStatus == 0) {

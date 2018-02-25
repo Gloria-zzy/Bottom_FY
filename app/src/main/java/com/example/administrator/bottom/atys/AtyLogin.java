@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
 import com.example.administrator.bottom.net.DownloadAddress;
 import com.example.administrator.bottom.net.GetCode;
 import com.example.administrator.bottom.net.Login;
@@ -49,6 +50,8 @@ public class AtyLogin extends Activity {
                 (WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN|
                         WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.aty_login);
+        //键盘不覆盖，需放在setContentView之后
+        SoftHideKeyBoardUtil.assistActivity(this);
         bindView();
 
         //---------------------状态栏透明 begin----------------------------------------

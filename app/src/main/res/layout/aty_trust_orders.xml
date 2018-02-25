@@ -11,8 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            style="@style/TopStatus">
+        <LinearLayout style="@style/TopStatus">
 
             <ImageView
                 android:id="@+id/iv_taken_orders_back"
@@ -46,14 +45,24 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/sv_taken_orders"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <LinearLayout
+                        android:id="@+id/ll_taken_orders"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="150sp"
+                        android:src="@drawable/item_nomore_plain" />
                 </LinearLayout>
-
 
             </ScrollView>
         </com.example.administrator.bottom.custom.MultiSwipeRefreshLayout>

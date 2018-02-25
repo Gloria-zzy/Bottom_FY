@@ -2,6 +2,8 @@ package com.example.administrator.bottom.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -13,10 +15,16 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
 
-public class MainApplication extends Application {
+public class MainApplication extends MultiDexApplication {
     private static final String TAG = "Init";
     private Context appContext = null;
     private EaseUI easeUI = null;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
+    }
 
     @Override
     public void onCreate() {
