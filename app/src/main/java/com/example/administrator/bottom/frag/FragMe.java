@@ -3,15 +3,11 @@ package com.example.administrator.bottom.frag;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -35,10 +31,10 @@ import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
-import com.example.administrator.bottom.atys.AtyFetch;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyAboutUD;
+import com.example.administrator.bottom.atys.AtyStaffOnly;
 import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
@@ -64,7 +60,6 @@ import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.administrator.bottom.Config.APP_ID;
 
 /**
  * Created by Administrator on 2017/10/29.
@@ -233,48 +228,58 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             }
         });
 
-        // 绑定按钮到扫描二维码
-//        result = view.findViewById(R.id.result_tv);
-        view.findViewById(R.id.scanner).setOnClickListener(new View.OnClickListener() {
+        // 绑定按钮到员工通道
+        view.findViewById(R.id.ll_fragMe_staffOnly).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AndPermission.with(getActivity())
-                        .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
-                    @Override
-                    public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-
-                        Intent intent = new Intent(getActivity(), CaptureActivity.class);
-
-                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
-                                * 也可以不传这个参数
-                                * 不传的话  默认都为默认不震动  其他都为true
-                                * */
-
-                        ZxingConfig config = new ZxingConfig();
-                        config.setPlayBeep(false);
-                        config.setShake(true);
-                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-
-                        startActivityForResult(intent, REQUEST_CODE_SCAN);
-
-                    }
-
-                    @Override
-                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                        Uri packageURI = Uri.parse("package:" + getActivity().getPackageName());
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        startActivity(intent);
-
-                        Toast.makeText(getActivity(), "没有权限无法扫描", Toast.LENGTH_LONG).show();
-                    }
-
-                }).start();
-
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyStaffOnly.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
-
         });
+
+//        // 绑定按钮到扫描二维码
+////        result = view.findViewById(R.id.result_tv);
+//        view.findViewById(R.id.ll_fragMe_staffOnly).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AndPermission.with(getActivity())
+//                        .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
+//                    @Override
+//                    public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+//
+//                        Intent intent = new Intent(getActivity(), CaptureActivity.class);
+//
+//                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
+//                                * 也可以不传这个参数
+//                                * 不传的话  默认都为默认不震动  其他都为true
+//                                * */
+//
+//                        ZxingConfig config = new ZxingConfig();
+//                        config.setPlayBeep(false);
+//                        config.setShake(true);
+//                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+//
+//                        startActivityForResult(intent, REQUEST_CODE_SCAN);
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+//                        Uri packageURI = Uri.parse("package:" + getActivity().getPackageName());
+//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                        startActivity(intent);
+//
+//                        Toast.makeText(getActivity(), "没有权限无法扫描", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                }).start();
+//
+//            }
+//
+//        });
 
         // 信任订单
         view.findViewById(R.id.tv_trust_orders).setOnClickListener(new View.OnClickListener() {
