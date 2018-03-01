@@ -22,7 +22,7 @@
             android:layout_marginRight="30dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="登录"
+            android:text="员工登录"
             android:textColor="@color/white" />
 
     </LinearLayout>
@@ -165,16 +165,6 @@
                 android:text="@string/login"
                 android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/tv_atyLogin_staff"
-                android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:text="员工通道"
-                android:textColor="#1155a4"
-                style="@style/min_text"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"/>
-
 
         </LinearLayout>
 
@@ -182,15 +172,4 @@
 
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="140sp"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:src="@drawable/item_mng_bg" />
-    </RelativeLayout>
 </LinearLayout>

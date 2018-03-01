@@ -231,6 +231,7 @@ public class EaseConversationListFragment extends EaseBaseFragment{
                     sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
                 }
             }
+
         }
         try {
             // Internal is TimSort algorithm, has bug

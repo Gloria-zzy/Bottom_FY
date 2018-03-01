@@ -55,9 +55,11 @@ public class Config {
     public static final String KEY_HX_MYNAME = "hx_myname";
     public static final String KEY_HX_FRIENDNAME = "hx_friendname";
     public static final String KEY_HX_FRIENDSNAME = "hx_friendsname";
+
     public static final int HX_USERID = 1;
     public static final int HX_NICKNAME = 2;
-    public static final int HX_PORTRAIT = 2;
+    public static final int HX_PORTRAIT = 3;
+    public static final int HX_UNRADMSGCOUNT = 4;
 
     public static final int REQUEST_READ_PHONE_STATE = 1;
     public static final int RESULT_STATUS_SUCCESS = 1;

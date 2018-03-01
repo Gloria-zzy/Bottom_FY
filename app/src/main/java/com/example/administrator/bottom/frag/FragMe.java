@@ -99,6 +99,9 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
     private final String TAG = "FragMe";
 
+    private String TOKEN;
+    private String PHONE;
+
     public FragMe() {
 
     }
@@ -106,6 +109,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        PHONE = Config.getCachedPhoneNum(getActivity());
+        TOKEN = Config.getCachedToken(getActivity());
         View view = inflater.inflate(R.layout.frag_me, container, false);
         phone_num = view.findViewById(R.id.textView);
         avatar = view.findViewById(R.id.iv_avatar);
@@ -114,10 +119,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         showPhoneNumber();
         //login btn
         mTextView = view.findViewById(R.id.func_btn);
-        String token = Config.getCachedToken(getActivity());
-        String phone = Config.getCachedPhoneNum(getActivity());
-        Log.i(TAG, "Token:" + token);
-        if (token == null || token.equals("")) {
+        Log.i(TAG, "Token:" + TOKEN);
+        if (TOKEN == null || TOKEN.equals("")) {
             linearLayout_id.setVisibility(View.GONE);
             mTextView.setText("登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
@@ -128,7 +131,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 }
             });
-        } else if (token.equals(phone)) {
+        } else if (TOKEN.equals(PHONE)) {
             linearLayout_id.setVisibility(View.VISIBLE);
             mTextView.setText("退出登录");
             mTextView.setOnClickListener(new View.OnClickListener() {
@@ -190,7 +193,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
 //                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
 //                this.avatar.setImageBitmap(bitmap);
-                    Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()))).into(avatar);
+                Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
 //                }
             } else {
                 // 本地头像地址不存在，获取服务器端头像，并设置头像
@@ -199,7 +202,6 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
             }
         }
-
 
         // 绑定地址管理事件
         view.findViewById(R.id.address_mng).setOnClickListener(new View.OnClickListener() {
@@ -213,7 +215,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                } else
                 {
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                    if (Config.loginStatus == 1) {
+
+                    if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
                         Intent intent = new Intent(getActivity(), AtyAddressMng.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
@@ -236,7 +239,6 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
                     @Override
                     public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-
 
                         Intent intent = new Intent(getActivity(), CaptureActivity.class);
 
@@ -276,12 +278,12 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             @Override
             public void onClick(View view) {
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                if (Config.loginStatus == 1) {
+                if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
                     Intent intent = new Intent(getActivity(), AtyTrustOrders.class);
                     intent.putExtra("TAG","init");
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-                } else if (Config.loginStatus == 0) {
+                } else {
                     Intent intent = new Intent(getActivity(), AtyUnlog.class);
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
@@ -294,7 +296,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             @Override
             public void onClick(View view) {
 
-                if (Config.loginStatus == 1) {
+                if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
 
                     Intent intent = new Intent(Intent.ACTION_PICK, null);
                     intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
@@ -312,7 +314,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             @Override
             public void onClick(View view) {
 
-                if (Config.loginStatus == 1) {
+                if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
 
                     Intent intent = new Intent(Intent.ACTION_PICK, null);
                     intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, IMAGE_UNSPECIFIED);
@@ -412,10 +414,9 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
     public void showPhoneNumber() {
         // 显示用户的手机号（在用户的头像旁边）
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-        String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
+        String phone = Config.getCachedPhoneNum(getActivity());
 
-        if (Config.loginStatus == 1) {
+        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
             phone_num.setText(phone);
             textView_id.setText(phone);
         } else {
@@ -643,4 +644,13 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         handler.sendMessage(msg);
     }
 
+    private void refresh() {
+        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
 }

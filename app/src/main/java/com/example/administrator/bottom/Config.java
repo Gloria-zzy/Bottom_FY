@@ -63,11 +63,15 @@ public class Config {
     public static final String KEY_HX_MYNAME = "hx_myname";
     public static final String KEY_HX_FRIENDNAME = "hx_friendname";
     public static final String KEY_HX_FRIENDSNAME = "hx_friendsname";
+    public static final String KEY_HX_UNRADMSGCOUNT = "hx_unreadmsgcount";
 
     public static final int REQUEST_READ_PHONE_STATE = 1;
     public static final int RESULT_STATUS_SUCCESS = 1;
     public static final int RESULT_STATUS_FAIL = 0;
     public static final int RESULT_STATUS_INVALID_TOKEN = 2;
+
+    public static final int HX_UNRADMSGCOUNT = 4;
+
 
     public static final String APP_ID = "com.charles.secret";
     public static final String CHARSET = "utf-8";
@@ -104,6 +108,8 @@ public class Config {
     public static final String KEY_SAVED_ADDRESS = "saved_address";
 
     public static final int ACTIVITY_RESULT_NEED_REFRESH = 10000;
+
+    public static final int UnreadMsgCount = 0;
 
     //if user has already login , then loginStatue = 1
     public static int loginStatus = 0;

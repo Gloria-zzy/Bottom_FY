@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -21,30 +20,30 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <!--阿里移动推送相关权限-->
-    <!--Android 6.0版本可去除，用于选举信息（通道复用）的同步-->
+    <!-- 阿里移动推送相关权限 -->
+    <!-- Android 6.0版本可去除，用于选举信息（通道复用）的同步 -->
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <!--进行网络访问和网络状态监控相关的权限声明-->
+    <!-- 进行网络访问和网络状态监控相关的权限声明 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--允许对sd卡进行读写操作-->
+    <!-- 允许对sd卡进行读写操作 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--网络库使用，当网络操作时需要确保事务完成不被杀掉-->
+    <!-- 网络库使用，当网络操作时需要确保事务完成不被杀掉 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!--用于读取手机硬件信息等，用于机型过滤-->
+    <!-- 用于读取手机硬件信息等，用于机型过滤 -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--选举使用，当应用有删除或者更新时需要重新选举，复用推送通道-->
+    <!-- 选举使用，当应用有删除或者更新时需要重新选举，复用推送通道 -->
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <!--补偿通道小米PUSH使用，不用可去除-->
+    <!-- 补偿通道小米PUSH使用，不用可去除 -->
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <!--补偿通道GCM使用，不使用可去除-->
+    <!-- 补偿通道GCM使用，不使用可去除 -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <!--允许监听启动完成事件-->
+    <!-- 允许监听启动完成事件 -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!--允许访问震动器-->
+    <!-- 允许访问震动器 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- 允许task重排序 -->
     <uses-permission android:name="android.permission.REORDER_TASKS" />
@@ -60,13 +59,15 @@
         android:theme="@style/AppTheme">
 
         <!-- 百度地图API_KEY和service -->
-        <!--       <meta-data
+        <!--
+                   <meta-data
                    android:name="com.baidu.lbsapi.API_KEY"
                    android:value="ilD5Dy7kp5lp5OpfWYhXKjFo2Mhvq1BX" />
                <service
                    android:name="com.baidu.location.f"
                    android:enabled="true"
-               android:process=":remote" />-->
+               android:process=":remote" />
+        -->
 
         <meta-data
             android:name="com.alibaba.app.appkey"
@@ -75,12 +76,15 @@
             android:name="com.alibaba.app.appsecret"
             android:value="a1cd71f9bb0232b709d171e509e48866" /> <!-- 请填写你自己的appSecret -->
 
-        <activity android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".atys.AtyLogin"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-        <activity android:name=".atys.AtyAddress"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".atys.AtyLogin"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".atys.AtyAddress"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".atys.AtyTimeline" />
         <activity android:name=".atys.AtyMessage" />
         <activity android:name=".atys.AtyPubMessage" />
@@ -93,30 +97,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".atys.AtyFetch"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".atys.AtyFetch"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".atys.AtyMail" />
-        <activity android:name=".atys.AtyAddressMng"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
+        <activity
+            android:name=".atys.AtyAddressMng"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".atys.AtyAgreement" />
         <activity android:name=".atys.AtyLocateSchool" />
         <activity android:name=".atys.AtyUnlog" />
-
-
         <activity android:name=".atys.AtyGenCode" />
         <activity android:name=".atys.AtyTrustOrders" />
         <activity android:name=".atys.AtyUpdateOrder" />
-        <activity android:name=".atys.AtyAboutUD"></activity>
-        <activity android:name=".atys.AtyDetails"></activity>
+        <activity android:name=".atys.AtyAboutUD" />
+        <activity android:name=".atys.AtyDetails" />
 
         <!-- 阿里云推送接收服务 -->
         <service
             android:name=".alipush.MyMessageIntentService"
             android:exported="false">
-            <intent-filter> 
+            <intent-filter>
+                 
                 <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
             </intent-filter>
-            <intent-filter>     
+            <intent-filter>
+                     
                 <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
             </intent-filter>
             <intent-filter>
@@ -140,13 +146,12 @@
             </intent-filter>
         </receiver>
 
-
         <!-- 环信云通信 -->
         <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1175180207115190#udchina" />
-        <!-- 声明SDK所需的service SDK核心功能-->
+        <!-- 声明SDK所需的service SDK核心功能 -->
         <service
             android:name="com.hyphenate.chat.EMChatService"
             android:exported="true" />
@@ -158,11 +163,11 @@
         <receiver android:name="com.hyphenate.chat.EMMonitorReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
                 <data android:scheme="package" />
             </intent-filter>
             <!-- 可选filter -->
             <intent-filter>
-
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
@@ -170,34 +175,31 @@
 
         <!-- 环信云通信demo的aty -->
 
-        <!--        <activity
+
+        <!--
+                    <activity
                     android:name=".ui.ChatMainActivity"
                     android:launchMode="singleTask"
                     android:screenOrientation="portrait"
                     android:windowSoftInputMode="adjustPan"
-                    />-->
+                    />
+        -->
 
-        <activity android:name=".ui.ChatActivity"
-
+        <activity
+            android:name=".ui.ChatActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
-            android:screenOrientation="portrait"
-            />
-
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.hyphenate.easeui.ui.AtyAddfriend"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            />
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".atys.AtyStaffLogin"></activity>
     </application>
 
 </manifest>

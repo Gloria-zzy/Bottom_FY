@@ -15,11 +15,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -31,16 +33,20 @@ import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
 import com.example.administrator.bottom.net.UploadDeviceId;
 import com.example.administrator.bottom.ui.FragChatMainActivity;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/10/31.
  */
 
-public class AtyMainFrame extends FragmentActivity implements View.OnClickListener, FragHome.OnFragHomeListener {
+public class AtyMainFrame extends FragmentActivity implements View.OnClickListener, FragHome.OnFragHomeListener, FragChatMainActivity.OnFragChatListener {
 
     private LinearLayout tabHome;
     private LinearLayout tabOrder;
@@ -55,8 +61,10 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     private FragChatMainActivity fragCommunity;
     private FragMe fragMe;
 
+    private TextView unreadMsgCount;
+
     // 用来在log输出中标志这个Activity的信息
-    private String TAG;
+    private String TAG = "atymainframe";
 
     protected static final int PHONE_STATE_GRANTED = 1;
 
@@ -64,6 +72,22 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+        /**
+         * lastMsgTime will change if there is new message during sorting
+         * so use synchronized to make sure timestamp of last message won't change.
+         */
+        synchronized (conversations) {
+            int UnreadMsgCount = 0;
+            for (EMConversation conversation : conversations.values()) {
+                UnreadMsgCount += conversation.getUnreadMsgCount();
+            }
+            Log.i(TAG, UnreadMsgCount + "");
+            Config.cachePreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT, UnreadMsgCount + "");
+        }
+
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -157,6 +181,13 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
 
         }).start();
 
+        //show unreadmsgcount
+        String unread = Config.getCachedPreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT);
+        if (unread != null && !unread.equals("") && !unread.equals("0")) {
+            unreadMsgCount.setText(unread);
+            unreadMsgCount.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -192,6 +223,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         tabCommunity.setOnClickListener(this);
         tabMe.setOnClickListener(this);
 
+        unreadMsgCount = (TextView) findViewById(R.id.unread_msg_number);
     }
 
     //重置所有文本的选中状态
@@ -255,6 +287,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 tabCommunity.setSelected(true);
                 if (fragCommunity == null) {
                     fragCommunity = new FragChatMainActivity();
+                    fragCommunity.setOnFragChatListener(this);
                     transaction.add(R.id.fragment_container, fragCommunity);
                 } else {
                     transaction.show(fragCommunity);
@@ -338,6 +371,35 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     public void appendConsoleText(String text) {
         Log.i(TAG, text);
         Toast.makeText(AtyMainFrame.this, text, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConversationClicked(int responseCode) {
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+        /**
+         * lastMsgTime will change if there is new message during sorting
+         * so use synchronized to make sure timestamp of last message won't change.
+         */
+        synchronized (conversations) {
+            int UnreadMsgCount = 0;
+            for (EMConversation conversation : conversations.values()) {
+                UnreadMsgCount += conversation.getUnreadMsgCount();
+            }
+            Log.i(TAG, UnreadMsgCount + "");
+            Config.cachePreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT, UnreadMsgCount + "");
+        }
+
+        //show unreadmsgcount
+        String unread = Config.getCachedPreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT);
+        if (unread != null && !unread.equals("") && !unread.equals("0")) {
+            unreadMsgCount.setText(unread);
+            unreadMsgCount.setVisibility(View.VISIBLE);
+        } else {
+            unreadMsgCount.setVisibility(View.GONE);
+
+        }
+
     }
 
     @Override

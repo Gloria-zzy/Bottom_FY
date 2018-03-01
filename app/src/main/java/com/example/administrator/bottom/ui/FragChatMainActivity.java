@@ -208,5 +208,16 @@ public class FragChatMainActivity extends Fragment {
         super.onResume();
         // cancel the notification
         EaseUI.getInstance().getNotifier().reset();
+        onFragChatListener.onConversationClicked(0);
+    }
+
+    private OnFragChatListener onFragChatListener;
+
+    public interface OnFragChatListener {
+        void onConversationClicked(int responseCode);
+    }
+
+    public void setOnFragChatListener(OnFragChatListener onFragHomeListener) {
+        this.onFragChatListener = onFragHomeListener;
     }
 }
