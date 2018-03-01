@@ -29,10 +29,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.bumptech.glide.Glide;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
+import com.example.administrator.bottom.atys.AtyFetch;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyAboutUD;
@@ -432,6 +435,25 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (imgReturnIntent != null) {
+                //-------------------下单成功 给自己发一条推送-----------------------
+
+                Runnable networkTask = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // TODO
+                        // 在这里进行 http request.网络请求相关操作
+                        PushMessage pushMessage = new PushMessage();
+                        try {
+                            pushMessage.PushToSelf(Config.getCachedDeviceID(getActivity()), "下单成功！", "UDers正在努力派送中…");
+                        } catch (ClientException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Thread thread = new Thread(networkTask);
+                thread.start();
+                //---------------------------推送结束-----------------------------
 
                 String content = imgReturnIntent.getStringExtra(Constant.CODED_CONTENT);
 //                result.setText("扫描结果为：" + content);
