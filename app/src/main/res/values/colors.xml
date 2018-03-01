@@ -16,4 +16,6 @@
     <color name="theme_orange">#f7bb42</color>
     <color name="grey">#a9a9a9</color>
     <color name="white_grey">#f7f7f9</color>
+    <!--ProgressWheel-->
+    <color name="ProgressWheel_color">#489df3</color>
 </resources>
