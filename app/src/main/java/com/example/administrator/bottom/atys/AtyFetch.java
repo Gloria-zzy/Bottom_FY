@@ -285,7 +285,7 @@ public class AtyFetch extends AppCompatActivity {
                                     // 在这里进行 http request.网络请求相关操作
                                     PushMessage pushMessage = new PushMessage();
                                     try {
-                                        pushMessage.PushToSelf(deviceId, "下单成功！", "UDers正在努力派送中…");
+                                        pushMessage.PushToSelf(Config.getCachedDeviceID(getApplicationContext()), "下单成功！", "UDers正在努力派送中…");
                                     } catch (ClientException e) {
                                         e.printStackTrace();
                                     }
