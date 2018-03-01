@@ -373,7 +373,18 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 }
                 break;
             case FragHome.ERROR_ORDERS_CLIKED:
-
+                if (fragOrder != null) {
+                    Log.i(TAG, "ERROR_ORDERS_CLIKED");
+                    fragOrder.selectTv(FragOrder.SHOW_CURRENT);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    hideAllFragment(transaction);
+                    clearSelected();
+                    tabOrder.setSelected(true);
+                    transaction.show(fragOrder);
+                    transaction.commit();
+                } else {
+                    showFragOrder();
+                }
                 break;
             default:
         }

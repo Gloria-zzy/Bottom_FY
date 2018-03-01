@@ -138,7 +138,7 @@ public class AtyAddfriend extends Activity {
                             setContactsMap(contacts);
                             // 刷新页面
                             refresh();
-                            add.setVisibility(View.VISIBLE);
+                            add.setEnabled(true);
                         }
                     }, new DownloadAddress.FailCallback() {
                         @Override
@@ -161,7 +161,7 @@ public class AtyAddfriend extends Activity {
             public void onClick(View v) {
                 query.getText().clear();
                 contentContainer.removeAllViews();
-                add.setVisibility(View.GONE);
+                add.setEnabled(false);
                 hideSoftKeyboard();
             }
         });
