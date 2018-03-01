@@ -6,7 +6,7 @@
 * @date 2014年9月1日 下午12:03:33 
 * @version 2014年9月1日 下午12:03:33  
 */
-package com.example.administrator.bottom.custom;
+package com.example.administrator.bottom.staff.utils;
 
 import android.content.Context;
 import android.content.res.Resources;

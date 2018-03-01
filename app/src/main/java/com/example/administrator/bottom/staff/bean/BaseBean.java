@@ -1,4 +1,4 @@
-package com.example.administrator.bottom.custom;
+package com.example.administrator.bottom.staff.bean;
 
 import java.io.Serializable;
 

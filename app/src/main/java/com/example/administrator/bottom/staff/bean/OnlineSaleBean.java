@@ -1,4 +1,4 @@
-package com.example.administrator.bottom.custom;
+package com.example.administrator.bottom.staff.bean;
 
 /**
  * 实际的数据模型（在多个种表格的常见下，要单独建类似的模型）

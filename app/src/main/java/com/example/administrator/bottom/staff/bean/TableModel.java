@@ -1,4 +1,4 @@
-package com.example.administrator.bottom.custom;
+package com.example.administrator.bottom.staff.bean;
 
 import android.graphics.Color;
 import android.widget.TextView;
@@ -174,11 +174,11 @@ public class TableModel {
         }
     }
 
-    private String str_blue_color ="#2395d5";
+    private String str_red_color="#ff0000";
     private String str_green_color="#009944";
     public void setTextColor(TextView tv_table_content_right_item, String text) {
         if(!text.contains("-")){
-            tv_table_content_right_item.setTextColor(Color.parseColor(str_blue_color));
+            tv_table_content_right_item.setTextColor(Color.parseColor(str_red_color));
         }else{
             if(text.trim().length()>1){
                 tv_table_content_right_item.setTextColor(Color.parseColor(str_green_color));

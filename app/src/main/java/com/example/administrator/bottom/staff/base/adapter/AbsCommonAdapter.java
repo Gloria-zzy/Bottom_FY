@@ -1,10 +1,12 @@
-package com.example.administrator.bottom.custom;
+package com.example.administrator.bottom.staff.base.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+
+import com.example.administrator.bottom.staff.AppContext;
 
 
 import java.util.ArrayList;

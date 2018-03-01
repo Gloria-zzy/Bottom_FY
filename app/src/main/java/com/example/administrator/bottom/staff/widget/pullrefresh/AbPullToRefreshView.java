@@ -1,4 +1,4 @@
-package com.example.administrator.bottom.custom;
+package com.example.administrator.bottom.staff.widget.pullrefresh;
 
 /*
  * Copyright (C) 2012 www.amsoft.cn
@@ -26,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import com.example.administrator.bottom.staff.widget.ProgressWheel;
 
 
 /**
