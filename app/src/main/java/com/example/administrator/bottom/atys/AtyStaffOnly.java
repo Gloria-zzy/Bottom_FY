@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.net.CompleteOrder;
+import com.example.administrator.bottom.net.DownloadTakenOrders;
+import com.example.administrator.bottom.net.DownloadTrustOrders;
+import com.example.administrator.bottom.net.Order;
 import com.example.administrator.bottom.staff.base.RefreshParams;
 import com.example.administrator.bottom.staff.base.adapter.AbsCommonAdapter;
 import com.example.administrator.bottom.staff.base.adapter.AbsViewHolder;
@@ -41,12 +46,14 @@ import com.yanzhenjie.permission.PermissionListener;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
 //        手机号   phone
 //        信任好友 trust_friend
 //        收货地点 arrive_address
 //        收货时间 arrive_time
 public class AtyStaffOnly extends AppCompatActivity {
 
+    private String TAG = "atystaffOnly";
     private ImageView scanner;
     private int REQUEST_CODE_SCAN = 111;
 
@@ -78,7 +85,7 @@ public class AtyStaffOnly extends AppCompatActivity {
         init();
 
         //---------------------状态栏透明 begin----------------------------------------
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyStaffOnly.this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -95,13 +102,13 @@ public class AtyStaffOnly extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
+                overridePendingTransition(R.transition.switch_still, R.transition.switch_slide_out_right);
             }
         });
 
         // 绑定按钮到扫描二维码
         //scanner
-        scanner = (ImageView)findViewById(R.id.iv_staff_scanner);
+        scanner = (ImageView) findViewById(R.id.iv_staff_scanner);
 //        result = view.findViewById(R.id.result_tv);
         scanner.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,13 +206,6 @@ public class AtyStaffOnly extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, imgReturnIntent);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-//        startActivity(new Intent(this,AboutMeActivity.class));
-        Toast.makeText(AtyStaffOnly.this, "onOptionsItemSelected", Toast.LENGTH_LONG).show();
-        return super.onOptionsItemSelected(item);
-    }
-
     public void init() {
         mContext = getApplicationContext();
         findByid();
@@ -287,10 +287,11 @@ public class AtyStaffOnly extends AppCompatActivity {
 
                 //部分行设置颜色凸显
                 item.setTextColor(tv_table_content_right_item0, item.getText0());
-                item.setTextColor(tv_table_content_right_item5, item.getText5());
-                item.setTextColor(tv_table_content_right_item10, item.getText10());
+                item.setTextColor(tv_table_content_right_item1, item.getText1());
+                item.setTextColor(tv_table_content_right_item6, item.getText6());
+                item.setTextColor(tv_table_content_right_item8, item.getText8());
 
-                for (int i=0; i<12; i++) {
+                for (int i = 0; i < 12; i++) {
                     View view = ((LinearLayout) helper.getConvertView()).getChildAt(i);
                     view.setVisibility(View.VISIBLE);
                 }
@@ -330,52 +331,123 @@ public class AtyStaffOnly extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //跳转界面
-//                Toast.makeText(AtyStaffOnly.this, "打开某条记录的单独详情", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AtyStaffOnly.this, "打开某条记录的单独详情" + id, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public void setData(){
+    public void setData() {
         doGetDatas(0, RefreshParams.REFRESH_DATA);
     }
 
     //模拟网络请求
     public void doGetDatas(int pageno, int state) {
-        List<OnlineSaleBean> onlineSaleBeanList = new ArrayList<>();
-        for(int i=1+pageno*20;i<20*(pageno+1)+1;i++){
-            onlineSaleBeanList.add(new OnlineSaleBean(i + ""));
-        }
-        if(state == RefreshParams.REFRESH_DATA){
-            pulltorefreshview.onHeaderRefreshFinish();
-        }else{
-            pulltorefreshview.onFooterLoadFinish();
-        }
-        setDatas(onlineSaleBeanList, state);
+        final List<Order> orderList = new ArrayList<>();
+        final int mystate = state;
+        new DownloadTakenOrders("0", new DownloadTakenOrders.SuccessCallback() {
+
+            @Override
+            public void onSuccess(ArrayList<Order> orders) {
+                Log.i(TAG, "onsuccess");
+                int id = 1;
+                for (Order o : orders) {
+                    orderList.add(o);
+                    o.setId(id + "");
+                    id++;
+                    Log.i(TAG, "onsuccess" + id);
+
+                }
+                setDatas(orderList, mystate);
+                if (mystate == RefreshParams.REFRESH_DATA) {
+                    pulltorefreshview.onHeaderRefreshFinish();
+                } else {
+                    pulltorefreshview.onFooterLoadFinish();
+                }
+            }
+        }, new DownloadTakenOrders.FailCallback() {
+
+            @Override
+            public void onFail() {
+                Log.i(TAG, "onfail");
+
+                Toast.makeText(AtyStaffOnly.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+            }
+        });
+//        for(int i=1+pageno*20;i<20*(pageno+1)+1;i++){
+//            orderList.add(new Order(i + ""));
+//        }
+
+//        setDatas(orderList, state);
     }
 
-    private void setDatas(List<OnlineSaleBean> onlineSaleBeanList, int type) {
-        if (onlineSaleBeanList.size() > 0) {
+    private void setDatas(List<Order> orderList, int type) {
+        if (orderList.size() > 0) {
             List<TableModel> mDatas = new ArrayList<>();
-            for (int i = 0; i < onlineSaleBeanList.size(); i++) {
-                OnlineSaleBean onlineSaleBean = onlineSaleBeanList.get(i);
+            for (int i = 0; i < orderList.size(); i++) {
+                Order order = orderList.get(i);
                 TableModel tableMode = new TableModel();
-                tableMode.setOrgCode(onlineSaleBean.getOrgCode());
-                tableMode.setLeftTitle(onlineSaleBean.getCompanyName());
-                tableMode.setText0(onlineSaleBean.getOrgCode()+"");//列0内容
-                tableMode.setText1(onlineSaleBean.getAreaName()+"");//列1内容
-                tableMode.setText2(onlineSaleBean.getSaleAll() + "");//列2内容
-                tableMode.setText3(onlineSaleBean.getSaleAllOneNow() + "");
-                tableMode.setText4(onlineSaleBean.getSaleAllLast() + "");
-                tableMode.setText5(onlineSaleBean.getSaleAllOneNowLast() + "");//
-                tableMode.setText6(onlineSaleBean.getSaleAllRate() + "");//
-                tableMode.setText7(onlineSaleBean.getSaleAllOneNowRate() + "");//
-                tableMode.setText8(onlineSaleBean.getRetailSale() + "");//
-                tableMode.setText9(onlineSaleBean.getRetailSaleOneNow() + "");//
-                tableMode.setText10(onlineSaleBean.getRetailSaleLast() + "");//
-                tableMode.setText11(onlineSaleBean.getRetailSaleOneNowLast() + "");//
-                tableMode.setText12(onlineSaleBean.getRetailSaleRate() + "");//
-                tableMode.setText13(onlineSaleBean.getRetailSaleOneNowRate() + "");//
-                tableMode.setText14(onlineSaleBean.getOnlineSale() + "");//
+//                tableMode.setOrgCode(order.getOrgCode());
+                tableMode.setLeftTitle(order.getId());
+                //列0内容
+                tableMode.setText0(order.getArriveAddress() + "");
+                //列1内容
+                tableMode.setText1(order.getArriveTime() + "");
+                //列2内容
+                switch (order.getSize()) {
+                    case "S":
+                        tableMode.setText2("小");
+                        break;
+                    case "M":
+                        tableMode.setText2("中");
+                        break;
+                    case "L":
+                        tableMode.setText2("大");
+                        break;
+                    default:
+                        tableMode.setText2(order.getSize() + "");
+                }
+                //列3内容
+                if (order.getNote().equals("none")) {
+                    tableMode.setText3("无");
+                }else{
+                    tableMode.setText3(order.getNote() + "");
+                }
+                //列4内容
+                if(order.getPickPoint().equals("none") || order.getPickPoint() == null){
+                    tableMode.setText4("无");
+                }else{
+                    tableMode.setText4(order.getPickPoint() + "");//
+                }
+                //列5内容
+                if(order.getPickNumber().equals("none") || order.getPickNumber() == null){
+                    tableMode.setText5("无");
+                }else{
+                    tableMode.setText5(order.getPickNumber() + "");//
+                }
+                //列6内容
+                if(order.getTrust_friend().equals("none") || order.getTrust_friend() == null){
+                    tableMode.setText6("无");
+                }else{
+                    tableMode.setText6(order.getTrust_friend() + "");//
+                }
+                //列7内容
+                if (order.getOrderStatus().equals("0")) {
+                    tableMode.setText7("已结单");//
+                } else {
+                    tableMode.setText7("派送中");//
+                }
+                //列8内容
+                tableMode.setText8(order.getPhone() + "");//
+                //列9内容
+                tableMode.setText9(order.getOrderNumber() + "");//
+                //列10内容
+                tableMode.setText10(order.getOrderTime() + "");//
+                //列11内容
+                if (order.getTaker().equals("0")) {
+                    tableMode.setText11("暂无");//
+                } else {
+                    tableMode.setText11(order.getTaker() + "");//
+                }
                 mDatas.add(tableMode);
             }
             boolean isMore;
@@ -388,9 +460,9 @@ public class AtyStaffOnly extends AppCompatActivity {
             mRightAdapter.addData(mDatas, isMore);
             //加载数据成功，增加页数
             pageNo++;
-//            if (mDatas.size() < 20) {
-//                pulltorefreshview.setLoadMoreEnable(false);
-//            }
+            if (mDatas.size() <= mDatas.size()) {
+                pulltorefreshview.setLoadMoreEnable(false);
+            }
             mDatas.clear();
         } else {
             //数据为null
@@ -400,7 +472,7 @@ public class AtyStaffOnly extends AppCompatActivity {
                 //显示数据为空的视图
                 //                mEmpty.setShowErrorAndPic(getString(R.string.empty_null), 0);
             } else if (type == RefreshParams.LOAD_DATA) {
-                Toast.makeText(mContext, "请求json失败",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, "请求json失败", Toast.LENGTH_SHORT).show();
             }
         }
     }

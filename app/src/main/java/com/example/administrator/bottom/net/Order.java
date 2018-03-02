@@ -13,7 +13,12 @@ package com.example.administrator.bottom.net;
 //        备注     note
 //        状态     order_status(int)
 
-public class Order {
+import com.example.administrator.bottom.staff.bean.BaseBean;
+
+public class Order extends BaseBean {
+
+    private String id;
+
     private String orderNumber;
     private String phone;
     private String pickPoint;
@@ -51,6 +56,18 @@ public class Order {
         this.trust_friend = trustFriend;
         this.size = size;
         this.arriveTime = arriveTime;
+    }
+
+    public Order(String id){
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getArriveAddress() {

@@ -174,17 +174,17 @@ public class TableModel {
         }
     }
 
-    private String str_red_color="#ff0000";
+    private String str_red_color="#2395d5";
     private String str_green_color="#009944";
     public void setTextColor(TextView tv_table_content_right_item, String text) {
-        if(!text.contains("-")){
+//        if(!text.contains("-")){
             tv_table_content_right_item.setTextColor(Color.parseColor(str_red_color));
-        }else{
-            if(text.trim().length()>1){
-                tv_table_content_right_item.setTextColor(Color.parseColor(str_green_color));
-            }else{
-                tv_table_content_right_item.setTextColor(Color.BLACK);
-            }
-        }
+//        }else{
+//            if(text.trim().length()>1){
+////                tv_table_content_right_item.setTextColor(Color.parseColor(str_green_color));
+//            }else{
+//                tv_table_content_right_item.setTextColor(Color.BLACK);
+//            }
+//        }
     }
 }
