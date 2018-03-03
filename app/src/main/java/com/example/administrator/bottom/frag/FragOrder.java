@@ -440,13 +440,6 @@ public class FragOrder extends Fragment {
                 // TODO Auto-generated method stub
                 Animation animation = null ;
                 for (int i = 0; i < tvs.size(); i++) {
-//                    if (i == index) {
-//                        tvs.get(i).setTextColor(Color.rgb(35, 149, 213));
-//                        tvs.get(i).setBackgroundResource(R.drawable.item_sublime_text);
-//                    } else {
-//                        tvs.get(i).setTextColor(Color.rgb(250, 250, 250));
-//                        tvs.get(i).setBackgroundColor(Color.TRANSPARENT);
-//                    }
 
                     if(selection == 0 && index == 1){
                         animation = new TranslateAnimation(offset,position_one, 0, 0);

@@ -32,7 +32,8 @@
             android:layout_height="40dp"
             android:background="@color/transparent"
             android:orientation="horizontal"
-            android:paddingTop="11sp">
+            android:paddingTop="11sp"
+            android:paddingBottom="3sp">
 
             <TextView
                 android:id="@+id/page_current"
@@ -42,7 +43,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="当前订单"
-                android:textColor="#FFFAFAFA" />
+                android:textColor="#FFFAFAFA"
+                android:layout_gravity="bottom"/>
 
             <TextView
                 android:id="@+id/page_history"
@@ -52,7 +54,8 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="历史订单"
-                android:textColor="#FFFAFAFA" />
+                android:textColor="#FFFAFAFA"
+                android:layout_gravity="bottom"/>
         </LinearLayout>
 
         <LinearLayout
