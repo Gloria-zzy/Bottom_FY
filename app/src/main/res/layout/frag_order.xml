@@ -55,6 +55,24 @@
                 android:textColor="#FFFAFAFA" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_line_height"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:layout_marginBottom="1sp"
+            android:background="@color/transparent"
+            >
+
+            <ImageView
+                android:id="@+id/cursor"
+                android:layout_width="@dimen/main_matrix_width"
+                android:layout_height="@dimen/main_line_height"
+                android:scaleType="matrix"
+                android:src="@color/white" />
+
+        </LinearLayout>
+
         <include layout="@layout/ease_search_bar" />
 
         <RelativeLayout
