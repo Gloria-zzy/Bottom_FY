@@ -33,8 +33,10 @@ import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
 import com.example.administrator.bottom.net.UploadDeviceId;
 import com.example.administrator.bottom.ui.FragChatMainActivity;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
+import com.hyphenate.chat.EMMessage;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -72,22 +74,6 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
-        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
-        /**
-         * lastMsgTime will change if there is new message during sorting
-         * so use synchronized to make sure timestamp of last message won't change.
-         */
-        synchronized (conversations) {
-            int UnreadMsgCount = 0;
-            for (EMConversation conversation : conversations.values()) {
-                UnreadMsgCount += conversation.getUnreadMsgCount();
-            }
-            Log.i(TAG, UnreadMsgCount + "");
-            Config.cachePreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT, UnreadMsgCount + "");
-        }
-
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -182,12 +168,34 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         }).start();
 
         //show unreadmsgcount
+        showUnreadMsg();
+
+    }
+
+private void showUnreadMsg() {
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
+        /**
+         * lastMsgTime will change if there is new message during sorting
+         * so use synchronized to make sure timestamp of last message won't change.
+         */
+        synchronized (conversations) {
+            int UnreadMsgCount = 0;
+            for (EMConversation conversation : conversations.values()) {
+                UnreadMsgCount += conversation.getUnreadMsgCount();
+            }
+            Log.i(TAG, UnreadMsgCount + "");
+            Config.cachePreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT, UnreadMsgCount + "");
+        }
         String unread = Config.getCachedPreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT);
+
+        //show unreadmsgcount
         if (unread != null && !unread.equals("") && !unread.equals("0")) {
             unreadMsgCount.setText(unread);
             unreadMsgCount.setVisibility(View.VISIBLE);
+        } else {
+            unreadMsgCount.setVisibility(View.GONE);
         }
-
     }
 
     @SuppressLint("HandlerLeak")
@@ -375,31 +383,12 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
 
     @Override
     public void onConversationClicked(int responseCode) {
-        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
-        List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
-        /**
-         * lastMsgTime will change if there is new message during sorting
-         * so use synchronized to make sure timestamp of last message won't change.
-         */
-        synchronized (conversations) {
-            int UnreadMsgCount = 0;
-            for (EMConversation conversation : conversations.values()) {
-                UnreadMsgCount += conversation.getUnreadMsgCount();
-            }
-            Log.i(TAG, UnreadMsgCount + "");
-            Config.cachePreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT, UnreadMsgCount + "");
-        }
+        showUnreadMsg();
+    }
 
-        //show unreadmsgcount
-        String unread = Config.getCachedPreference(getApplicationContext(), Config.KEY_HX_UNRADMSGCOUNT);
-        if (unread != null && !unread.equals("") && !unread.equals("0")) {
-            unreadMsgCount.setText(unread);
-            unreadMsgCount.setVisibility(View.VISIBLE);
-        } else {
-            unreadMsgCount.setVisibility(View.GONE);
-
-        }
-
+    @Override
+    public void onMessageReceived(int responseCode) {
+        showUnreadMsg();
     }
 
     @Override
@@ -450,5 +439,48 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 break;
             default:
         }
+    }
+
+    //聊天消息
+    public void ChatListener() {
+
+        EMMessageListener msgListener = new EMMessageListener() {
+
+            @Override
+            public void onMessageReceived(List<EMMessage> messages) {
+                //收到消息
+
+                Log.i(TAG, "onMessageReceived");
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                //收到透传消息
+                Log.i(TAG, "onCmdMessageReeived");
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> list) {
+
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> list) {
+                Log.i(TAG, "onMessageDelivered");
+            }
+
+            @Override
+            public void onMessageRecalled(List<EMMessage> list) {
+                Log.i(TAG, "onMessageRecalled");
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                //消息状态变动
+                Log.i(TAG, "onMessageChanged");
+            }
+        };
+
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 }

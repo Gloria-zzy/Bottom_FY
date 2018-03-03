@@ -182,8 +182,8 @@ public class UploadUtil {
             dos.write(params.getBytes());
             /**上传文件*/
             InputStream is = new FileInputStream(file);
-            //			//文件大小
-            //			onUploadProcessListener.initUpload((int)file.length());
+            //          //文件大小
+            //          onUploadProcessListener.initUpload((int)file.length());
             //
             byte[] bytes = new byte[1024];
             int len = 0;
@@ -221,9 +221,11 @@ public class UploadUtil {
 
                 Log.i(TAG, "result : " + _result);
                 result = _result.toString();
+                sendMessage(UPLOAD_SUCCESS_CODE, "succeed");
                 return;
             } else {
                 Log.e(TAG, "request error");
+                sendMessage(UPLOAD_SERVER_ERROR_CODE, "server error");
                 return;
             }
         } catch (MalformedURLException e) {

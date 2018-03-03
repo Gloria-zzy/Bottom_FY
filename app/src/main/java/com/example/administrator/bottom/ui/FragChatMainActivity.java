@@ -64,6 +64,8 @@ public class FragChatMainActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.aty_chat_main, container, false);
 
+//        ChatListener();
+
         //http://stackoverflow.com/questions/4341600/how-to-prevent-multiple-instances-of-an-activity-when-it-is-launched-with-differ/
         // should be in launcher activity, but all app use this can avoid the problem
         if (!getActivity().isTaskRoot()) {
@@ -287,6 +289,7 @@ public class FragChatMainActivity extends Fragment {
 
     public interface OnFragChatListener {
         void onConversationClicked(int responseCode);
+        void onMessageReceived(int responseCode);
     }
 
     public void setOnFragChatListener(OnFragChatListener onFragHomeListener) {

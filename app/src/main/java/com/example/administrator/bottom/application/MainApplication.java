@@ -11,9 +11,14 @@ import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.CommonCallback;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.example.administrator.bottom.Config;
+import com.example.administrator.bottom.ui.FragChatMainActivity;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
+
+import java.util.List;
 
 public class MainApplication extends MultiDexApplication {
     private static final String TAG = "Init";
@@ -73,7 +78,7 @@ public class MainApplication extends MultiDexApplication {
             // 设置Username
             user = new EaseUser(username);
             // 设置头像
-            user.setAvatar(Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT));
+            user.setAvatar(Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(this)));
             // 暂时用ID替代
             user.setNick(Config.getCachedPreference(this, Config.KEY_PHONE_NUM));
             return user;
@@ -84,13 +89,13 @@ public class MainApplication extends MultiDexApplication {
         //收到别人的消息，设置别人的头像
         if (user == null) {
             Config.setContactPortraitList();
-            String portraitPath;
+            String portraitURL;
 //            portraitPath = Config.getContactPortrait(username);
-            portraitPath = Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username);
-            if (portraitPath != null) {
+            portraitURL = Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username);
+            if (portraitURL != null) {
                 user = new EaseUser(username);
                 // 设置头像
-                user.setAvatar(portraitPath);
+                user.setAvatar(portraitURL);
             }
 //            EaseCommonUtils.setUserInitialLetter(user);
         } else {
@@ -115,7 +120,7 @@ public class MainApplication extends MultiDexApplication {
     /**
      * set global listener
      */
-    protected void setGlobalListeners(){
+    protected void setGlobalListeners() {
         registerMessageListener();
     }
 
@@ -177,5 +182,7 @@ public class MainApplication extends MultiDexApplication {
 //        };
 //        EMClient.getInstance().chatManager().addMessageListener(messageListener);
     }
+
+
 
 }
