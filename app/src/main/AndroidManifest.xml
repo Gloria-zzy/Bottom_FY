@@ -199,7 +199,8 @@
             android:name="com.hyphenate.easeui.ui.AtyAddfriend"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".atys.AtyStaffOnly"></activity>
+        <activity android:name=".atys.AtyStaffOnly" />
+        <activity android:name=".atys.AtyJoinUs"></activity>
     </application>
 
 </manifest>

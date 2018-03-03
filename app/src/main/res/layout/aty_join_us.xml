@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/title"
+        style="@style/TopStatus">
+
+        <ImageView
+            android:id="@+id/iv_joinUs_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/item_back" />
+
+        <TextView
+            style="@style/nav_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="30dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="加入UDers"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/wrap_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20sp"
+            android:layout_marginTop="20sp"
+            android:text="《UD平台业务用户协议》" />
+
+        <TextView
+            style="default_text"
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/agreemt"
+            android:layout_marginBottom="30sp"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10sp">
+        <CheckBox
+            android:id="@+id/cb_atyJoinUs_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我同意《UD平台业务用户协议》"
+            android:layout_toRightOf="@id/cb_atyJoinUs_agree"
+            android:layout_alignBaseline="@id/cb_atyJoinUs_agree"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_atyJoinUs_submit"
+        style="@style/default_text"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/item_btn"
+        android:gravity="center"
+        android:text="申请加入UDers"
+        android:textColor="@color/white" />
+
+</LinearLayout>

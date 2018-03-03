@@ -31,6 +31,7 @@ import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
+import com.example.administrator.bottom.atys.AtyJoinUs;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyAboutUD;
@@ -233,6 +234,16 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AtyStaffOnly.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+            }
+        });
+
+        // 绑定按钮到加入UDers
+        view.findViewById(R.id.ll_fragMe_joinUs).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyJoinUs.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }

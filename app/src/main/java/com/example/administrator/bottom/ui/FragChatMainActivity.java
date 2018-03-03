@@ -223,6 +223,9 @@ public class FragChatMainActivity extends Fragment {
                 resetTextViewTextColor();
 //                tv1.setTextColor(getResources().getColor(R.color.white));
             }
+            animation.setFillAfter(true);// true:图片停在动画结束位置
+            animation.setDuration(300);
+            cursor.startAnimation(animation);
         }
         // 将当前页面（跳转之前的页面）的选中状态设置为false
         mTabs[currentTabIndex].setSelected(false);
@@ -232,9 +235,7 @@ public class FragChatMainActivity extends Fragment {
         mTabs[index].setTextColor(getResources().getColor(R.color.white));
         // 将当前页面编号设置为要跳转页面的编号
         currentTabIndex = index;
-        animation.setFillAfter(true);// true:图片停在动画结束位置
-        animation.setDuration(300);
-        cursor.startAnimation(animation);
+
     }
 
     /**
