@@ -12,12 +12,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -56,6 +59,17 @@ public class FragOrder extends Fragment {
     protected ImageButton clearSearch;
     protected InputMethodManager inputMethodManager;
     private ViewPager pager;
+
+    //动画图片
+    private ImageView cursor;
+
+    //动画图片偏移量
+    private int offset = 0;
+    private int position_one;
+
+    //动画图片宽度
+    private int bmpW;
+
 
     private String phone;
 
@@ -126,12 +140,18 @@ public class FragOrder extends Fragment {
             tvs.add(tv2);
 
             //        初始化ViewPager组件
+            Log.i(TAG,selection + "init");
             initView();
+            resetTextViewTextColor();
             initViewPager();
 
             if (selection == 1) {
                 pager.setCurrentItem(selection);
             }
+
+            //动画效果
+            cursor = (ImageView) view.findViewById(R.id.cursor);
+            InitImageView();
 
             //---------------------解决RefreshLayout和ScrollView的冲突 begin-----------------------------------
             scrollView1.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -230,6 +250,38 @@ public class FragOrder extends Fragment {
             return view;
         }
         return view;
+    }
+
+    /**
+     * 初始化动画
+     */
+    private void InitImageView() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+        // 获取分辨率宽度
+        int screenW = dm.widthPixels;
+
+        bmpW = (screenW/2);
+
+        //设置动画图片宽度
+        setBmpW(cursor, bmpW);
+        offset = 0;
+
+        //动画图片偏移量赋值
+        position_one = (int) (screenW / 2.0);
+
+    }
+
+    /**
+     * 设置动画图片宽度
+     * @param mWidth
+     */
+    private void setBmpW(ImageView imageView,int mWidth){
+        ViewGroup.LayoutParams para;
+        para = imageView.getLayoutParams();
+        para.width = mWidth;
+        imageView.setLayoutParams(para);
     }
 
     @Override
@@ -377,26 +429,32 @@ public class FragOrder extends Fragment {
 
     public void initViewPager() {
         // TODO Auto-generated method stub
-
         PagerAdapter adapter = new FragOrder.MyPagerAdapter();
         pager.setAdapter(adapter);
-        tvs.get(selection).setTextColor(Color.rgb(35, 149, 213));
-        tvs.get(selection).setBackgroundResource(R.drawable.item_sublime_text);
+        Log.i(TAG,selection + "here");
+        tvs.get(selection).setTextColor(getResources().getColor(R.color.white));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int index) {
                 // TODO Auto-generated method stub
-                selection = index;
+                Animation animation = null ;
                 for (int i = 0; i < tvs.size(); i++) {
-                    if (i == index) {
-                        tvs.get(i).setTextColor(Color.rgb(35, 149, 213));
-                        tvs.get(i).setBackgroundResource(R.drawable.item_sublime_text);
-                    } else {
-                        tvs.get(i).setTextColor(Color.rgb(250, 250, 250));
-                        tvs.get(i).setBackgroundColor(Color.TRANSPARENT);
+
+                    if(selection == 0 && index == 1){
+                        animation = new TranslateAnimation(offset,position_one, 0, 0);
+                        resetTextViewTextColor();
+                        tv2.setTextColor(getResources().getColor(R.color.white));
+                    }else if(selection == 1 && index == 0){
+                        animation = new TranslateAnimation(position_one,offset, 0, 0);
+                        resetTextViewTextColor();
+                        tv1.setTextColor(getResources().getColor(R.color.white));
                     }
                 }
+                selection = index;
+                animation.setFillAfter(true);// true:图片停在动画结束位置
+                animation.setDuration(300);
+                cursor.startAnimation(animation);
             }
 
             @Override
@@ -411,6 +469,18 @@ public class FragOrder extends Fragment {
 
             }
         });
+    }
+
+    /**
+     * 将顶部文字恢复默认值
+     */
+    private void resetTextViewTextColor(){
+
+        tv1.setTextColor(getResources().getColor(R.color.grey_blue));
+        tv2.setTextColor(getResources().getColor(R.color.grey_blue));
+
+        tv1.setBackgroundColor(Color.TRANSPARENT);
+        tv2.setBackgroundColor(Color.TRANSPARENT);
     }
 
     private class MyPagerAdapter extends PagerAdapter {

@@ -2,16 +2,14 @@ package com.example.administrator.bottom.frag;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -29,13 +27,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
+import com.example.administrator.bottom.atys.AtyJoinUs;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyAboutUD;
+import com.example.administrator.bottom.atys.AtyStaffOnly;
 import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.CompleteOrder;
@@ -61,13 +64,12 @@ import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
-import static com.example.administrator.bottom.Config.APP_ID;
 
 /**
  * Created by Administrator on 2017/10/29.
  */
 
-public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessListener {
+public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessListener, UploadUtil.OnUploadProcessListener {
     private String context;
     private TextView mTextView, phone_num;
     private int REQUEST_CODE_SCAN = 111;
@@ -75,10 +77,11 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     private String IMAGE_UNSPECIFIED = "image/*";
     private ImageView avatar;
     private File portraitFile;
-    private String hxPortraitPath;
+    private String hxPortraitURL;
 
     private LinearLayout linearLayout_id;
     private TextView textView_id;
+    protected boolean hidden;
 
     final int PHOTO_REQUEST_GALLERY = 1;// 从相册中选择
     final int PHOTO_REQUEST_CUT = 2;// 剪切结果结果
@@ -92,6 +95,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
      * 上传文件响应
      */
     protected static final int DOWNLOAD_FILE_DONE = 5;  //
+    protected static final int TO_RRFRESH = 6;  //
 
     private String SDCARD_MNT = "/mnt/sdcard";
     private String SDCARD = "/sdcard";
@@ -230,48 +234,68 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             }
         });
 
-        // 绑定按钮到扫描二维码
-//        result = view.findViewById(R.id.result_tv);
-        view.findViewById(R.id.scanner).setOnClickListener(new View.OnClickListener() {
+        // 绑定按钮到员工通道
+        view.findViewById(R.id.ll_fragMe_staffOnly).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                AndPermission.with(getActivity())
-                        .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
-                    @Override
-                    public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-
-                        Intent intent = new Intent(getActivity(), CaptureActivity.class);
-
-                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
-                                * 也可以不传这个参数
-                                * 不传的话  默认都为默认不震动  其他都为true
-                                * */
-
-                        ZxingConfig config = new ZxingConfig();
-                        config.setPlayBeep(false);
-                        config.setShake(true);
-                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-
-                        startActivityForResult(intent, REQUEST_CODE_SCAN);
-
-                    }
-
-                    @Override
-                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-                        Uri packageURI = Uri.parse("package:" + getActivity().getPackageName());
-                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                        startActivity(intent);
-
-                        Toast.makeText(getActivity(), "没有权限无法扫描", Toast.LENGTH_LONG).show();
-                    }
-
-                }).start();
-
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyStaffOnly.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
-
         });
+
+        // 绑定按钮到加入UDers
+        view.findViewById(R.id.ll_fragMe_joinUs).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), AtyJoinUs.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+            }
+        });
+
+//        // 绑定按钮到扫描二维码
+////        result = view.findViewById(R.id.result_tv);
+//        view.findViewById(R.id.ll_fragMe_staffOnly).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AndPermission.with(getActivity())
+//                        .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
+//                    @Override
+//                    public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+//
+//                        Intent intent = new Intent(getActivity(), CaptureActivity.class);
+//
+//                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
+//                                * 也可以不传这个参数
+//                                * 不传的话  默认都为默认不震动  其他都为true
+//                                * */
+//
+//                        ZxingConfig config = new ZxingConfig();
+//                        config.setPlayBeep(false);
+//                        config.setShake(true);
+//                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+//
+//                        startActivityForResult(intent, REQUEST_CODE_SCAN);
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+//                        Uri packageURI = Uri.parse("package:" + getActivity().getPackageName());
+//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                        startActivity(intent);
+//
+//                        Toast.makeText(getActivity(), "没有权限无法扫描", Toast.LENGTH_LONG).show();
+//                    }
+//
+//                }).start();
+//
+//            }
+//
+//        });
 
         // 信任订单
         view.findViewById(R.id.tv_trust_orders).setOnClickListener(new View.OnClickListener() {
@@ -367,9 +391,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                             downloadUtil.setOnDownloadProcessListener(FragMe.this);
                             downloadUtil.downLoad(Config.SERVER_URL_PORTRAITPATH + portrait, portrait);
                             // 同时将图片的URL保存为环信头像（此时没有上传头像，因此hxPortraitPath不存在）
-                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT, Config.SERVER_URL_PORTRAITPATH + portrait);
-                            // 另一种保存头像URL的形式
-                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()), Config.SERVER_URL_PORTRAITPATH + portrait);
+                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, Config.SERVER_URL_PORTRAITPATH + portrait);
                             Log.i("Handler", "download Pics and the PortraitURL:" + Config.SERVER_URL_PORTRAITPATH + portrait);
                         }
                     }, new DownloadPortrait.FailCallback() {
@@ -389,21 +411,43 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         // 同时在退出登录时需要清空本地保存的路径，因为该路径不支持多用户，只保存了一个用户的头像路径
                         Config.cachePortraitPath(getActivity(), path);
 
-                        FileInputStream fis = null;
-                        try {
-                            fis = new FileInputStream(new File(path));
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
+//                        FileInputStream fis = null;
+//                        try {
+//                            fis = new FileInputStream(new File(path));
+//                        } catch (FileNotFoundException e) {
+//                            e.printStackTrace();
+//                        }
 
-                        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()))).into(avatar);
+                        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
                     } else if (msg.arg1 == DownloadUtil.DOWNLOAD_FAIL) {
                         try {
-                            Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()))).into(avatar);
+                            Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
                         } catch (Exception e) {
                             Log.i(TAG, "no portrait URL");
                         }
                     }
+                    break;
+                case TO_RRFRESH:
+                    Drawable drawable = null;
+                    try {
+                        FileInputStream fis = new FileInputStream(Config.getCachedPortraitPath(getActivity()));
+                        Bitmap bitmap = BitmapFactory.decodeStream(fis);
+                        avatar.setImageBitmap(bitmap);
+                        drawable = new BitmapDrawable(getResources(), bitmap);
+                    } catch (FileNotFoundException e) {
+                        Log.i(TAG, "portrait file does not exist");
+                        e.printStackTrace();
+                    }
+
+                    Log.i(TAG, "img toString:" + avatar.toString());
+
+                    Drawable.ConstantState state = avatar.getDrawable().getCurrent().getConstantState();
+
+//                    if (!state.equals(drawable.getConstantState())) {
+//                        Log.i(TAG, "avatar is null");
+//                        Glide.with(getActivity()).load("android.resource://com.example.administrator.bottom/drawable/" + R.drawable.item_head).into(avatar);
+//                    }
+
                     break;
                 default:
                     break;
@@ -432,6 +476,25 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         // 扫描二维码/条码回传
         if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
             if (imgReturnIntent != null) {
+                //-------------------下单成功 给自己发一条推送-----------------------
+
+                Runnable networkTask = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        // TODO
+                        // 在这里进行 http request.网络请求相关操作
+                        PushMessage pushMessage = new PushMessage();
+                        try {
+                            pushMessage.PushToSelf(Config.getCachedDeviceID(getActivity()), "下单成功！", "UDers正在努力派送中…");
+                        } catch (ClientException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
+                Thread thread = new Thread(networkTask);
+                thread.start();
+                //---------------------------推送结束-----------------------------
 
                 String content = imgReturnIntent.getStringExtra(Constant.CODED_CONTENT);
 //                result.setText("扫描结果为：" + content);
@@ -470,20 +533,15 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         } else if (requestCode == REQUEST_CODE_GETIMAGE_BYSDCARD) {
             // 剪裁结束上传头像
-            toUploadFile();
             String portraitPath = portraitFile.getAbsolutePath();
-            Bitmap bitmap = BitmapFactory.decodeFile(portraitPath);
-            if (bitmap != null) {
-                this.avatar.setImageBitmap(bitmap);
 
-                // 上传并设置好头像之后，把保存头像的路径写入本地文件中（更新头像的需要，这个路径更新是上传时更新，和下载头像时的路径更新不重叠）
-                Config.cachePortraitPath(getActivity(), portraitPath);
+            // 上传并设置好头像之后，把保存头像的路径写入本地文件中（更新头像的需要，这个路径更新是上传时更新，和下载头像时的路径更新不重叠）
+            Config.cachePortraitPath(getActivity(), portraitPath);
 
-                // 同时将头像的URL（由于选择头像上传，因此hxPortraitPath此时肯定存在）保存到本地
-                Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT, hxPortraitPath);
-                // 直接将头像保存为(Portrait+Username, PortraitPath)的形式，在sharedPreference中
-                Config.cachePreference(getActivity(), Config.getCachedPhoneNum(getActivity()), hxPortraitPath);
-            }
+            // 同时将头像的URL（由于选择头像上传，因此hxPortraitPath此时肯定存在）保存到本地
+            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, hxPortraitURL);
+
+            toUploadFile();
         }
 
         super.onActivityResult(requestCode, resultCode, imgReturnIntent);
@@ -492,19 +550,19 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     protected void toUploadFile() {
         String fileKey = "img";
         UploadUtil uploadUtil = UploadUtil.getInstance();
+        uploadUtil.setOnUploadProcessListener(this);
 //        uploadUtil.setOnUploadProcessListener(getActivity());  // 设置监听器监听上传状态
 
         //定义一个Map集合，封装请求服务端时需要的参数
         Map<String, String> params = new HashMap<>();
         //根据服务端需要的自己决定参数
-//		params.put("userId", user.getUserId());
+//      params.put("userId", user.getUserId());
 
         // 如果头像路径存在则上传
         if (portraitFile.exists()) {
             Log.i("AbsolutePath", portraitFile.getAbsolutePath());
             //参数三：请求的url，
             uploadUtil.uploadFile(portraitFile.getAbsolutePath(), fileKey, Config.SERVER_URL_UPLOADPORTRAIT, params);
-
         }
     }
 
@@ -561,8 +619,10 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         // 照片命名
         String cropFileName = "crop_" + timeStamp + "." + ext;
-        hxPortraitPath = Config.SERVER_URL_PORTRAITPATH + cropFileName;
-        new UploadPortraitName(Config.getCachedPhoneNum(getActivity()), cropFileName, new UploadPortraitName.SuccessCallback() {
+        hxPortraitURL = Config.SERVER_URL_PORTRAITPATH + cropFileName;
+        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, hxPortraitURL);
+
+        new UploadPortraitName(PHONE, cropFileName, new UploadPortraitName.SuccessCallback() {
             @Override
             public void onSuccess() {
                 Log.i("UploadName", "succ");
@@ -645,12 +705,41 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     }
 
     private void refresh() {
-        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+        Log.i(TAG, "Phone:" + PHONE);
+        Log.i(TAG, "Avatar:" + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE));
+        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
+                .into(new BitmapImageViewTarget(avatar) {
+                    @Override
+                    protected void setResource(Bitmap resource) {
+                        //Play with bitmap
+                        super.setResource(resource);
+                    }
+                });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        refresh();
+
+        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
+            refresh();
+        }
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        this.hidden = hidden;
+        if (!hidden) {
+            refresh();
+        }
+    }
+
+    private int time = 2000;
+
+    @Override
+    public void onUploadDone(int responseCode, String message) {
+        Log.i(TAG, "upload done and set the avatar");
+        handler.sendEmptyMessage(TO_RRFRESH);
     }
 }
