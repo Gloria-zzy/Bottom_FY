@@ -200,7 +200,9 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".atys.AtyStaffOnly" />
-        <activity android:name=".atys.AtyJoinUs"></activity>
+        <activity android:name=".atys.AtyJoinUs" />
+        <activity android:name=".atys.AtyFeedBack" />
+        <activity android:name=".atys.AtyHelp"></activity>
     </application>
 
 </manifest>

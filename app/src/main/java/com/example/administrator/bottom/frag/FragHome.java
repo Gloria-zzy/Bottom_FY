@@ -22,8 +22,14 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.atys.AtyAddressMng;
+import com.example.administrator.bottom.atys.AtyFeedBack;
 import com.example.administrator.bottom.atys.AtyFetch;
+import com.example.administrator.bottom.atys.AtyHelp;
+import com.example.administrator.bottom.atys.AtyJoinUs;
+import com.example.administrator.bottom.atys.AtyMail;
 import com.example.administrator.bottom.atys.AtyMainFrame;
+import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
@@ -99,19 +105,19 @@ public class FragHome extends Fragment {
         });
 
         //--------------------------九宫格 begin--------------------------------------------------------
-        final String[] name = {"地址管理", "定位", "扫描二维码",
-                "使用指南", "优惠券", "历史订单",
-                "问题反馈", "关于UD", "客服"};
+        final String[] name = {"取快递", "寄快递", "信任订单",
+                "定位", "地址管理", "使用指南",
+                "加入UDers", "客服", "问题反馈"};
 
-        final int[] imageRes = {R.drawable.item_fraghome_address,
-                R.drawable.item_fraghome_locate,
-                R.drawable.item_fraghome_scanner,
-                R.drawable.item_fraghome_help,
-                R.drawable.item_fraghome_discount,
+        final int[] imageRes = {R.drawable.item_fraghome_fetch,
+                R.drawable.item_fraghome_mail,
                 R.drawable.item_fraghome_order,
-                R.drawable.item_fraghome_feedback,
-                R.drawable.item_fraghome_aboutud,
-                R.drawable.item_fraghome_consult};
+                R.drawable.item_fraghome_locate,
+                R.drawable.item_fraghome_address,
+                R.drawable.item_fraghome_help,
+                R.drawable.item_fraghome_join,
+                R.drawable.item_fraghome_consult,
+                R.drawable.item_fraghome_feedback};
         GridView gridView = (GridView) view.findViewById(R.id.gv_fragHome_func);//初始化
 
         //生成动态数组，并且转入数据
@@ -138,7 +144,54 @@ public class FragHome extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), name[position], Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), name[position], Toast.LENGTH_LONG).show();
+                switch (position){
+                    case 0:
+                        Intent intent0 = new Intent(getActivity(), AtyFetch.class);
+                        startActivity(intent0);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 1:
+                        Intent intent1 = new Intent(getActivity(), AtyMail.class);
+                        startActivity(intent1);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 2:
+                        Intent intent2 = new Intent(getActivity(), AtyTrustOrders.class);
+                        startActivity(intent2);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 3://locate
+//                        Intent intent3 = new Intent(getActivity(), AtyMail.class);
+//                        startActivity(intent3);
+//                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 4:
+                        Intent intent4 = new Intent(getActivity(), AtyAddressMng.class);
+                        startActivity(intent4);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 5:
+                        Intent intent5 = new Intent(getActivity(), AtyHelp.class);
+                        startActivity(intent5);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 6:
+                        Intent intent6 = new Intent(getActivity(), AtyJoinUs.class);
+                        startActivity(intent6);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 7://客服
+//                        Intent intent7 = new Intent(getActivity(), AtyMail.class);
+//                        startActivity(intent7);
+//                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                    case 8:
+                        Intent intent8 = new Intent(getActivity(), AtyFeedBack.class);
+                        startActivity(intent8);
+                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        break;
+                }
             }
         });
 
