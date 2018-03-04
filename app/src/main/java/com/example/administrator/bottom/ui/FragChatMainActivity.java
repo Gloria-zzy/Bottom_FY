@@ -1,13 +1,17 @@
 package com.example.administrator.bottom.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +20,11 @@ import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.net.DeleteHXFriend;
 import com.example.administrator.bottom.net.DownloadHXFriends;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.easeui.EaseConstant;
@@ -27,6 +33,8 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -131,6 +139,12 @@ public class FragChatMainActivity extends Fragment {
                 startActivity(new Intent(getActivity(), ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, user.getUsername()));
 //                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
+
+            @Override
+            public void onListItemLongClicked(EaseUser user) {
+                Log.i(TAG, "username:" + user.getUsername());
+                dialogChoice(user.getUsername());
+            }
         });
 
         // 将三个fragment存入数组
@@ -195,7 +209,7 @@ public class FragChatMainActivity extends Fragment {
      * @param view
      */
     public void onTabClicked(View view) {
-        Animation animation = null ;
+        Animation animation = null;
         switch (view.getId()) {
             case R.id.btn_conversation:
                 index = 0;
@@ -216,12 +230,12 @@ public class FragChatMainActivity extends Fragment {
             }
             // 呈现选中的页面
             trx.show(fragments[index]).commit();
-            if(currentTabIndex == 0 && index == 1){
-                animation = new TranslateAnimation(offset,position_one, 0, 0);
+            if (currentTabIndex == 0 && index == 1) {
+                animation = new TranslateAnimation(offset, position_one, 0, 0);
                 resetTextViewTextColor();
 //                tv2.setTextColor(getResources().getColor(R.color.white));
-            }else if(currentTabIndex == 1 && index == 0){
-                animation = new TranslateAnimation(position_one,offset, 0, 0);
+            } else if (currentTabIndex == 1 && index == 0) {
+                animation = new TranslateAnimation(position_one, offset, 0, 0);
                 resetTextViewTextColor();
 //                tv1.setTextColor(getResources().getColor(R.color.white));
             }
@@ -285,14 +299,82 @@ public class FragChatMainActivity extends Fragment {
         onFragChatListener.onConversationClicked(0);
     }
 
+    public EaseConversationListFragment getConversationListFragment() {
+        return conversationListFragment;
+    }
+
     private OnFragChatListener onFragChatListener;
 
     public interface OnFragChatListener {
         void onConversationClicked(int responseCode);
+
         void onMessageReceived(int responseCode);
     }
 
     public void setOnFragChatListener(OnFragChatListener onFragHomeListener) {
         this.onFragChatListener = onFragHomeListener;
+    }
+
+    private void dialogChoice(String friendname) {
+
+        //单选对话窗口
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), 3);
+
+        //定义标题样式
+        TextView title = new TextView(getActivity());
+        title.setText("确定要删除 " + friendname + " 吗？");
+        title.setPadding(10, 100, 10, 100);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(getResources().getColor(com.hyphenate.easeui.R.color.black_deep));
+        title.setTextSize(18);
+
+//        //设置图片
+//        Drawable drawable = null;
+//        try {
+//            drawable = Drawable.createFromStream(
+//                    new URL(Config.getCachedPreference(getActivity(), Config.SERVER_URL_PORTRAITPATH + friendname)).openStream(), null);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        drawable.setBounds(10, 10, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
+//        title.setCompoundDrawables( null, drawable,null, null);//setCompoundDrawables用来设置图片显示在文本的哪一端
+//        title.setCompoundDrawablePadding(30);//设置文字和图片间距
+
+        //使用自定义title
+        builder.setCustomTitle(title);
+        builder.setCancelable(true);
+        try {
+            final String myName = Config.getCachedPhoneNum(getActivity());
+            final String friendName = friendname;
+            builder.setPositiveButton("删除", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    new DeleteHXFriend(myName, friendName, new DeleteHXFriend.SuccessCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Log.i(TAG, "delete on success");
+                            contactListFragment.onResume();
+                        }
+                    }, new DeleteHXFriend.FailCallback() {
+                        @Override
+                        public void onFail() {
+
+                        }
+                    });
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        builder.create().show();
     }
 }

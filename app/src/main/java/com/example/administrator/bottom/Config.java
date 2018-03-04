@@ -98,6 +98,7 @@ public class Config {
     public static final String ACTION_DOWNLOAD_ONE_ORDER = "download_one_order";
     public static final String ACTION_DOWNLOAD_HXFRIENDS = "download_hxfriends";
     public static final String ACTION_DELETE_ORDER = "delete_order";
+    public static final String ACTION_DELETE_HXFRIEND = "delete_hx_friend";
     public static final String ACTION_TIMELINE = "timeline";
     public static final String ACTION_PUBLISH = "publish";
     public static final String ACTION_GET_COMMENT = "get_comment";

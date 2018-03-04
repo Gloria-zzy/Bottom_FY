@@ -4,7 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,13 +30,16 @@ import android.widget.Toast;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
+import com.bumptech.glide.Glide;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
+import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UploadDeviceId;
 import com.example.administrator.bottom.ui.FragChatMainActivity;
+import com.example.administrator.bottom.utils.DownloadUtil;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -40,6 +47,8 @@ import com.hyphenate.chat.EMMessage;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -69,6 +78,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     private String TAG = "atymainframe";
 
     protected static final int PHONE_STATE_GRANTED = 1;
+    protected static final int SHOW_UNREADMSG = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,10 +179,10 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
 
         //show unreadmsgcount
         showUnreadMsg();
-
+        ChatListener();
     }
 
-private void showUnreadMsg() {
+    private void showUnreadMsg() {
         Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
         List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
         /**
@@ -213,6 +223,10 @@ private void showUnreadMsg() {
                         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
                         }
                     }).start();
+                    break;
+                case SHOW_UNREADMSG:
+                    showUnreadMsg();
+                    break;
             }
             super.handleMessage(msg);
         }
@@ -449,7 +463,10 @@ private void showUnreadMsg() {
             @Override
             public void onMessageReceived(List<EMMessage> messages) {
                 //收到消息
-
+                handler.sendEmptyMessage(SHOW_UNREADMSG);
+                if (fragCommunity != null && tabCommunity.isSelected()) {
+                    fragCommunity.getConversationListFragment().onResume();
+                }
                 Log.i(TAG, "onMessageReceived");
             }
 
@@ -483,4 +500,5 @@ private void showUnreadMsg() {
 
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
+
 }
