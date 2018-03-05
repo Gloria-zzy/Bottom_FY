@@ -49,7 +49,7 @@
             android:layout_width="300sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/agreemt"
+            android:text="@string/agreemt1"
             android:layout_marginBottom="30sp"/>
 
     </LinearLayout>

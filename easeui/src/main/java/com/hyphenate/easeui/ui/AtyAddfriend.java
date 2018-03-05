@@ -174,6 +174,8 @@ public class AtyAddfriend extends Activity {
                     @Override
                     public void onSuccess() {
                         Log.i(TAG, "Upload friend succ");
+                        finish();
+                        hideSoftKeyboard();
                     }
                 }, new UploadHXFriend.FailCallback() {
 
