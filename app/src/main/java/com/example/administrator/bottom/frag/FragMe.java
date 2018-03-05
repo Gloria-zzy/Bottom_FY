@@ -2,6 +2,8 @@ package com.example.administrator.bottom.frag;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
@@ -19,9 +21,11 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +35,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.administrator.bottom.Config;
+import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
@@ -41,8 +46,11 @@ import com.example.administrator.bottom.atys.AtyAboutUD;
 import com.example.administrator.bottom.atys.AtyStaffOnly;
 import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
+import com.example.administrator.bottom.bean.HXContact;
 import com.example.administrator.bottom.net.CompleteOrder;
+import com.example.administrator.bottom.net.DeleteHXFriend;
 import com.example.administrator.bottom.net.DownloadPortrait;
+import com.example.administrator.bottom.net.UpdateHXContact;
 import com.example.administrator.bottom.net.UploadPortraitName;
 import com.example.administrator.bottom.utils.DownloadUtil;
 import com.example.administrator.bottom.utils.UploadUtil;
@@ -116,7 +124,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         PHONE = Config.getCachedPhoneNum(getActivity());
         TOKEN = Config.getCachedToken(getActivity());
         View view = inflater.inflate(R.layout.frag_me, container, false);
-        phone_num = view.findViewById(R.id.textView);
+        phone_num = view.findViewById(R.id.tv_frag_me_nickname);
         avatar = view.findViewById(R.id.iv_avatar);
         linearLayout_id = view.findViewById(R.id.ll_fragMe_id);
         textView_id = view.findViewById(R.id.tv_fragMe_id);
@@ -178,7 +186,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
             // 获取本地头像地址
             String uri;
-            uri = Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()));
+            uri = Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(getActivity()));
 
             FileInputStream fis = null;
             if (uri != null && uri != "") {
@@ -197,7 +205,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
 //                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
 //                this.avatar.setImageBitmap(bitmap);
-                Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+                Glide.with(getActivity()).load(uri).into(avatar);
 //                }
             } else {
                 // 本地头像地址不存在，获取服务器端头像，并设置头像
@@ -231,6 +239,13 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     }
 
                 }
+            }
+        });
+
+        view.findViewById(R.id.ll_frag_me_id).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showInputDialog();
             }
         });
 
@@ -304,7 +319,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
                     Intent intent = new Intent(getActivity(), AtyTrustOrders.class);
-                    intent.putExtra("TAG","init");
+                    intent.putExtra("TAG", "init");
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 } else {
@@ -418,10 +433,10 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                            e.printStackTrace();
 //                        }
 
-                        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+                        Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
                     } else if (msg.arg1 == DownloadUtil.DOWNLOAD_FAIL) {
                         try {
-                            Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+                            Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
                         } catch (Exception e) {
                             Log.i(TAG, "no portrait URL");
                         }
@@ -619,7 +634,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
         // 照片命名
         String cropFileName = "crop_" + timeStamp + "." + ext;
-        hxPortraitURL = Config.SERVER_URL_PORTRAITPATH + cropFileName;
+        hxPortraitURL = cropFileName;
         Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, hxPortraitURL);
 
         new UploadPortraitName(PHONE, cropFileName, new UploadPortraitName.SuccessCallback() {
@@ -706,8 +721,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
     private void refresh() {
         Log.i(TAG, "Phone:" + PHONE);
-        Log.i(TAG, "Avatar:" + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE));
-        Glide.with(getActivity()).load(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
+        Log.i(TAG, "Avatar:" + Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE));
+        Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
                 .into(new BitmapImageViewTarget(avatar) {
                     @Override
                     protected void setResource(Bitmap resource) {
@@ -741,5 +756,38 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     public void onUploadDone(int responseCode, String message) {
         Log.i(TAG, "upload done and set the avatar");
         handler.sendEmptyMessage(TO_RRFRESH);
+    }
+
+    private void showInputDialog() {
+    /*@setView 装入一个EditView
+     */
+        final EditText editText = new EditText(getActivity());
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(getActivity());
+        inputDialog.setTitle("修改昵称").setView(editText);
+        inputDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String username = Config.getCachedPhoneNum(getActivity());
+                        String nickname = editText.getText().toString();
+                        String portrait = Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + username);
+                        HXContact hxContact = new HXContact(username, nickname, portrait);
+                        new UpdateHXContact(hxContact, new UpdateHXContact.SuccessCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.i(TAG, "Update contact on success");
+                            }
+                        }, new UpdateHXContact.FailCallback() {
+                            @Override
+                            public void onFail() {
+                                Log.i(TAG, "Update contact on fail");
+                            }
+                        });
+                        Toast.makeText(getActivity(),
+                                editText.getText().toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }).show();
     }
 }

@@ -34,45 +34,45 @@
                     android:src="@drawable/item_head" />
 
                 <LinearLayout
+                    android:id="@+id/ll_frag_me_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView"
+                        android:id="@+id/tv_frag_me_nickname"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="未登录"
+                        android:textColor="@color/white_grey"
                         android:textSize="16dp"
-                        android:textStyle="bold"
-                        android:textColor="@color/white_grey"/>
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:id="@+id/ll_fragMe_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="1sp">
+                        android:layout_marginTop="1sp"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="id : "
-                            android:textSize="14dp"
-                            android:textColor="@color/white_grey"/>
+                            android:textColor="@color/white_grey"
+                            android:textSize="14dp" />
 
                         <TextView
                             android:id="@+id/tv_fragMe_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="12345678910"
-                            android:textSize="14dp"
-                            android:textColor="@color/white_grey"/>
+                            android:textColor="@color/white_grey"
+                            android:textSize="14dp" />
                     </LinearLayout>
-
 
 
                 </LinearLayout>

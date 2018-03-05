@@ -84,10 +84,13 @@ public class Config {
     public static final String ACTION_UPLOAD_PORTRAIT = "upload_portraitname";
     public static final String ACTION_UPLOAD_CONTACTS = "upload_contacts";
     public static final String ACTION_UPLOAD_ORDER = "upload_order";
-    public static final String ACTION_UPDATE_ORDER = "update_order";
     public static final String ACTION_UPLOAD_TOKEN = "upload_token";
     public static final String ACTION_UPLOAD_HXFRIEND = "upload_hxfriend";
     public static final String ACTION_UPLOAD_DEVICEID = "upload_deviceid";
+    public static final String ACTION_UPLOAD_HX_CONTACT = "upload_deviceid";
+
+    public static final String ACTION_UPDATE_ORDER = "update_order";
+    public static final String ACTION_UPDATE_HX_CONTACT = "update_hx_contact";
 
     public static final String ACTION_DOWNLOAD_PORTRAIT = "download_portrait";
     public static final String ACTION_DOWNLOAD_ADDRESS = "download_address";
@@ -97,6 +100,7 @@ public class Config {
     public static final String ACTION_DOWNLOAD_TAKEN_ORDERS = "download_taken_orders";
     public static final String ACTION_DOWNLOAD_ONE_ORDER = "download_one_order";
     public static final String ACTION_DOWNLOAD_HXFRIENDS = "download_hxfriends";
+    public static final String ACTION_DOWNLOAD_HX_CONTACT = "download_hxfriends";
     public static final String ACTION_DELETE_ORDER = "delete_order";
     public static final String ACTION_DELETE_HXFRIEND = "delete_hx_friend";
     public static final String ACTION_TIMELINE = "timeline";
@@ -165,7 +169,7 @@ public class Config {
         Editor e = context.getSharedPreferences(APP_ID, Context.MODE_PRIVATE)
                 .edit();
         e.putString(PORTRAITPATH, path);
-        e.commit();
+        e.apply();
     }
 
     public static String getCachedPortraitPath(Context context) {

@@ -78,7 +78,7 @@ public class MainApplication extends MultiDexApplication {
             // 设置Username
             user = new EaseUser(username);
             // 设置头像
-            user.setAvatar(Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + Config.getCachedPhoneNum(this)));
+            user.setAvatar(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username));
             // 暂时用ID替代
             user.setNick(Config.getCachedPreference(this, Config.KEY_PHONE_NUM));
             return user;
@@ -91,7 +91,7 @@ public class MainApplication extends MultiDexApplication {
             Config.setContactPortraitList();
             String portraitURL;
 //            portraitPath = Config.getContactPortrait(username);
-            portraitURL = Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username);
+            portraitURL = Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username);
             if (portraitURL != null) {
                 user = new EaseUser(username);
                 // 设置头像

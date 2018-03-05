@@ -145,6 +145,14 @@ public class EaseContactListFragment extends EaseBaseFragment {
                     listItemClickListener.onListItemClicked(user);
                 }
             });
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    EaseUser user = (EaseUser) listView.getItemAtPosition(position);
+                    listItemClickListener.onListItemLongClicked(user);
+                    return true;
+                }
+            });
         }
 
         // 对搜索框添加监听器
@@ -364,6 +372,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
          * @param user --the user of item
          */
         void onListItemClicked(EaseUser user);
+        void onListItemLongClicked(EaseUser user);
     }
 
     /**
