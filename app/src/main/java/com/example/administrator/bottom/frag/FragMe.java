@@ -772,6 +772,9 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         String username = Config.getCachedPhoneNum(getActivity());
                         String nickname = editText.getText().toString();
                         String portrait = Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + username);
+
+                        Config.cachePreference(getActivity(), Config.KEY_HX_NICKNAME + username, nickname);
+
                         HXContact hxContact = new HXContact(username, nickname, portrait);
                         new UpdateHXContact(hxContact, new UpdateHXContact.SuccessCallback() {
                             @Override
