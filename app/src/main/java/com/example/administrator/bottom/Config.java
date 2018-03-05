@@ -100,7 +100,7 @@ public class Config {
     public static final String ACTION_DOWNLOAD_TAKEN_ORDERS = "download_taken_orders";
     public static final String ACTION_DOWNLOAD_ONE_ORDER = "download_one_order";
     public static final String ACTION_DOWNLOAD_HXFRIENDS = "download_hxfriends";
-    public static final String ACTION_DOWNLOAD_HX_CONTACT = "download_hxfriends";
+    public static final String ACTION_DOWNLOAD_HX_CONTACT = "download_hx_contact";
     public static final String ACTION_DELETE_ORDER = "delete_order";
     public static final String ACTION_DELETE_HXFRIEND = "delete_hx_friend";
     public static final String ACTION_TIMELINE = "timeline";

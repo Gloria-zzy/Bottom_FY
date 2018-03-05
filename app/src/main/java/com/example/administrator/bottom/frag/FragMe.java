@@ -49,6 +49,7 @@ import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.bean.HXContact;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.bottom.net.DeleteHXFriend;
+import com.example.administrator.bottom.net.DownloadHXContact;
 import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UpdateHXContact;
 import com.example.administrator.bottom.net.UploadPortraitName;
@@ -88,6 +89,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     private String hxPortraitURL;
 
     private LinearLayout linearLayout_id;
+    private TextView tv_nickname;
     private TextView textView_id;
     protected boolean hidden;
 
@@ -128,6 +130,16 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         avatar = view.findViewById(R.id.iv_avatar);
         linearLayout_id = view.findViewById(R.id.ll_fragMe_id);
         textView_id = view.findViewById(R.id.tv_fragMe_id);
+        tv_nickname = view.findViewById(R.id.tv_frag_me_nickname);
+
+        {
+            String nickname = Config.getCachedPreference(getActivity(), Config.KEY_HX_NICKNAME + PHONE);
+            if (nickname != null && !nickname.equals("null") && nickname != "") {
+                tv_nickname.setText(Config.getCachedPreference(getActivity(), Config.KEY_HX_NICKNAME + PHONE));
+            } else {
+                tv_nickname.setText(PHONE);
+            }
+        }
         showPhoneNumber();
         //login btn
         mTextView = view.findViewById(R.id.func_btn);
@@ -205,7 +217,15 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
 //                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
 //                this.avatar.setImageBitmap(bitmap);
-                Glide.with(getActivity()).load(uri).into(avatar);
+                Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
+                        .into(new BitmapImageViewTarget(avatar) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
+                                //Play with bitmap
+                                super.setResource(resource);
+                            }
+                        });
+                handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
 //                }
             } else {
                 // 本地头像地址不存在，获取服务器端头像，并设置头像
@@ -389,33 +409,55 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 case TO_DOWNLOAD_FILE:
                     // 本地头像不存在，获取服务器端头像
                     Log.i("no_portrait", "here");
-                    // 从服务器获取头像文件名
-                    new DownloadPortrait(Config.getCachedPhoneNum(getActivity()), new DownloadPortrait.SuccessCallback() {
+                    // 从服务器获取头像文件名和用户昵称
+                    new DownloadHXContact(Config.getCachedPhoneNum(getActivity()), new DownloadHXContact.SuccessCallback() {
                         @Override
-                        public void onSuccess(String portrait) {
-//                            // 检查写入文件权限
-//                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getActivity().checkSelfPermission(
-//                                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-//                                getActivity().requestPermissions(new String[]{
-//                                        Manifest.permission.READ_EXTERNAL_STORAGE,
-//                                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-//                                }, 1);
-//                            }
-                            // 获得文件名后向服务器请求下载头像文件
+                        public void onSuccess(HXContact hxContact) {
+                            String nickname = hxContact.getNickname();
+                            String portrait = hxContact.getPortrait();
                             DownloadUtil downloadUtil = new DownloadUtil();
                             downloadUtil.setOnDownloadProcessListener(FragMe.this);
                             downloadUtil.downLoad(Config.SERVER_URL_PORTRAITPATH + portrait, portrait);
-                            // 同时将图片的URL保存为环信头像（此时没有上传头像，因此hxPortraitPath不存在）
-                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, Config.SERVER_URL_PORTRAITPATH + portrait);
-                            Log.i("Handler", "download Pics and the PortraitURL:" + Config.SERVER_URL_PORTRAITPATH + portrait);
+                            // 缓存头像文件名
+                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, portrait);
+                            // 缓存昵称
+                            Config.cachePreference(getActivity(), Config.KEY_HX_NICKNAME + PHONE, nickname);
+
+                            if (nickname != null && nickname != "" && !nickname.equals("null")) {
+                                Log.i(TAG, "nickname != null and nickname=" + nickname);
+                                tv_nickname.setText(nickname);
+                            } else {
+                                Log.i(TAG, "nickname == null and nickname=" + PHONE);
+                                tv_nickname.setText(PHONE);
+                            }
+
+                            Log.i(TAG, "nickname:" + nickname);
                         }
-                    }, new DownloadPortrait.FailCallback() {
+                    }, new DownloadHXContact.FailCallback() {
                         @Override
                         public void onFail() {
-                            // 获取文件名失败
-                            Log.i("Server_portrait", "get portrait failed");
+
                         }
                     });
+                    // 从服务器获取头像文件名
+//                    new DownloadPortrait(Config.getCachedPhoneNum(getActivity()), new DownloadPortrait.SuccessCallback() {
+//                        @Override
+//                        public void onSuccess(String portrait) {
+//                            // 获得文件名后向服务器请求下载头像文件
+//                            DownloadUtil downloadUtil = new DownloadUtil();
+//                            downloadUtil.setOnDownloadProcessListener(FragMe.this);
+//                            downloadUtil.downLoad(Config.SERVER_URL_PORTRAITPATH + portrait, portrait);
+//                            // 同时将图片的URL保存为环信头像（此时没有上传头像，因此hxPortraitPath不存在）
+//                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, portrait);
+//                            Log.i("Handler", "download Pics and the PortraitURL:" + Config.SERVER_URL_PORTRAITPATH + portrait);
+//                        }
+//                    }, new DownloadPortrait.FailCallback() {
+//                        @Override
+//                        public void onFail() {
+//                            // 获取文件名失败
+//                            Log.i("Server_portrait", "get portrait failed");
+//                        }
+//                    });
                     break;
 
                 case DOWNLOAD_FILE_DONE:
@@ -433,10 +475,24 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                            e.printStackTrace();
 //                        }
 
-                        Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+                        Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
+                                .into(new BitmapImageViewTarget(avatar) {
+                                    @Override
+                                    protected void setResource(Bitmap resource) {
+                                        //Play with bitmap
+                                        super.setResource(resource);
+                                    }
+                                });
                     } else if (msg.arg1 == DownloadUtil.DOWNLOAD_FAIL) {
                         try {
-                            Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).into(avatar);
+                            Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
+                                    .into(new BitmapImageViewTarget(avatar) {
+                                        @Override
+                                        protected void setResource(Bitmap resource) {
+                                            //Play with bitmap
+                                            super.setResource(resource);
+                                        }
+                                    });
                         } catch (Exception e) {
                             Log.i(TAG, "no portrait URL");
                         }
@@ -473,11 +529,10 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
     public void showPhoneNumber() {
         // 显示用户的手机号（在用户的头像旁边）
-        String phone = Config.getCachedPhoneNum(getActivity());
 
         if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
-            phone_num.setText(phone);
-            textView_id.setText(phone);
+            phone_num.setText(PHONE);
+            textView_id.setText(PHONE);
         } else {
             phone_num.setText("未登录");
         }
@@ -637,12 +692,14 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         hxPortraitURL = cropFileName;
         Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, hxPortraitURL);
 
-        new UploadPortraitName(PHONE, cropFileName, new UploadPortraitName.SuccessCallback() {
+        HXContact hxContact = new HXContact(PHONE, Config.getCachedPreference(getActivity(), Config.KEY_HX_NICKNAME + PHONE), cropFileName);
+
+        new UpdateHXContact(hxContact, new UpdateHXContact.SuccessCallback() {
             @Override
             public void onSuccess() {
-                Log.i("UploadName", "succ");
+                Log.i("UploadPortrait", "succ");
             }
-        }, new UploadPortraitName.FailCallback() {
+        }, new UpdateHXContact.FailCallback() {
             @Override
             public void onFail() {
                 Log.i("UploadName", "fail");
@@ -730,6 +787,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         super.setResource(resource);
                     }
                 });
+        handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
     }
 
     @Override
@@ -764,7 +822,18 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         final EditText editText = new EditText(getActivity());
         AlertDialog.Builder inputDialog =
                 new AlertDialog.Builder(getActivity());
-        inputDialog.setTitle("修改昵称").setView(editText);
+        //定义标题样式
+        TextView title = new TextView(getActivity());
+        title.setText("修改昵称");
+        title.setPadding(10, 100, 10, 100);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(getResources().getColor(com.hyphenate.easeui.R.color.black_deep));
+        title.setTextSize(18);
+
+        //定义editview样式
+        editText.setGravity(Gravity.CENTER);
+
+        inputDialog.setCustomTitle(title).setView(editText);
         inputDialog.setPositiveButton("确定",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -784,9 +853,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                                 Log.i(TAG, "Update contact on fail");
                             }
                         });
-                        Toast.makeText(getActivity(),
-                                editText.getText().toString(),
-                                Toast.LENGTH_SHORT).show();
+                        tv_nickname.setText(editText.getText().toString());
                     }
                 }).show();
     }

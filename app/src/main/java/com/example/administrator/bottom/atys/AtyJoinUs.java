@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
 import com.example.administrator.bottom.R;
 
 public class AtyJoinUs extends AppCompatActivity {
+
+    private CheckBox agree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +25,7 @@ public class AtyJoinUs extends AppCompatActivity {
         getSupportActionBar().hide();
 
         //---------------------状态栏透明 begin----------------------------------------
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyJoinUs.this.getWindow();
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                     | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
@@ -34,12 +38,24 @@ public class AtyJoinUs extends AppCompatActivity {
         }
         //---------------------状态栏透明 end----------------------------------------
 
+        agree = (CheckBox) findViewById(R.id.cb_address_agree);
+        agree.setChecked(true);
+
         findViewById(R.id.iv_joinUs_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.transition.switch_still,R.transition.switch_slide_out_right);
+                if (agree.isChecked()) {
+
+                    Toast.makeText(AtyJoinUs.this, "申请成功！", Toast.LENGTH_LONG).show();
+                    finish();
+                    overridePendingTransition(R.transition.switch_still, R.transition.switch_slide_out_right);
+
+                } else {
+                    Toast.makeText(AtyJoinUs.this, R.string.check_agreement, Toast.LENGTH_LONG).show();
+                }
             }
         });
+
+
     }
 }

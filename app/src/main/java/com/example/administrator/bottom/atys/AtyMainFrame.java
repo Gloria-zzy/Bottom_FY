@@ -44,6 +44,7 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -465,7 +466,8 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 //收到消息
                 handler.sendEmptyMessage(SHOW_UNREADMSG);
                 if (fragCommunity != null && tabCommunity.isSelected()) {
-                    fragCommunity.getConversationListFragment().onResume();
+                    Log.i(TAG, "ChatListener onResume");
+                    fragCommunity.getConversationListFragment().getHandler().sendEmptyMessage(EaseConversationListFragment.MSG_REFRESH);
                 }
                 Log.i(TAG, "onMessageReceived");
             }

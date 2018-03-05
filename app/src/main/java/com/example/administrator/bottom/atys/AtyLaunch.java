@@ -80,6 +80,8 @@ public class AtyLaunch extends Activity {
                 intent.putExtra("page", "home");
                 startActivity(intent);
                 AtyLaunch.this.finish();
+//                AtyLaunch.this.overridePendingTransition(R.transition.switch_still, R.transition.switch_still);
+
             }
         }, time);
     }

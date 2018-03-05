@@ -80,7 +80,7 @@ public class MainApplication extends MultiDexApplication {
             // 设置头像
             user.setAvatar(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username));
             // 暂时用ID替代
-            user.setNick(Config.getCachedPreference(this, Config.KEY_PHONE_NUM));
+            user.setNick(Config.getCachedPreference(this, Config.KEY_HX_NICKNAME + username));
             return user;
         }
 //        if (user==null && getRobotList()!=null){
@@ -92,10 +92,14 @@ public class MainApplication extends MultiDexApplication {
             String portraitURL;
 //            portraitPath = Config.getContactPortrait(username);
             portraitURL = Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(this, Config.KEY_HX_PORTRAIT + username);
+            String nickname = Config.getCachedPreference(getApplicationContext(), Config.KEY_HX_NICKNAME + username);
             if (portraitURL != null) {
                 user = new EaseUser(username);
                 // 设置头像
                 user.setAvatar(portraitURL);
+
+                // 设置昵称
+                user.setNickname(nickname);
             }
 //            EaseCommonUtils.setUserInitialLetter(user);
         } else {

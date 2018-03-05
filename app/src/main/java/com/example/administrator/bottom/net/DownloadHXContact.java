@@ -25,8 +25,8 @@ public class DownloadHXContact {
                     switch (obj.getInt(Config.KEY_STATUS)) {
                         case Config.RESULT_STATUS_SUCCESS:
                             if (successCallback != null) {
-                                String nickname = obj.getString(Config.KEY_PORTRAIT);
-                                String portrait = obj.getString(Config.KEY_HX_NICKNAME);
+                                String nickname = obj.getString(Config.KEY_HX_NICKNAME);
+                                String portrait = obj.getString(Config.KEY_PORTRAIT);
                                 HXContact hxContact = new HXContact(nickname, portrait);
                                 // 只传回portrait 和 nickname，username在调用时已知
                                 successCallback.onSuccess(hxContact);
@@ -60,7 +60,7 @@ public class DownloadHXContact {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_DOWNLOAD_HX_CONTACT, Config.KEY_HX_MYNAME, myUsername);
+        }, Config.KEY_ACTION, Config.ACTION_DOWNLOAD_HX_CONTACT, Config.KEY_HX_USERNAME, myUsername);
 
     }
 

@@ -55,8 +55,8 @@ public class FragOrder extends Fragment {
     private MultiSwipeRefreshLayout swipeRefreshLayout;
     private ImageView top;
     private int selection = 0; //0:current page;    1:history page;
-    protected EditText query;
-    protected ImageButton clearSearch;
+//    protected EditText query;
+//    protected ImageButton clearSearch;
     protected InputMethodManager inputMethodManager;
     private ViewPager pager;
 
@@ -220,32 +220,32 @@ public class FragOrder extends Fragment {
 
             //---------------------------SEARCH begin-------------------------------
             inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            query = (EditText) view.findViewById(com.hyphenate.easeui.R.id.query);
-            clearSearch = (ImageButton) view.findViewById(com.hyphenate.easeui.R.id.search_clear);
+//            query = (EditText) view.findViewById(com.hyphenate.easeui.R.id.query);
+//            clearSearch = (ImageButton) view.findViewById(com.hyphenate.easeui.R.id.search_clear);
             // 对搜索框添加监听器
-            query.addTextChangedListener(new TextWatcher() {
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                    contactListLayout.filter(s);
-                    if (s.length() > 0) {
-                        clearSearch.setVisibility(View.VISIBLE);
-                    } else {
-                        clearSearch.setVisibility(View.INVISIBLE);
-                    }
-                }
-
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                }
-
-                public void afterTextChanged(Editable s) {
-                }
-            });
-            clearSearch.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    query.getText().clear();
-                    hideSoftKeyboard();
-                }
-            });
+//            query.addTextChangedListener(new TextWatcher() {
+//                public void onTextChanged(CharSequence s, int start, int before, int count) {
+////                    contactListLayout.filter(s);
+//                    if (s.length() > 0) {
+//                        clearSearch.setVisibility(View.VISIBLE);
+//                    } else {
+//                        clearSearch.setVisibility(View.INVISIBLE);
+//                    }
+//                }
+//
+//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                }
+//
+//                public void afterTextChanged(Editable s) {
+//                }
+//            });
+//            clearSearch.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    query.getText().clear();
+//                    hideSoftKeyboard();
+//                }
+//            });
             //---------------------------SEARCH end-------------------------------
             return view;
         }
