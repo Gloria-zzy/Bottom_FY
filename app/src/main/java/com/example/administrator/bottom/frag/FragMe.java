@@ -39,6 +39,7 @@ import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
+import com.example.administrator.bottom.atys.AtyGetPosision;
 import com.example.administrator.bottom.atys.AtyJoinUs;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
@@ -190,28 +191,13 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
             FileInputStream fis = null;
             if (uri != null && uri != "") {
-//
-//                try {
-//                    fis = new FileInputStream(new File(uri));
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                // 压缩图片
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
-//                Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
-//                if (bitmap != null) {
-//                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
-//                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
-//                this.avatar.setImageBitmap(bitmap);
                 Glide.with(getActivity()).load(uri).into(avatar);
-//                }
+                handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
             } else {
                 // 本地头像地址不存在，获取服务器端头像，并设置头像
                 Log.i("no_portrait_path", "here");
-
                 handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
+
             }
         }
 
@@ -229,7 +215,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
 
                     if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
-                        Intent intent = new Intent(getActivity(), AtyAddressMng.class);
+                        Intent intent = new Intent(getActivity(), AtyGetPosision.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                     } else {

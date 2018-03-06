@@ -59,15 +59,14 @@
         android:theme="@style/AppTheme">
 
         <!-- 百度地图API_KEY和service -->
-        <!--
-                   <meta-data
-                   android:name="com.baidu.lbsapi.API_KEY"
-                   android:value="ilD5Dy7kp5lp5OpfWYhXKjFo2Mhvq1BX" />
-               <service
-                   android:name="com.baidu.location.f"
-                   android:enabled="true"
-               android:process=":remote" />
-        -->
+
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="11Grayv6Wa3VTLMtAkNqMLj408RIeqRw" />
+        <service
+            android:name="com.baidu.location.f"
+            android:enabled="true"
+            android:process=":remote" />
 
         <meta-data
             android:name="com.alibaba.app.appkey"
@@ -85,7 +84,6 @@
         <activity
             android:name=".atys.AtyAddress"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".atys.AtyTimeline" />
         <activity android:name=".atys.AtyMessage" />
         <activity android:name=".atys.AtyPubMessage" />
         <activity android:name=".atys.AtyMainFrame" />
@@ -105,13 +103,17 @@
             android:name=".atys.AtyAddressMng"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity android:name=".atys.AtyAgreement" />
-        <activity android:name=".atys.AtyLocateSchool" />
         <activity android:name=".atys.AtyUnlog" />
         <activity android:name=".atys.AtyGenCode" />
         <activity android:name=".atys.AtyTrustOrders" />
         <activity android:name=".atys.AtyUpdateOrder" />
         <activity android:name=".atys.AtyAboutUD" />
         <activity android:name=".atys.AtyDetails" />
+
+        <activity android:name=".atys.AtyLocation" />
+        <activity android:name=".atys.AtySearchPosition" />
+        <activity android:name=".atys.AtyGetPosision" />
+
 
         <!-- 阿里云推送接收服务 -->
         <service
@@ -173,25 +175,10 @@
             </intent-filter>
         </receiver>
 
-        <!-- 环信云通信demo的aty -->
-
-
-        <!--
-                    <activity
-                    android:name=".ui.ChatMainActivity"
-                    android:launchMode="singleTask"
-                    android:screenOrientation="portrait"
-                    android:windowSoftInputMode="adjustPan"
-                    />
-        -->
-
         <activity
             android:name=".ui.ChatActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
-            android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"
             android:screenOrientation="portrait" />
