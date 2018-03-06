@@ -69,7 +69,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     };
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_conversation_list, container, false);
     }
 
@@ -82,7 +83,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
 
     @Override
     protected void initView() {
-        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context
+                .INPUT_METHOD_SERVICE);
         conversationListView = (EaseConversationList) getView().findViewById(R.id.list);
         query = (EditText) getView().findViewById(R.id.query);
         // button to clear content in search bar
@@ -151,8 +153,10 @@ public class EaseConversationListFragment extends EaseBaseFragment {
 
         @Override
         public void onDisconnected(int error) {
-            if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE || error == EMError.SERVER_SERVICE_RESTRICTED
-                    || error == EMError.USER_KICKED_BY_CHANGE_PASSWORD || error == EMError.USER_KICKED_BY_OTHER_DEVICE) {
+            if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE ||
+                    error == EMError.SERVER_SERVICE_RESTRICTED
+                    || error == EMError.USER_KICKED_BY_CHANGE_PASSWORD || error == EMError
+                    .USER_KICKED_BY_OTHER_DEVICE) {
                 isConflict = true;
             } else {
                 handler.sendEmptyMessage(0);
@@ -219,7 +223,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
      */
     protected List<EMConversation> loadConversationList() {
         // get all conversations
-        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager().getAllConversations();
+        Map<String, EMConversation> conversations = EMClient.getInstance().chatManager()
+                .getAllConversations();
         List<Pair<Long, EMConversation>> sortList = new ArrayList<Pair<Long, EMConversation>>();
         /**
          * lastMsgTime will change if there is new message during sorting
@@ -228,7 +233,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
         synchronized (conversations) {
             for (EMConversation conversation : conversations.values()) {
                 if (conversation.getAllMessages().size() != 0) {
-                    sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage().getMsgTime(), conversation));
+                    sortList.add(new Pair<Long, EMConversation>(conversation.getLastMessage()
+                            .getMsgTime(), conversation));
                 }
             }
 
@@ -254,7 +260,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     private void sortConversationByLastChatTime(List<Pair<Long, EMConversation>> conversationList) {
         Collections.sort(conversationList, new Comparator<Pair<Long, EMConversation>>() {
             @Override
-            public int compare(final Pair<Long, EMConversation> con1, final Pair<Long, EMConversation> con2) {
+            public int compare(final Pair<Long, EMConversation> con1, final Pair<Long,
+                    EMConversation> con2) {
 
                 if (con1.first.equals(con2.first)) {
                     return 0;
@@ -269,9 +276,11 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     }
 
     protected void hideSoftKeyboard() {
-        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+        if (getActivity().getWindow().getAttributes().softInputMode != WindowManager.LayoutParams
+                .SOFT_INPUT_STATE_HIDDEN) {
             if (getActivity().getCurrentFocus() != null)
-                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus()
+                                .getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
@@ -327,7 +336,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
      *
      * @param listItemClickListener
      */
-    public void setConversationListItemClickListener(EaseConversationListItemClickListener listItemClickListener) {
+    public void setConversationListItemClickListener(EaseConversationListItemClickListener
+                                                             listItemClickListener) {
         this.listItemClickListener = listItemClickListener;
     }
 
@@ -344,10 +354,21 @@ public class EaseConversationListFragment extends EaseBaseFragment {
                     // 下载成功的头像个数+1
                     countPortrait++;
                     String portrait = hxContact.getPortrait();
-                    Config.putContactPortraitList(username, Config.SERVER_URL_PORTRAITPATH + portrait);
+                    String nickname = hxContact.getNickname();
+                    Config.putContactPortraitList(username, Config.SERVER_URL_PORTRAITPATH +
+                            portrait);
                     // 当头像路径变化时，缓存（sharedPreference）头像新路径
-                    if (portrait != null && !portrait.equals(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + username))) {
-                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + username, portrait);
+                    if ((portrait != null && !portrait.equals("null") && !portrait.equals(Config
+                            .getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT +
+                                    username))) || (nickname != null && !nickname.equals("null") &&
+                            !nickname.equals(Config.getCachedPreference(getActivity(), Config
+                                    .KEY_HX_NIKENAME + username)))) {
+                        // 存储昵称
+                        Config.cachePreference(getActivity(), Config.KEY_HX_NIKENAME + username,
+                                nickname);
+                        // 存储头像文件名
+                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + username,
+                                portrait);
                         Log.i(TAG, "needRefreshView");
                         needRefreshView = true;
                     } else if (portrait == null || portrait.equals("null")) {

@@ -3,6 +3,7 @@ package com.hyphenate.easeui.widget;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -34,6 +35,7 @@ public class EaseContactList extends RelativeLayout {
     
     static final int MSG_UPDATE_LIST = 0;
     
+    @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
         
         @Override
