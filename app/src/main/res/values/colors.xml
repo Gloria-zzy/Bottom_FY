@@ -17,6 +17,15 @@
     <color name="theme_orange">#f7bb42</color>
     <color name="grey">#a9a9a9</color>
     <color name="white_grey">#f7f7f9</color>
+
+    <color name="bgColor">#FEFFFF</color>
+    <color name="divideColor">#F0F1F2</color>
+    <color name="positionNameColor">#0B0F12</color>
+    <color name="positionAddressColor">#999999</color>
+    <color name="hintTextColor">#F0F1F2</color>
+    <color name="itemNorColor">#FFFEFFFF</color>
+    <color name="itemPreColor">#EEEEEE</color>
+
     <!--ProgressWheel-->
     <color name="ProgressWheel_color">#489df3</color>
 

@@ -39,6 +39,7 @@ import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.atys.AtyAddressMng;
+import com.example.administrator.bottom.atys.AtyGetPosision;
 import com.example.administrator.bottom.atys.AtyJoinUs;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
@@ -202,6 +203,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
             FileInputStream fis = null;
             if (uri != null && uri != "") {
+                handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
 //
 //                try {
 //                    fis = new FileInputStream(new File(uri));
@@ -217,7 +219,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
 //                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
 //                this.avatar.setImageBitmap(bitmap);
-                Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
+                Glide.with(getActivity()).load(uri).asBitmap()
                         .into(new BitmapImageViewTarget(avatar) {
                             @Override
                             protected void setResource(Bitmap resource) {
@@ -230,8 +232,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             } else {
                 // 本地头像地址不存在，获取服务器端头像，并设置头像
                 Log.i("no_portrait_path", "here");
-
                 handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
+
             }
         }
 
@@ -249,7 +251,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
 
                     if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
-                        Intent intent = new Intent(getActivity(), AtyAddressMng.class);
+                        Intent intent = new Intent(getActivity(), AtyGetPosision.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                     } else {
@@ -841,6 +843,9 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         String username = Config.getCachedPhoneNum(getActivity());
                         String nickname = editText.getText().toString();
                         String portrait = Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + username);
+
+                        Config.cachePreference(getActivity(), Config.KEY_HX_NICKNAME + username, nickname);
+
                         HXContact hxContact = new HXContact(username, nickname, portrait);
                         new UpdateHXContact(hxContact, new UpdateHXContact.SuccessCallback() {
                             @Override

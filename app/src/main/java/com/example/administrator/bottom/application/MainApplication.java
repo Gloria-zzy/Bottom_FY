@@ -97,7 +97,6 @@ public class MainApplication extends MultiDexApplication {
                 user = new EaseUser(username);
                 // 设置头像
                 user.setAvatar(portraitURL);
-
                 // 设置昵称
                 user.setNickname(nickname);
             }

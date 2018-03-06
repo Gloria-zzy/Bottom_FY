@@ -28,10 +28,22 @@ android {
             jniLibs.srcDirs = ['libs']
         }
     }
+
+//    task nativeLibsToJar(type: Zip, description: "create a jar archive of the native libs") {
+//        destinationDir file("$projectDir/libs")
+//        baseName "So_Libs"
+//        extension "jar"
+//        from fileTree(dir: "libs", include: "**/*.so")
+//        into "lib"
+//    }
+//
+//    tasks.withType(JavaCompile) {
+//        compileTask -> compileTask.dependsOn(nativeLibsToJar)
+//    }
 }
 
 dependencies {
-//    compile fileTree(include: ['*.jar'], dir: 'libs')
+    //    compile fileTree(include: ['*.jar'], dir: 'libs')
     // ali云推送
     compile 'com.aliyun.ams:alicloud-android-push:3.1.0'
     compile 'com.aliyun:aliyun-java-sdk-push:3.8.0'
@@ -45,15 +57,14 @@ dependencies {
     // 扫描二维码
     implementation 'com.yanzhenjie:permission:1.1.0'
     implementation project(':zxinglibrary')
-//    // 百度地图导包
-//    implementation files('libs/BaiduLBS_Android.jar')
-    // junit测试
-//    testImplementation 'junit:junit:4.12'
-//    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-//    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+//     junit测试
+        testImplementation 'junit:junit:4.12'
+        androidTestImplementation 'com.android.support.test:runner:1.0.1'
+        androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     // 环信即时聊天SDK
-//    implementation files('libs/hyphenatechat_3.3.8.jar')
+    //    implementation files('libs/hyphenatechat_3.3.8.jar')
     implementation project(':easeui')
     //解决闪退 解决Android应用的方法总数限制
     compile 'com.android.support:multidex:1.0.0'
+    implementation files('libs/BaiduLBS_Android.jar')
 }

@@ -2,13 +2,16 @@ package com.example.administrator.bottom.frag;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +30,8 @@ import com.example.administrator.bottom.atys.AtyFeedBack;
 import com.example.administrator.bottom.atys.AtyFetch;
 import com.example.administrator.bottom.atys.AtyHelp;
 import com.example.administrator.bottom.atys.AtyJoinUs;
+import com.example.administrator.bottom.atys.AtyLocation;
 import com.example.administrator.bottom.atys.AtyMail;
-import com.example.administrator.bottom.atys.AtyMainFrame;
 import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.DownloadOrders;
@@ -37,6 +40,7 @@ import com.example.administrator.bottom.net.Order;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.app.Activity.RESULT_OK;
 import static com.example.administrator.bottom.Config.APP_ID;
 
 /**
@@ -63,6 +67,8 @@ public class FragHome extends Fragment {
     public static final int DELIVERING_ORDERS_CLIKED = 1;
     public static final int HISTORY_ORDERS_CLIKED = 2;
     public static final int ERROR_ORDERS_CLIKED = 3;
+    //请求码
+    private final static int REQUEST_CODE = 0x123;
 
     private final String TAG = "FragHome";
 
@@ -145,7 +151,7 @@ public class FragHome extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getActivity(), name[position], Toast.LENGTH_LONG).show();
-                switch (position){
+                switch (position) {
                     case 0:
                         Intent intent0 = new Intent(getActivity(), AtyFetch.class);
                         startActivity(intent0);
@@ -162,6 +168,8 @@ public class FragHome extends Fragment {
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         break;
                     case 3://locate
+                        Intent intent = new Intent(getActivity(), AtyLocation.class);
+                        startActivityForResult(intent, REQUEST_CODE);
 //                        Intent intent3 = new Intent(getActivity(), AtyMail.class);
 //                        startActivity(intent3);
 //                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
@@ -280,6 +288,45 @@ public class FragHome extends Fragment {
 
     public void setOnFragHomeListener(OnFragHomeListener onFragHomeListener) {
         this.onFragHomeListener = onFragHomeListener;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // 返回成功
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE && data != null) {
+            String position = data.getStringExtra("position");
+            showAddressDialog(position);
+        }
+    }
+
+    private void showAddressDialog(String text) {
+        /*@setView 装入一个EditView
+         */
+
+        final TextView textView = new TextView(getActivity());
+
+        //定义标题样式
+        TextView title = new TextView(getActivity());
+        title.setText("您当前的地址是");
+        title.setPadding(10, 100, 10, 100);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(getResources().getColor(com.hyphenate.easeui.R.color.black_deep));
+        title.setTextSize(18);
+
+        //定义editview样式
+        textView.setGravity(Gravity.CENTER);
+
+        textView.setText(text);
+        AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(getActivity());
+        inputDialog.setCustomTitle(title).setView(textView);
+        inputDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                }).show();
     }
 }
 

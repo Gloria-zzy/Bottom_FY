@@ -2,147 +2,132 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
-    <LinearLayout
-        style="@style/TopStatus">
-
-        <ImageView
-            android:id="@+id/iv_atyDetails_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:src="@drawable/item_back" android:contentDescription="TODO" />
-
-        <TextView
-            style="@style/nav_text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="30dp"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="@string/locate_school"
-            android:textColor="@color/white" android:layout_marginEnd="30dp" />
-
-       </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/aty_locate_address_relative_for_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/aty_locate_address_current_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/user_current_location"
-            android:textColor="#07e"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/aty_locate_address_tv_current_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="40dp"
-            android:text="定位"
-            android:textColor="#07e"
-            android:textSize="20sp"
-            android:drawableRight="@drawable/item_locate"
-            android:clickable="true"/>
-
-        <TextView
-            android:id="@+id/aty_locate_address_school"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="68dp"
-            android:text="南京信息工程大学"
-            android:textColor="#07e"
-            android:textSize="22sp" />
-
-
-    </RelativeLayout>
-
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:background="@drawable/btn_func_border"
-        android:padding="10sp"
-        android:layout_marginLeft="20sp"
-        android:layout_marginRight="20sp"
-        android:layout_marginBottom="10sp">
-
-    </ListView>
-
-    <!--<ScrollView-->
-        <!--android:id="@+id/aty_locate_address_scroll_for_school"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="270dp"-->
-        <!--android:layout_marginBottom="10sp"-->
-        <!--android:layout_marginLeft="20sp"-->
-        <!--android:layout_marginRight="20sp"-->
-        <!--android:background="@drawable/btn_func_border"-->
-        <!--android:padding="10sp">-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="南京信息工程大学"-->
-                <!--android:textSize="20sp" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="南京工业大学"-->
-                <!--android:textSize="20sp" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="南京大学金陵学院"-->
-                <!--android:textSize="20sp" />-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:text="东南大学成贤学院"-->
-                <!--android:textSize="20sp" />-->
-        <!--</LinearLayout>-->
-    <!--</ScrollView>-->
-
+    <!--标题栏-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
+        android:background="@drawable/item_banner"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="20sp">
 
-        <Button
-            android:id="@+id/aty_locate_address_submit_button"
-            android:layout_width="200sp"
-            android:layout_height="40sp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/btn_check_border"
-            android:text="确定"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#fff"
-            android:textSize="18sp" />
+        <FrameLayout
+            android:id="@+id/fl_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="14dp"
+                android:src="@drawable/item_back"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="位置"
+            android:textColor="@color/white"
+            android:textSize="18sp"/>
+
+        <FrameLayout
+            android:id="@+id/fl_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:padding="12dp"
+                android:src="@drawable/item_search"/>
+        </FrameLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tv_sure"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/actionbar_tv_selector"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="6dp"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
     </LinearLayout>
+
+    <!--百度地图-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <com.baidu.mapapi.map.MapView
+            android:id="@+id/bmapView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"/>
+
+        <View
+            android:id="@+id/view_center"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"/>
+
+        <ImageView
+            android:id="@+id/img_location_point"
+            android:layout_width="12dp"
+            android:layout_height="30dp"
+            android:layout_above="@id/view_center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/map_pin"/>
+
+        <ImageView
+            android:id="@+id/img_location_back_origin"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/back_origin_normal"/>
+    </RelativeLayout>
+
+    <!--附近地点-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bgColor">
+
+        <ListView
+            android:id="@+id/lv_location_position"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@color/divideColor"
+            android:dividerHeight="1dp">
+        </ListView>
+
+        <ProgressBar
+            android:id="@+id/pb_location_load_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
 </LinearLayout>

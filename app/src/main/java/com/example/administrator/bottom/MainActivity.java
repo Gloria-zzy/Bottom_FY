@@ -1,7 +1,6 @@
 package com.example.administrator.bottom;
 
 import android.support.v4.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -10,11 +9,9 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.frag.FragOrder;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
-import com.example.administrator.bottom.frag.FragCommunity;
 import com.example.administrator.bottom.ui.FragChatMainActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
