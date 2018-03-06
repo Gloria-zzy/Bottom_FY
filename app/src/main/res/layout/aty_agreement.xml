@@ -34,9 +34,10 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="340sp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginRight="30sp"
+            android:layout_marginLeft="30sp"
             android:orientation="vertical">
 
             <TextView
@@ -46,6 +47,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20sp"
                 android:layout_marginTop="20sp"
+                android:textStyle="bold"
                 android:text="UD用户服务协议" />
 
             <TextView
