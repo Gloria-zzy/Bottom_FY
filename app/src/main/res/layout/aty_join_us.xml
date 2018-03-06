@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    android:focusable="true">
 
     <LinearLayout
         android:id="@+id/title"
@@ -28,48 +30,121 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/wrap_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/title_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="340sp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="20sp"
-            android:layout_marginTop="20sp"
-            android:text="《UD平台业务用户协议》" />
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-        <TextView
-            style="default_text"
-            android:layout_width="300sp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/agreemt1"
-            android:layout_marginBottom="30sp"/>
+            <TextView
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="20sp"
+                android:layout_marginTop="20sp"
+                android:textStyle="bold"
+                android:text="关于加入UDers的协议" />
 
-    </LinearLayout>
+            <TextView
+                style="default_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:text="一、导言"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:text="@string/join_agreemt1" />
+
+            <TextView
+                style="default_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:text="二、员工注册"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:text="@string/join_agreemt2" />
+
+            <TextView
+                style="default_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:text="三、甲方权利与义务"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:text="@string/join_agreemt3" />
+
+            <TextView
+                style="default_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:text="四、乙方义务与待遇"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:text="@string/join_agreemt4" />
+
+            <TextView
+                style="default_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10sp"
+                android:text="五、其他"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:text="@string/join_agreemt5" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10sp">
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="10dp">
+
         <CheckBox
             android:id="@+id/cb_atyJoinUs_agree"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我同意《UD平台业务用户协议》"
-            android:layout_toRightOf="@id/cb_atyJoinUs_agree"
             android:layout_alignBaseline="@id/cb_atyJoinUs_agree"
-            />
+            android:layout_toRightOf="@id/cb_atyJoinUs_agree"
+            android:text="我同意《关于加入UDers的协议》" />
 
     </RelativeLayout>
 
