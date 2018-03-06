@@ -1,10 +1,13 @@
 package com.hyphenate.easeui.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,8 +28,10 @@ import android.widget.Toast;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.Config;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.bean.HXContact;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.net.DownloadAddress;
+import com.hyphenate.easeui.net.DownloadHXContact;
 import com.hyphenate.easeui.net.UploadHXFriend;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.easeui.widget.EaseContactList;
@@ -61,6 +66,9 @@ public class AtyAddfriend extends Activity {
     private String phone;
 
     private final String TAG = "AtyAddFriend";
+
+    private final int TO_REFRESH = 1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,29 +132,30 @@ public class AtyAddfriend extends Activity {
 
                     Log.i(TAG, "user downloading");
                     phone = s.toString();
-                    //上传手机号
-                    new DownloadAddress(phone, new DownloadAddress.SuccessCallback() {
+                    new DownloadHXContact(phone, new DownloadHXContact.SuccessCallback() {
                         @Override
-                        public void onSuccess(String school, String area, String building, String room) {
-                            // 能成功获得地址，说明用户存在
+                        public void onSuccess(HXContact hxContact) {
+                            // 用户存在
                             Log.i(TAG, "user exist");
                             // 提取联系人
-                            Map<String, EaseUser> contacts = new HashMap<String, EaseUser>();
+                            Map<String, EaseUser> contacts = new HashMap<>();
                             EaseUser user = new EaseUser(phone);
+                            user.setNickname(hxContact.getNickname());
+                            user.setAvatar(hxContact.getPortrait());
                             contacts.put(phone, user);
                             // 刷新联系人
                             setContactsMap(contacts);
-                            // 刷新页面
+                            //刷新页面
                             refresh();
                             add.setEnabled(true);
                         }
-                    }, new DownloadAddress.FailCallback() {
+                    }, new DownloadHXContact.FailCallback() {
                         @Override
                         public void onFail() {
-
+                            Log.i(TAG, "user not exist");
                         }
                     });
-                    hideSoftKeyboard();
+
                 }
             }
 
@@ -215,8 +224,8 @@ public class AtyAddfriend extends Activity {
 
     // refresh ui
     public void refresh() {
+        Log.i(TAG, "refresh()");
         getContactList();
-        contactListLayout.refresh();
     }
 
     /**
@@ -245,6 +254,8 @@ public class AtyAddfriend extends Activity {
                     }
                 }
             }
+            contactListLayout.init(contactList);
+            handler.sendEmptyMessage(TO_REFRESH);
         }
 
         // sorting
@@ -274,5 +285,19 @@ public class AtyAddfriend extends Activity {
     public void setContactsMap(Map<String, EaseUser> contactsMap){
         this.contactsMap = contactsMap;
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case TO_REFRESH:
+                    Log.i(TAG, "handler refresh");
+                    contactListLayout.refresh();
+                    break;
+            }
+            super.handleMessage(msg);
+        }
+    };
 
 }

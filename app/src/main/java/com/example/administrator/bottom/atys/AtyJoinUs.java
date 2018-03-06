@@ -38,12 +38,20 @@ public class AtyJoinUs extends AppCompatActivity {
         }
         //---------------------状态栏透明 end----------------------------------------
 
-        agree = (CheckBox) findViewById(R.id.cb_address_agree);
+        agree = (CheckBox) findViewById(R.id.cb_atyJoinUs_agree);
         agree.setChecked(true);
 
         findViewById(R.id.iv_joinUs_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                onBackPressed();
+                overridePendingTransition(R.transition.switch_still, R.transition.switch_slide_out_right);
+            }
+        });
+
+        findViewById(R.id.btn_atyJoinUs_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if (agree.isChecked()) {
 
                     Toast.makeText(AtyJoinUs.this, "申请成功！", Toast.LENGTH_LONG).show();
@@ -55,7 +63,5 @@ public class AtyJoinUs extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 }

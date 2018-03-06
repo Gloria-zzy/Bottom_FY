@@ -10,6 +10,8 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.aliyuncs.push.model.v20160801.PushNoticeToAndroidRequest;
 import com.aliyuncs.push.model.v20160801.PushNoticeToAndroidResponse;
+import com.aliyuncs.push.model.v20160801.PushRequest;
+import com.aliyuncs.push.model.v20160801.PushResponse;
 
 /**
  * 推送的OpenAPI文档 https://help.aliyun.com/document_detail/mobilepush/api-reference/openapi.html
@@ -22,8 +24,27 @@ public class PushMessage {
     private IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
     private DefaultAcsClient client = new DefaultAcsClient(profile);
     private PushNoticeToAndroidRequest pushRequest = new PushNoticeToAndroidRequest();
+    private PushRequest pR = new PushRequest();
 
-    public void Push() throws ClientException {
+    public void pushPR(String deviceId,String title,String body) throws  ClientException{
+        pR.setAppKey(appKey);
+        pR.setPushType("ANDROID");
+        pR.setProtocol(ProtocolType.HTTPS);
+        pR.setMethod(MethodType.POST);
+        pR.setAndroidNotifyType("BOTH");
+        pR.setTarget("DEVICE");
+        pR.setTargetValue(deviceId);
+        pR.setTitle(title);
+        pR.setBody(body);
+
+        try {
+            PushResponse pushResponse = client.getAcsResponse(pR);
+        } catch (ServerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void Push(String deviceId,String title,String body) throws ClientException {
         // 推送目标
 //        pushRequest.setTarget("DEVICE"); //推送目标: DEVICE:按设备推送 ALIAS : 按别名推送 ACCOUNT:按帐号推送  TAG:按标签推送; ALL: 广播推送
 //        pushRequest.setTargetValue(deviceIds); //根据Target来设定，如Target=DEVICE, 则对应的值为 设备id1,设备id2. 多个值使用逗号分隔.(帐号与设备有一次最多100个的限制)
@@ -35,22 +56,11 @@ public class PushMessage {
         //推送内容较长，使用POST请求
         pushRequest.setMethod(MethodType.POST);
         pushRequest.setAppKey(appKey);
-        pushRequest.setTarget("ALL");
-        pushRequest.setTargetValue("ALL");
-        pushRequest.setTitle("Hello OpenAPI!");
-        pushRequest.setBody("你好, PushNoticeToAndroid from OpenAPI!");
+        pushRequest.setTarget("DEVICE");
+        pushRequest.setTargetValue(deviceId);
+        pushRequest.setTitle(title);
+        pushRequest.setBody(body);
         pushRequest.setExtParameters("{\"key1\":\"value1\",\"api_name\":\"PushNoticeToAndroidRequest\"}");
-
-        // 推送配置: iOS
-//        pushRequest.setIOSBadge(5); // iOS应用图标右上角角标
-//        pushRequest.setIOSMusic("default"); // iOS通知声音
-//        pushRequest.setIOSSubtitle("iOS10 subtitle");//iOS10通知副标题的内容
-//        pushRequest.setIOSNotificationCategory("iOS10 Notification Category");//指定iOS10通知Category
-//        pushRequest.setIOSMutableContent(true);//是否允许扩展iOS通知内容
-//        pushRequest.setIOSApnsEnv("DEV");//iOS的通知是通过APNs中心来发送的，需要填写对应的环境信息。"DEV" : 表示开发环境 "PRODUCT" : 表示生产环境
-//        pushRequest.setIOSRemind(true); // 消息推送时设备不在线（既与移动推送的服务端的长连接通道不通），则这条推送会做为通知，通过苹果的APNs通道送达一次。注意：离线消息转通知仅适用于生产环境
-//        pushRequest.setIOSRemindBody("iOSRemindBody");//iOS消息转通知时使用的iOS通知内容，仅当iOSApnsEnv=PRODUCT && iOSRemind为true时有效
-//        pushRequest.setIOSExtParameters("{\"_ENV_\":\"DEV\",\"k2\":\"v2\"}"); //通知的扩展属性(注意 : 该参数要以json map的格式传入,否则会解析出错)
 
         // 推送配置: Android
 //        pushRequest.setAndroidNotifyType("BOTH");//通知的提醒方式 "VIBRATE" : 震动 "SOUND" : 声音 "BOTH" : 声音和震动 NONE : 静音
@@ -75,8 +85,6 @@ public class PushMessage {
 
         try {
             PushNoticeToAndroidResponse pushNoticeToAndroidResponse = client.getAcsResponse(pushRequest);
-//            System.out.printf("RequestId: %s, ResponseId: %s\n",
-//                    pushNoticeToAndroidResponse.getRequestId(), pushNoticeToAndroidResponse.getMessageId());
         } catch (ServerException e) {
             e.printStackTrace();
         }

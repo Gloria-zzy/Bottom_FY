@@ -87,13 +87,15 @@ public class EaseContactListFragment extends EaseBaseFragment {
     private boolean needRefreshView;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         return inflater.inflate(R.layout.ease_fragment_contact_list, container, false);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
-        //to avoid crash when open app after long time stay in background after user logged into another device
+        //to avoid crash when open app after long time stay in background after user logged into
+        // another device
         if (savedInstanceState != null && savedInstanceState.getBoolean("isConflict", false))
             return;
         super.onActivityCreated(savedInstanceState);
@@ -127,7 +129,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), AtyAddfriend.class);
                 startActivityForResult(intent, REQUEST_CODE_REFRESH);
-//                getActivity().overridePendingTransition(R.transition.switch_slide_in_top, R.transition.switch_still);
+//                getActivity().overridePendingTransition(R.transition.switch_slide_in_top, R
+// .transition.switch_still);
             }
         });
 
@@ -149,7 +152,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
             });
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+                                               long id) {
                     EaseUser user = (EaseUser) listView.getItemAtPosition(position);
                     listItemClickListener.onListItemLongClicked(user);
                     return true;
@@ -282,10 +286,12 @@ public class EaseContactListFragment extends EaseBaseFragment {
         }
         synchronized (this.contactsMap) {
             Iterator<Entry<String, EaseUser>> iterator = contactsMap.entrySet().iterator();
-            List<String> blackList = EMClient.getInstance().contactManager().getBlackListUsernames();
+            List<String> blackList = EMClient.getInstance().contactManager()
+                    .getBlackListUsernames();
             while (iterator.hasNext()) {
                 Entry<String, EaseUser> entry = iterator.next();
-                // to make it compatible with data in previous version, you can remove this check if this is new app
+                // to make it compatible with data in previous version, you can remove this check
+                // if this is new app
                 if (!entry.getKey().equals("item_new_friends")
                         && !entry.getKey().equals("item_groups")
                         && !entry.getKey().equals("item_chatroom")
@@ -325,7 +331,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
         @Override
         public void onDisconnected(int error) {
-            if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE || error == EMError.SERVER_SERVICE_RESTRICTED) {
+            if (error == EMError.USER_REMOVED || error == EMError.USER_LOGIN_ANOTHER_DEVICE ||
+                    error == EMError.SERVER_SERVICE_RESTRICTED) {
                 isConflict = true;
             } else {
                 getActivity().runOnUiThread(new Runnable() {
@@ -374,6 +381,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
          * @param user --the user of item
          */
         void onListItemClicked(EaseUser user);
+
         void onListItemLongClicked(EaseUser user);
     }
 
@@ -382,7 +390,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
      *
      * @param listItemClickListener
      */
-    public void setContactListItemClickListener(EaseContactListItemClickListener listItemClickListener) {
+    public void setContactListItemClickListener(EaseContactListItemClickListener
+                                                        listItemClickListener) {
         this.listItemClickListener = listItemClickListener;
     }
 
@@ -396,7 +405,8 @@ public class EaseContactListFragment extends EaseBaseFragment {
     }
 
     private void refreshContactList() {
-        new DownloadHXFriends(Config.getCachedPhoneNum(getActivity()), new DownloadHXFriends.SuccessCallback() {
+        new DownloadHXFriends(Config.getCachedPhoneNum(getActivity()), new DownloadHXFriends
+                .SuccessCallback() {
             @Override
             public void onSuccess(ArrayList<String> friendsName) {
                 final Map<String, EaseUser>[] arrContacts = new HashMap[1];
@@ -428,19 +438,30 @@ public class EaseContactListFragment extends EaseBaseFragment {
         while (iterator.hasNext()) {
             Entry<String, EaseUser> entry = iterator.next();
             EaseUser eu = entry.getValue();
-            final String userName = eu.getUsername();
+            final String username = eu.getUsername();
             // 不能当头像有变化时下载。你咋知道有没有变化？那不还是得问问服务器有没有变化吗，所以还得全部下载下来，加个判断，要是和原来没两样就不用刷新了
 
-            new DownloadHXContact(userName, new DownloadHXContact.SuccessCallback() {
+            new DownloadHXContact(username, new DownloadHXContact.SuccessCallback() {
                 @Override
                 public void onSuccess(HXContact hxContact) {
                     // 下载成功的头像个数+1
                     countPortrait++;
                     String portrait = hxContact.getPortrait();
-                    Config.putContactPortraitList(userName, Config.SERVER_URL_PORTRAITPATH + portrait);
+                    String nickname = hxContact.getNickname();
+                    Config.putContactPortraitList(username, Config.SERVER_URL_PORTRAITPATH +
+                            portrait);
                     // 当头像路径变化时，缓存（sharedPreference）头像新路径
-                    if (portrait != null && !portrait.equals(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + userName))) {
-                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + userName, portrait);
+                    if ((portrait != null && !portrait.equals("null") && !portrait.equals(Config
+                            .getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT +
+                                    username))) || (nickname != null && !nickname.equals("null") &&
+                            !nickname.equals(Config.getCachedPreference(getActivity(), Config
+                                    .KEY_HX_NIKENAME + username)))) {
+                        // 存储昵称
+                        Config.cachePreference(getActivity(), Config.KEY_HX_NIKENAME + username,
+                                nickname);
+                        // 存储头像文件名
+                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + username,
+                                portrait);
                         needRefreshView = true;
                     }
                     // 当‘头像变化标志’不为0，且所有头像都下载完毕时刷新页面

@@ -165,20 +165,7 @@
                 android:text="@string/login"
                 android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/tv_atyLogin_staff"
-                android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:text="员工通道"
-                android:textColor="#1155a4"
-                style="@style/min_text"
-                android:layout_gravity="right"
-                android:layout_marginRight="10dp"/>
-
-
         </LinearLayout>
-
-
 
     </ScrollView>
 
