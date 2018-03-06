@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.example.administrator.bottom.R;
 
@@ -44,7 +45,7 @@ public class AtyFeedBack extends AppCompatActivity {
         findViewById(R.id.btn_atyFeedBack_submit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(AtyFeedBack.this, "提交成功", Toast.LENGTH_LONG).show();
             }
         });
 

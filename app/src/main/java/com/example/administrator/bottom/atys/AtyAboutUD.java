@@ -45,14 +45,14 @@ public class AtyAboutUD extends AppCompatActivity {
             }
         });
 
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.title);
-        int w = View.MeasureSpec.makeMeasureSpec(0,
-                View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0,
-                View.MeasureSpec.UNSPECIFIED);
-        linearLayout.measure(w, h);
-        int height = linearLayout.getMeasuredHeight();
-        int width = linearLayout.getMeasuredWidth();
-        Log.i(TAG, "height is " + height + " width is " + width);
+//        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.title);
+//        int w = View.MeasureSpec.makeMeasureSpec(0,
+//                View.MeasureSpec.UNSPECIFIED);
+//        int h = View.MeasureSpec.makeMeasureSpec(0,
+//                View.MeasureSpec.UNSPECIFIED);
+//        linearLayout.measure(w, h);
+//        int height = linearLayout.getMeasuredHeight();
+//        int width = linearLayout.getMeasuredWidth();
+//        Log.i(TAG, "height is " + height + " width is " + width);
     }
 }

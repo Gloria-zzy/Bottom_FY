@@ -42,7 +42,9 @@ import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.Config;
 import com.hyphenate.easeui.R;
+import com.hyphenate.easeui.bean.HXContact;
 import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.net.DownloadHXContact;
 import com.hyphenate.easeui.net.DownloadHXFriends;
 import com.hyphenate.easeui.net.DownloadPortrait;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
@@ -429,15 +431,16 @@ public class EaseContactListFragment extends EaseBaseFragment {
             final String userName = eu.getUsername();
             // 不能当头像有变化时下载。你咋知道有没有变化？那不还是得问问服务器有没有变化吗，所以还得全部下载下来，加个判断，要是和原来没两样就不用刷新了
 
-            new DownloadPortrait(userName, new DownloadPortrait.SuccessCallback() {
+            new DownloadHXContact(userName, new DownloadHXContact.SuccessCallback() {
                 @Override
-                public void onSuccess(String portrait) {
+                public void onSuccess(HXContact hxContact) {
                     // 下载成功的头像个数+1
                     countPortrait++;
+                    String portrait = hxContact.getPortrait();
                     Config.putContactPortraitList(userName, Config.SERVER_URL_PORTRAITPATH + portrait);
                     // 当头像路径变化时，缓存（sharedPreference）头像新路径
                     if (portrait != null && !portrait.equals(Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + userName))) {
-                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + userName, Config.SERVER_URL_PORTRAITPATH + portrait);
+                        Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + userName, portrait);
                         needRefreshView = true;
                     }
                     // 当‘头像变化标志’不为0，且所有头像都下载完毕时刷新页面
@@ -446,7 +449,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
                         handler.sendEmptyMessage(MSG_REFRESH_VIEW);
                     }
                 }
-            }, new DownloadPortrait.FailCallback() {
+            }, new DownloadHXContact.FailCallback() {
                 @Override
                 public void onFail() {
 

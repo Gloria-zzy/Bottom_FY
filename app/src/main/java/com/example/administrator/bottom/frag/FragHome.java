@@ -190,9 +190,7 @@ public class FragHome extends Fragment {
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         break;
                     case 7://客服
-//                        Intent intent7 = new Intent(getActivity(), AtyMail.class);
-//                        startActivity(intent7);
-//                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        onFragHomeListener.contactCustomerService(0);
                         break;
                     case 8:
                         Intent intent8 = new Intent(getActivity(), AtyFeedBack.class);
@@ -285,6 +283,7 @@ public class FragHome extends Fragment {
 
     public interface OnFragHomeListener {
         void onItemsClicked(int responseCode);
+        void contactCustomerService(int responseCode);
     }
 
     public void setOnFragHomeListener(OnFragHomeListener onFragHomeListener) {

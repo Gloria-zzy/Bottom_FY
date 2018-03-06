@@ -44,7 +44,7 @@
             style="@style/default_text"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_black_round"
+            android:background="@drawable/bg_darkblack_round"
             android:gravity="left|top"
             android:inputType="textMultiLine"
             android:minLines="12"

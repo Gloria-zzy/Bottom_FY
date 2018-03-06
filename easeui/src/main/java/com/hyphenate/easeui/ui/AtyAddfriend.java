@@ -109,7 +109,7 @@ public class AtyAddfriend extends Activity {
             public void onClick(View v) {
                 hideSoftKeyboard();
                 onBackPressed();
-//                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_slide_out_top);
+                overridePendingTransition(com.hyphenate.easeui.R.transition.switch_still, com.hyphenate.easeui.R.transition.switch_still);
             }
         });
 
@@ -174,6 +174,8 @@ public class AtyAddfriend extends Activity {
                     @Override
                     public void onSuccess() {
                         Log.i(TAG, "Upload friend succ");
+                        finish();
+                        hideSoftKeyboard();
                     }
                 }, new UploadHXFriend.FailCallback() {
 

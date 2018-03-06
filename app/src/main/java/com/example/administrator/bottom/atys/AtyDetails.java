@@ -1,14 +1,18 @@
 package com.example.administrator.bottom.atys;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +30,7 @@ import com.example.administrator.bottom.alipush.PushMessage;
 import com.example.administrator.bottom.custom.OrderView;
 import com.example.administrator.bottom.custom.QQRefreshHeader;
 import com.example.administrator.bottom.custom.RefreshLayout;
+import com.example.administrator.bottom.net.DeleteHXFriend;
 import com.example.administrator.bottom.net.DownloadOneOrder;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
@@ -67,6 +72,7 @@ public class AtyDetails extends AppCompatActivity {
     private TextView tv_note;
     private TextView tv_orderStatus;
     private TextView tv_change;
+    private TextView tv_contact_taker;
 
     private LinearLayout ll_orderPattern_temp;
     private LinearLayout ll_pickPattern_self;
@@ -103,6 +109,7 @@ public class AtyDetails extends AppCompatActivity {
         tv_note = (TextView) findViewById(R.id.tv_atyDetails_note);
         tv_orderStatus = (TextView) findViewById(R.id.tv_atyDetails_orderStatus);
         tv_change = (TextView) findViewById(R.id.tv_atyDetails_change);
+        tv_contact_taker = (TextView) findViewById(R.id.tv_atyDetails_contacttaker);
         ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyDetails_orderPattern_temp);
         ll_pickPattern_self = (LinearLayout) findViewById(R.id.ll_atyDetails_pickPattern_self);
         ll_pickPattern_friend = (LinearLayout) findViewById(R.id.ll_atyDetails_pickPattern_friend);
@@ -118,7 +125,7 @@ public class AtyDetails extends AppCompatActivity {
         Intent intent = getIntent();
         setIntent(intent);
         orderNumber = intent.getStringExtra("orderNumber");
-        if(intent.getStringExtra("pattern").equals("trust orders")){
+        if (intent.getStringExtra("pattern").equals("trust orders")) {
             trustOrderDetail = true;
         }
 
@@ -171,12 +178,35 @@ public class AtyDetails extends AppCompatActivity {
             }
         });
 
+        tv_contact_taker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogChoice(taker);
+            }
+        });
+    }
+
+    public void callPhone(String phoneNum) {
+        Intent intent = new Intent(Intent.ACTION_CALL);
+        Uri data = Uri.parse("tel:" + phoneNum);
+        intent.setData(data);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
     }
 
     private void dialogChoosePattern(final String[][] items) {
         final String[] pattern = new String[1];
         //单选对话窗口
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 3);
 
         //定义标题样式
         TextView title = new TextView(this);
@@ -276,7 +306,7 @@ public class AtyDetails extends AppCompatActivity {
     private void dialogChooseFriend(final String[][] items) {
         final String[] trustfriend = new String[1];
         //单选对话窗口
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 3);
 
         //定义标题样式
         TextView title = new TextView(this);
@@ -447,6 +477,38 @@ public class AtyDetails extends AppCompatActivity {
                 Toast.makeText(AtyDetails.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void dialogChoice(final String taker) {
+
+        //单选对话窗口
+        AlertDialog.Builder builder = new AlertDialog.Builder(AtyDetails.this, 3);
+
+        //定义标题样式
+        TextView title = new TextView(AtyDetails.this);
+        title.setText("快递员： " + taker );
+        title.setPadding(10, 100, 10, 100);
+        title.setGravity(Gravity.CENTER);
+        title.setTextColor(getResources().getColor(com.hyphenate.easeui.R.color.black_deep));
+        title.setTextSize(18);
+
+        //使用自定义title
+        builder.setCustomTitle(title);
+        builder.setCancelable(true);
+        try {
+
+            builder.setPositiveButton("拨打电话", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(final DialogInterface dialog, int which) {
+                    callPhone("18752069878");
+                    dialog.dismiss();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        builder.create().show();
     }
 
 }

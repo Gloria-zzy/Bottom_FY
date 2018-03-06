@@ -297,6 +297,7 @@ public class FragChatMainActivity extends Fragment {
         // cancel the notification
         EaseUI.getInstance().getNotifier().reset();
         onFragChatListener.onConversationClicked(0);
+        onFragChatListener.onMessageReceived(0);
     }
 
     public EaseConversationListFragment getConversationListFragment() {

@@ -1,13 +1,10 @@
-package com.example.administrator.bottom.net;
+package com.hyphenate.easeui.net;
 
-import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.bean.HXContact;
+import com.hyphenate.easeui.Config;
+import com.hyphenate.easeui.bean.HXContact;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2018/3/5 0005.
@@ -25,7 +22,7 @@ public class DownloadHXContact {
                     switch (obj.getInt(Config.KEY_STATUS)) {
                         case Config.RESULT_STATUS_SUCCESS:
                             if (successCallback != null) {
-                                String nickname = obj.getString(Config.KEY_HX_NICKNAME);
+                                String nickname = obj.getString(Config.KEY_HX_NIKENAME);
                                 String portrait = obj.getString(Config.KEY_PORTRAIT);
                                 HXContact hxContact = new HXContact(nickname, portrait);
                                 // 只传回portrait 和 nickname，username在调用时已知

@@ -32,7 +32,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/home"
-                android:textColor="@drawable/tab_menu_deal_text" />
+                android:textColor="@drawable/tab_menu_deal_text"
+                />
         </LinearLayout>
 
         <RelativeLayout
@@ -50,8 +51,8 @@
 
                 <ImageView
                     android:layout_width="27sp"
-                    android:layout_height="27sp"
-                    android:layout_margin="6sp"
+                    android:layout_height="23sp"
+                    android:layout_margin="7sp"
                     android:src="@drawable/tab_menu_order" />
 
                 <TextView
@@ -131,9 +132,9 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="29sp"
-                android:layout_height="29sp"
-                android:layout_margin="5sp"
+                android:layout_width="29dp"
+                android:layout_height="35sp"
+                android:layout_margin="1sp"
                 android:src="@drawable/tab_menu_me" />
 
             <TextView

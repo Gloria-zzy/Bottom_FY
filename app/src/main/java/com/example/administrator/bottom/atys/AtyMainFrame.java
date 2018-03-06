@@ -38,12 +38,15 @@ import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
 import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UploadDeviceId;
+import com.example.administrator.bottom.ui.ChatActivity;
 import com.example.administrator.bottom.ui.FragChatMainActivity;
 import com.example.administrator.bottom.utils.DownloadUtil;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
@@ -78,6 +81,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     private String TAG = "atymainframe";
 
     protected static final int PHONE_STATE_GRANTED = 1;
+    protected static final int CALL_PHONE_GRANTED = 3;
     protected static final int SHOW_UNREADMSG = 2;
 
     @Override
@@ -215,6 +219,18 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
             switch (msg.what) {
                 case PHONE_STATE_GRANTED:
                     AndPermission.with(getApplicationContext()).permission(Manifest.permission.WRITE_EXTERNAL_STORAGE).callback(new PermissionListener() {
+                        @Override
+                        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+                            handler.sendEmptyMessage(CALL_PHONE_GRANTED);
+                        }
+
+                        @Override
+                        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+                        }
+                    }).start();
+                    break;
+                case CALL_PHONE_GRANTED:
+                    AndPermission.with(getApplicationContext()).permission(Manifest.permission.CALL_PHONE).callback(new PermissionListener() {
                         @Override
                         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
                         }
@@ -373,6 +389,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         clearSelected();
         tabCommunity.setSelected(true);
         fragCommunity = new FragChatMainActivity();
+        fragCommunity.setOnFragChatListener(this);
         transaction.add(R.id.fragment_container, fragCommunity);
         transaction.show(fragCommunity);
         transaction.commit();
@@ -455,6 +472,22 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         }
     }
 
+    @Override
+    public void contactCustomerService(int responseCode) {
+        if (fragCommunity == null) {
+            showFragCommunity();
+        } else {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            hideAllFragment(transaction);
+            clearSelected();
+            tabCommunity.setSelected(true);
+            fragCommunity.setOnFragChatListener(this);
+            transaction.show(fragCommunity);
+            transaction.commit();
+        }
+        startActivity(new Intent(getApplicationContext(), ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, "18795808378"));
+    }
+
     //聊天消息
     public void ChatListener() {
 
@@ -465,7 +498,8 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 //收到消息
                 handler.sendEmptyMessage(SHOW_UNREADMSG);
                 if (fragCommunity != null && tabCommunity.isSelected()) {
-                    fragCommunity.getConversationListFragment().onResume();
+                    Log.i(TAG, "ChatListener onResume");
+                    fragCommunity.getConversationListFragment().getHandler().sendEmptyMessage(EaseConversationListFragment.MSG_REFRESH);
                 }
                 Log.i(TAG, "onMessageReceived");
             }
