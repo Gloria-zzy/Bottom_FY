@@ -62,7 +62,8 @@ public class FragHome extends Fragment {
     private int error_num = 0;
 
     //    private LinearLayout linearLayout;
-    private String phone;
+    private String PHONE;
+    private String TOKEN;
 
     public static final int DELIVERING_ORDERS_CLIKED = 1;
     public static final int HISTORY_ORDERS_CLIKED = 2;
@@ -80,13 +81,12 @@ public class FragHome extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        PHONE = Config.getCachedPhoneNum(getActivity());
+        TOKEN = Config.getCachedToken(getActivity());
         View view = inflater.inflate(R.layout.frag_home, container, false);
         get_btn = (Button) view.findViewById(R.id.get_btn);
 //        linearLayout = (LinearLayout) view.findViewById(R.id.take_orders);
 
-        // 获得phoneNum
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-        phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
         refresh();
 
         // 绑定下单按钮的事件
@@ -249,33 +249,35 @@ public class FragHome extends Fragment {
 
     public void refresh() {
 
-        new DownloadOrders(phone, new DownloadOrders.SuccessCallback() {
+        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
+            new DownloadOrders(PHONE, new DownloadOrders.SuccessCallback() {
 
-            @Override
-            public void onSuccess(ArrayList<Order> orders) {
-                for (Order o : orders) {
-                    String orderStatus = o.getOrderStatus();
+                @Override
+                public void onSuccess(ArrayList<Order> orders) {
+                    for (Order o : orders) {
+                        String orderStatus = o.getOrderStatus();
 
-                    if (orderStatus.equals("0")) {
-                        history_num++;
-                    } else if (orderStatus.equals("1") || orderStatus.equals("2")) {
-                        delivering_num++;
-                    } else if (orderStatus.equals("3")) {
-                        error_num++;
+                        if (orderStatus.equals("0")) {
+                            history_num++;
+                        } else if (orderStatus.equals("1") || orderStatus.equals("2")) {
+                            delivering_num++;
+                        } else if (orderStatus.equals("3")) {
+                            error_num++;
+                        }
                     }
+                    tv_delivering.setText(delivering_num + "");
+                    tv_history.setText(history_num + "");
+                    tv_error.setText(error_num + "");
+
                 }
-                tv_delivering.setText(delivering_num + "");
-                tv_history.setText(history_num + "");
-                tv_error.setText(error_num + "");
+            }, new DownloadOrders.FailCallback() {
 
-            }
-        }, new DownloadOrders.FailCallback() {
-
-            @Override
-            public void onFail() {
-                Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-            }
-        });
+                @Override
+                public void onFail() {
+                    Toast.makeText(getActivity(), R.string.fail_to_commit, Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
     }
 
@@ -283,6 +285,7 @@ public class FragHome extends Fragment {
 
     public interface OnFragHomeListener {
         void onItemsClicked(int responseCode);
+
         void contactCustomerService(int responseCode);
     }
 

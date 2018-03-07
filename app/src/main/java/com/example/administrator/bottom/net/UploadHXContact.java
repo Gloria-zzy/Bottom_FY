@@ -53,7 +53,7 @@ public class UploadHXContact {
                     failCallback.onFail();
                 }
             }
-        }, Config.KEY_ACTION, Config.ACTION_UPLOAD_HX_CONTACT, Config.KEY_HX_MYNAME, hxContact.getUsername(), Config.KEY_PORTRAIT, hxContact.getPortrait(), Config.KEY_HX_NICKNAME, hxContact.getNickname());
+        }, Config.KEY_ACTION, Config.ACTION_UPLOAD_HX_CONTACT, Config.KEY_HX_USERNAME, hxContact.getUsername(), Config.KEY_PORTRAIT, hxContact.getPortrait(), Config.KEY_HX_NICKNAME, hxContact.getNickname());
 
     }
 

@@ -24,6 +24,9 @@ import android.widget.TextView;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.atys.AtyLogin;
+import com.example.administrator.bottom.atys.AtyMainFrame;
+import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.DeleteHXFriend;
 import com.example.administrator.bottom.net.DownloadHXFriends;
 import com.hyphenate.chat.EMConversation;
@@ -70,7 +73,34 @@ public class FragChatMainActivity extends Fragment {
     //    protected void onCreate(Bundle arg0) {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.aty_chat_main, container, false);
+        String PHONE = Config.getCachedPhoneNum(getActivity());
+        String TOKEN = Config.getCachedToken(getActivity());
+
+        View view;
+
+        if (TOKEN == null || TOKEN.equals("") || !TOKEN.equals(PHONE)) {
+            view = inflater.inflate(R.layout.aty_unlog, container, false);
+            view.findViewById(R.id.to_login).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getActivity(), AtyLogin.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                }
+            });
+
+            view.findViewById(R.id.back_to_home).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(getActivity(), AtyMainFrame.class);
+                    i.putExtra("page", "home");
+                    startActivity(i);
+                }
+            });
+            return view;
+        }
+
+        view = inflater.inflate(R.layout.aty_chat_main, container, false);
 
 //        ChatListener();
 
@@ -143,7 +173,7 @@ public class FragChatMainActivity extends Fragment {
             @Override
             public void onListItemLongClicked(EaseUser user) {
                 Log.i(TAG, "username:" + user.getUsername());
-                dialogChoice(user.getUsername());
+                dialogChoice(user.getUsername(), Config.getCachedPreference(getActivity(), Config.KEY_HX_NICKNAME + user.getUsername()));
             }
         });
 
@@ -316,31 +346,19 @@ public class FragChatMainActivity extends Fragment {
         this.onFragChatListener = onFragHomeListener;
     }
 
-    private void dialogChoice(String friendname) {
+    private void dialogChoice(String friendname, String nickname) {
 
         //单选对话窗口
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), 3);
 
         //定义标题样式
         TextView title = new TextView(getActivity());
-        title.setText("确定要删除 " + friendname + " 吗？");
+        title.setText("确定要删除 " + nickname + " 吗？");
         title.setPadding(10, 100, 10, 100);
         title.setGravity(Gravity.CENTER);
         title.setTextColor(getResources().getColor(com.hyphenate.easeui.R.color.black_deep));
         title.setTextSize(18);
 
-//        //设置图片
-//        Drawable drawable = null;
-//        try {
-//            drawable = Drawable.createFromStream(
-//                    new URL(Config.getCachedPreference(getActivity(), Config.SERVER_URL_PORTRAITPATH + friendname)).openStream(), null);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        drawable.setBounds(10, 10, drawable.getMinimumWidth(), drawable.getMinimumHeight());//这句一定要加
-//        title.setCompoundDrawables( null, drawable,null, null);//setCompoundDrawables用来设置图片显示在文本的哪一端
-//        title.setCompoundDrawablePadding(30);//设置文字和图片间距
 
         //使用自定义title
         builder.setCustomTitle(title);

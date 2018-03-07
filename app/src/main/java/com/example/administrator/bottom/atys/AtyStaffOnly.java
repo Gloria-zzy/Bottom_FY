@@ -87,14 +87,10 @@ public class AtyStaffOnly extends AppCompatActivity {
         //---------------------状态栏透明 begin----------------------------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyStaffOnly.this.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }
         //---------------------状态栏透明 end----------------------------------------
 
@@ -344,7 +340,7 @@ public class AtyStaffOnly extends AppCompatActivity {
     public void doGetDatas(int pageno, int state) {
         final List<Order> orderList = new ArrayList<>();
         final int mystate = state;
-        new DownloadTakenOrders("0", new DownloadTakenOrders.SuccessCallback() {
+        new DownloadTakenOrders("18752069878", new DownloadTakenOrders.SuccessCallback() {
 
             @Override
             public void onSuccess(ArrayList<Order> orders) {
@@ -389,65 +385,99 @@ public class AtyStaffOnly extends AppCompatActivity {
 //                tableMode.setOrgCode(order.getOrgCode());
                 tableMode.setLeftTitle(order.getId());
                 //列0内容
-                tableMode.setText0(order.getArriveAddress() + "");
-                //列1内容
-                tableMode.setText1(order.getArriveTime() + "");
-                //列2内容
-                switch (order.getSize()) {
-                    case "S":
-                        tableMode.setText2("小");
-                        break;
-                    case "M":
-                        tableMode.setText2("中");
-                        break;
-                    case "L":
-                        tableMode.setText2("大");
-                        break;
-                    default:
-                        tableMode.setText2(order.getSize() + "");
+                if(order.getArriveAddress().equals("null") || order.getArriveAddress().equals("none")){
+                    tableMode.setText0("无");
+                }else{
+                    tableMode.setText0(order.getArriveAddress() + "");
                 }
+                //列1内容
+                if(order.getArriveTime().equals("null") || order.getArriveTime().equals("none")){
+                    tableMode.setText1("无");
+                }else{
+                    tableMode.setText1(order.getArriveTime() + "");
+                }
+                //列2内容
+                if(order.getSize().equals("null") || order.getSize().equals("none")){
+                    tableMode.setText2("无");
+                }else{
+                    switch (order.getSize()) {
+                        case "S":
+                            tableMode.setText2("小");
+                            break;
+                        case "M":
+                            tableMode.setText2("中");
+                            break;
+                        case "L":
+                            tableMode.setText2("大");
+                            break;
+                        default:
+                            tableMode.setText2(order.getSize() + "");
+                    }
+                }
+
                 //列3内容
-                if (order.getNote().equals("none")) {
+                if (order.getNote().equals("null") || order.getNote().equals("none")) {
                     tableMode.setText3("无");
                 }else{
                     tableMode.setText3(order.getNote() + "");
                 }
                 //列4内容
-                if(order.getPickPoint().equals("none") || order.getPickPoint() == null){
+                if(order.getPickPoint().equals("null") || order.getPickPoint().equals("none") || order.getPickPoint() == null){
                     tableMode.setText4("无");
                 }else{
                     tableMode.setText4(order.getPickPoint() + "");//
                 }
                 //列5内容
-                if(order.getPickNumber().equals("none") || order.getPickNumber() == null){
+                if(order.getPickNumber().equals("null") || order.getPickNumber().equals("none") || order.getPickNumber() == null){
                     tableMode.setText5("无");
                 }else{
                     tableMode.setText5(order.getPickNumber() + "");//
                 }
                 //列6内容
-                if(order.getTrust_friend().equals("none") || order.getTrust_friend() == null){
+                if(order.getTrust_friend().equals("null") || order.getTrust_friend().equals("none") || order.getTrust_friend() == null){
                     tableMode.setText6("无");
                 }else{
                     tableMode.setText6(order.getTrust_friend() + "");//
                 }
                 //列7内容
-                if (order.getOrderStatus().equals("0")) {
-                    tableMode.setText7("已结单");//
-                } else {
-                    tableMode.setText7("派送中");//
+                if(order.getOrderStatus().equals("null") || order.getOrderStatus().equals("none") || order.getOrderStatus() == null){
+                    tableMode.setText7("无");
+                }else{
+                    if (order.getOrderStatus().equals("0")) {
+                        tableMode.setText7("已结单");//
+                    } else {
+                        tableMode.setText7("派送中");//
+                    }
                 }
                 //列8内容
-                tableMode.setText8(order.getPhone() + "");//
-                //列9内容
-                tableMode.setText9(order.getOrderNumber() + "");//
-                //列10内容
-                tableMode.setText10(order.getOrderTime() + "");//
-                //列11内容
-                if (order.getTaker().equals("0")) {
-                    tableMode.setText11("暂无");//
-                } else {
-                    tableMode.setText11(order.getTaker() + "");//
+                if(order.getPhone().equals("null") || order.getPhone().equals("none") || order.getPhone() == null){
+                    tableMode.setText8("无");
+                }else{
+                    tableMode.setText8(order.getPhone() + "");//
                 }
+                //列9内容
+                if(order.getOrderNumber().equals("null") || order.getOrderNumber().equals("none") || order.getOrderNumber() == null){
+                    tableMode.setText9("无");
+                }else{
+                    tableMode.setText9(order.getOrderNumber() + "");//
+                }
+                //列10内容
+                if(order.getOrderTime().equals("null") || order.getOrderTime().equals("none") || order.getOrderTime() == null){
+                    tableMode.setText10("无");
+                }else{
+                    tableMode.setText10(order.getOrderTime() + "");//
+                }
+                //列11内容
+                if(order.getTaker().equals("null") || order.getTaker().equals("none") || order.getTaker() == null){
+                    tableMode.setText11("无");
+                }else{
+                    if (order.getTaker().equals("0")) {
+                        tableMode.setText11("暂无");//
+                    } else {
+                        tableMode.setText11(order.getTaker() + "");//
+                    }
+                }
+
                 mDatas.add(tableMode);
             }
             boolean isMore;

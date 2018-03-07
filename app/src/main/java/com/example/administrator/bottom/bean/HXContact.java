@@ -9,6 +9,8 @@ public class HXContact {
     private String portrait;
     private String username;
 
+
+
     public HXContact(String nickname) {
         this.nickname = nickname;
     }

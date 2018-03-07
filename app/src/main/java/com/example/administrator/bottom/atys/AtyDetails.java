@@ -23,19 +23,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.alipush.PushMessage;
-import com.example.administrator.bottom.custom.OrderView;
-import com.example.administrator.bottom.custom.QQRefreshHeader;
-import com.example.administrator.bottom.custom.RefreshLayout;
-import com.example.administrator.bottom.net.DeleteHXFriend;
 import com.example.administrator.bottom.net.DownloadOneOrder;
-import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
 import com.example.administrator.bottom.net.UpdateOrder;
-import com.example.administrator.bottom.net.UploadOrder;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.net.DownloadHXFriends;
 
@@ -44,7 +36,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.administrator.bottom.Config.APP_ID;
-import static com.example.administrator.bottom.Config.cacheAddress;
 
 //        订单号   order_number
 //        下单时间 order_time
@@ -73,6 +64,7 @@ public class AtyDetails extends AppCompatActivity {
     private TextView tv_orderStatus;
     private TextView tv_change;
     private TextView tv_contact_taker;
+    private TextView tv_orderPattern;
 
     private LinearLayout ll_orderPattern_temp;
     private LinearLayout ll_pickPattern_self;
@@ -110,6 +102,7 @@ public class AtyDetails extends AppCompatActivity {
         tv_orderStatus = (TextView) findViewById(R.id.tv_atyDetails_orderStatus);
         tv_change = (TextView) findViewById(R.id.tv_atyDetails_change);
         tv_contact_taker = (TextView) findViewById(R.id.tv_atyDetails_contacttaker);
+        tv_orderPattern = (TextView) findViewById(R.id.tv_atyDetails_orderPattern);
         ll_orderPattern_temp = (LinearLayout) findViewById(R.id.ll_atyDetails_orderPattern_temp);
         ll_pickPattern_self = (LinearLayout) findViewById(R.id.ll_atyDetails_pickPattern_self);
         ll_pickPattern_friend = (LinearLayout) findViewById(R.id.ll_atyDetails_pickPattern_friend);
@@ -141,14 +134,10 @@ public class AtyDetails extends AppCompatActivity {
         //---------------------状态栏透明 begin----------------------------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyDetails.this.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }
         //---------------------状态栏透明 end----------------------------------------
 
@@ -405,15 +394,16 @@ public class AtyDetails extends AppCompatActivity {
                     orderNumber = o.getOrderNumber();
                     orderTime = o.getOrderTime();
                     trustFriend = o.getTrust_friend();
+                    size = o.getSize();
                     switch (o.getSize()) {
                         case "S":
-                            size = "小";
+                            tv_size.setText("小");
                             break;
                         case "M":
-                            size = "中";
+                            tv_size.setText("中");
                             break;
                         case "L":
-                            size = "大";
+                            tv_size.setText("大");
                             break;
                     }
                     arriveAddress = o.getArriveAddress();
@@ -421,7 +411,7 @@ public class AtyDetails extends AppCompatActivity {
                     pickPoint = o.getPickPoint();
                     pickNumber = o.getPickNumber();
                     if (o.getTaker().equals("0")) {
-                        taker = "暂无";
+                        taker = "18752069878";
                     }
                     note = o.getNote();
                     if (o.getOrderStatus().equals("0")) {
@@ -436,7 +426,7 @@ public class AtyDetails extends AppCompatActivity {
                     tv_orderNumber.setText(orderNumber);
                     tv_orderTime.setText(orderTime);
                     tv_trustFriend.setText(trustFriend);
-                    tv_size.setText(size);
+
                     tv_arriveAddress.setText(arriveAddress);
                     tv_arriveTime.setText(arriveTime);
                     tv_pickPoint.setText(pickPoint);
@@ -445,14 +435,16 @@ public class AtyDetails extends AppCompatActivity {
                     tv_note.setText(note);
                     tv_orderStatus.setText(orderStatus);
 
-                    if (pickPoint.equals("null")) {
+                    if (pickPoint.equals("none") || pickPoint.equals("null") || pickPoint == null) {
                         //老用户
+                        tv_orderPattern.setText("UD下单");
                         ll_orderPattern_temp.setVisibility(View.GONE);
                     } else {
                         //临时下单
+                        tv_orderPattern.setText("临时下单");
                         ll_orderPattern_temp.setVisibility(View.VISIBLE);
                     }
-                    if (trustFriend.equals("none")) {
+                    if (trustFriend.equals("none") || trustFriend.equals("null") || trustFriend == null) {
                         //自己拿
                         ll_pickPattern_self.setVisibility(View.VISIBLE);
                         ll_pickPattern_friend.setVisibility(View.GONE);

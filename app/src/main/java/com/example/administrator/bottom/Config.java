@@ -87,7 +87,7 @@ public class Config {
     public static final String ACTION_UPLOAD_TOKEN = "upload_token";
     public static final String ACTION_UPLOAD_HXFRIEND = "upload_hxfriend";
     public static final String ACTION_UPLOAD_DEVICEID = "upload_deviceid";
-    public static final String ACTION_UPLOAD_HX_CONTACT = "upload_deviceid";
+    public static final String ACTION_UPLOAD_HX_CONTACT = "upload_hx_contact";
 
     public static final String ACTION_UPDATE_ORDER = "update_order";
     public static final String ACTION_UPDATE_HX_CONTACT = "update_hx_contact";

@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
         style="@style/TopStatus">
@@ -68,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:checked="true"
-                        android:text="老用户"
+                        android:text="UD下单"
                         android:textColor="@color/text_clo" />
 
                     <RadioButton
@@ -81,6 +83,27 @@
                         android:textColor="@color/text_clo" />
 
                 </RadioGroup>
+                <TextView
+                    style="@style/min_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:text="*注 :"
+                    android:textColor="@color/grey" />
+                <TextView
+                    style="@style/min_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:text="UD下单 : 您在购物平台上下单时，填写UD平台联系方式（即：188-8888-8888）。UD平台收到短信后帮您取快递。"
+                    android:textColor="@color/grey" />
+                <TextView
+                    style="@style/min_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5sp"
+                    android:text="临时下单 : 您在购物平台上下单时，填写自己的联系方式。在UD平台上填写快递点和取货号后，UDers帮您取快递。"
+                    android:textColor="@color/grey" />
             </LinearLayout>
 
             <LinearLayout

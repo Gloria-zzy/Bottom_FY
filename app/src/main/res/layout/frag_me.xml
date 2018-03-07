@@ -157,7 +157,7 @@
         </LinearLayout>
 
         <LinearLayout style="@style/wrap_layout"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/ll_fragMe_staffOnly"

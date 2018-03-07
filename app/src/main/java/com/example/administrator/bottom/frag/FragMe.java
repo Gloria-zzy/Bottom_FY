@@ -192,8 +192,8 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 //                    Intent intent = new Intent(getActivity(), AtyMainFrame.class);
                     Intent intent = getActivity().getIntent();
                     intent.putExtra("page", "me");
-                    getActivity().finish();
                     startActivity(intent);
+                    getActivity().finish();
                 }
             });
 
@@ -237,6 +237,12 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             }
         }
 
+        if (PHONE != null && PHONE.equals("18795808378")) {
+            view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.VISIBLE);
+        } else {
+            view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.GONE);
+        }
+
         // 绑定地址管理事件
         view.findViewById(R.id.address_mng).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -251,7 +257,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
 
                     if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
-                        Intent intent = new Intent(getActivity(), AtyGetPosision.class);
+                        Intent intent = new Intent(getActivity(), AtyAddressMng.class);
                         startActivity(intent);
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                     } else {
@@ -290,49 +296,6 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
             }
         });
-
-//        // 绑定按钮到扫描二维码
-////        result = view.findViewById(R.id.result_tv);
-//        view.findViewById(R.id.ll_fragMe_staffOnly).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AndPermission.with(getActivity())
-//                        .permission(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE).callback(new PermissionListener() {
-//                    @Override
-//                    public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
-//
-//                        Intent intent = new Intent(getActivity(), CaptureActivity.class);
-//
-//                                /*ZxingConfig是配置类  可以设置是否显示底部布局，闪光灯，相册，是否播放提示音  震动等动能
-//                                * 也可以不传这个参数
-//                                * 不传的话  默认都为默认不震动  其他都为true
-//                                * */
-//
-//                        ZxingConfig config = new ZxingConfig();
-//                        config.setPlayBeep(false);
-//                        config.setShake(true);
-//                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-//
-//                        startActivityForResult(intent, REQUEST_CODE_SCAN);
-//
-//                    }
-//
-//                    @Override
-//                    public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
-//                        Uri packageURI = Uri.parse("package:" + getActivity().getPackageName());
-//                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, packageURI);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//
-//                        startActivity(intent);
-//
-//                        Toast.makeText(getActivity(), "没有权限无法扫描", Toast.LENGTH_LONG).show();
-//                    }
-//
-//                }).start();
-//
-//            }
-//
-//        });
 
         // 信任订单
         view.findViewById(R.id.tv_trust_orders).setOnClickListener(new View.OnClickListener() {
@@ -694,7 +657,13 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         hxPortraitURL = cropFileName;
         Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, hxPortraitURL);
 
-        HXContact hxContact = new HXContact(PHONE, Config.getCachedPreference(getActivity(), Config.KEY_HX_NICKNAME + PHONE), cropFileName);
+        String nickname = Config.getCachedPreference(getActivity(), Config.KEY_HX_NICKNAME + PHONE);
+
+        if (nickname == null || nickname.equals("null")) {
+            nickname = PHONE;
+        }
+
+        HXContact hxContact = new HXContact(PHONE, nickname, cropFileName);
 
         new UpdateHXContact(hxContact, new UpdateHXContact.SuccessCallback() {
             @Override
@@ -805,7 +774,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         this.hidden = hidden;
-        if (!hidden) {
+        if (!hidden && TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
             refresh();
         }
     }
@@ -843,6 +812,10 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         String username = Config.getCachedPhoneNum(getActivity());
                         String nickname = editText.getText().toString();
                         String portrait = Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + username);
+
+                        if (portrait == null) {
+                            portrait = "null";
+                        }
 
                         Config.cachePreference(getActivity(), Config.KEY_HX_NICKNAME + username, nickname);
 

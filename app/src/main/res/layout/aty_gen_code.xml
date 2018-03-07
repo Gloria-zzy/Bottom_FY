@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="130sp"
+            android:layout_marginTop="180sp"
             android:padding="5sp"
             android:background="@color/white">
 

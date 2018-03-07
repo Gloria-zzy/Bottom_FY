@@ -307,6 +307,7 @@ public class FragOrder extends Fragment {
 
         if (ll != null) {
             ll.removeAllViews();
+            Log.i(TAG,"ll != null");
         }
         if (history != null) {
             history.removeAllViews();
@@ -338,11 +339,11 @@ public class FragOrder extends Fragment {
                     newov.setTv_orderNumber(orderNumber);
                     newov.setTv_arriveTime(arriveTime);
                     newov.setTv_orderTime(orderTime);
-                    if (note.equals("none")) {
+                    if (note.equals("none") || note.equals("null") || note == null) {
                         note = "无";
                     }
 //                    newov.setTv_note(note);
-                    if (trustFriend.equals("none")) {
+                    if (trustFriend.equals("none") || trustFriend.equals("null") || trustFriend == null) {
                         //自己拿
                         newov.setTv_pickPattern("自己拿");
                     } else {
@@ -531,7 +532,7 @@ public class FragOrder extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CODE_REFRESH) {
             Log.i(TAG, "refresh");
-            refresh();
+//            refresh();
         }
     }
 

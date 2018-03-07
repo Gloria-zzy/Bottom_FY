@@ -113,14 +113,10 @@ public class AtyFetch extends AppCompatActivity {
         //---------------------状态栏透明 begin----------------------------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyFetch.this.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }
         //---------------------状态栏透明 end----------------------------------------
 
@@ -130,10 +126,10 @@ public class AtyFetch extends AppCompatActivity {
         // pick_point快递点数据
         List<String> data_list;
         data_list = new ArrayList<>();
-        data_list.add("北门盘锦花园新生活");
-        data_list.add("北门盘锦花园内右拐第七家");
-        data_list.add("小东门外菜鸟驿站");
-        data_list.add("中苑老食堂菜鸟驿站");
+        data_list.add("东门菜鸟驿站");
+        data_list.add("西门菜鸟驿站");
+        data_list.add("南门菜鸟驿站");
+        data_list.add("北门菜鸟驿站");
 
         ArrayAdapter<String> arr_adapter;
         // 适配器 android.R.layout.simple_spinner_item
@@ -162,9 +158,10 @@ public class AtyFetch extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
         String abr = sharedPreferences.getString(Config.KEY_SAVED_ADDRESS, "");
         data_list.add(abr);
-        data_list.add("明德楼");
-        data_list.add("文德楼");
-        data_list.add("信息中心");
+        data_list.add("1号教学楼");
+        data_list.add("2号教学楼");
+        data_list.add("图书馆");
+        data_list.add("计算机大楼");
 
         //适配器
         arr_adapter = new ArrayAdapter<>(this, R.layout.item_spinner, data_list);
@@ -389,7 +386,7 @@ public class AtyFetch extends AppCompatActivity {
         Log.i(TAG, "outside DownloadHXFriends");
 
         //单选对话窗口
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, 6);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, 3);
         Log.i(TAG, "after AlterDialog");
 
         //定义标题样式
@@ -408,17 +405,17 @@ public class AtyFetch extends AppCompatActivity {
         title.setCompoundDrawablePadding(30);//设置文字和图片间距
         Log.i(TAG, "after set Image");
 
-        if (items[0].length == 0)
-        {
-            items[0] = new String[10];
-            for (int i = 0; i < 10; i++) {
-                items[0][i] = "" + i;
-            }
-        } else {
-            for (int i = 0; i < items[0].length; i++) {
-                Log.i(TAG,"items:" + items[0][i]);
-            }
-        }
+//        if (items[0].length == 0)
+//        {
+//            items[0] = new String[10];
+//            for (int i = 0; i < 10; i++) {
+//                items[0][i] = "" + i;
+//            }
+//        } else {
+//            for (int i = 0; i < items[0].length; i++) {
+//                Log.i(TAG,"items:" + items[0][i]);
+//            }
+//        }
         //使用自定义title
         builder.setCustomTitle(title);
         try {

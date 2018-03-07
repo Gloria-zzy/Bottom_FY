@@ -41,7 +41,7 @@ public class AtyAddressMng extends Activity {
     private List<String> data_list;
     private ArrayAdapter<String> arr_adapter;
     private TextView address;
-    private String school = "南京信息工程大学";
+    private String school = "中国UD大学";
     private String area = "";
     private String building = "";
     private String room = "";
@@ -85,14 +85,10 @@ public class AtyAddressMng extends Activity {
             //---------------------状态栏透明 begin----------------------------------------
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 Window window = AtyAddressMng.this.getWindow();
-                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                        | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
                 window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
                 window.setStatusBarColor(Color.TRANSPARENT);
-                window.setNavigationBarColor(Color.TRANSPARENT);
             }
             //---------------------状态栏透明 end----------------------------------------
 
@@ -116,9 +112,9 @@ public class AtyAddressMng extends Activity {
 
             //数据
             data_list = new ArrayList<String>();
-            data_list.add("东苑");
-            data_list.add("中苑");
-            data_list.add("西苑");
+            data_list.add("东区");
+            data_list.add("中区");
+            data_list.add("西区");
 
             //适配器
             arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
@@ -129,24 +125,16 @@ public class AtyAddressMng extends Activity {
 
             //数据
             data_list = new ArrayList<String>();
-            data_list.add("硕园2栋");
-            data_list.add("硕园3栋");
-            data_list.add("硕园4栋");
-            data_list.add("硕园5栋");
-            data_list.add("晖园11栋");
-            data_list.add("晖园12栋");
-            data_list.add("晖园13栋");
-            data_list.add("晖园14栋");
-            data_list.add("沁园30栋");
-            data_list.add("沁园31栋");
-            data_list.add("沁园32栋");
-            data_list.add("沁园33栋");
-            data_list.add("沁园34栋");
-            data_list.add("沁园35栋");
-            data_list.add("沁园36栋");
-            data_list.add("沁园37栋");
-            data_list.add("沁园38栋");
-            data_list.add("沁园39栋");
+            data_list.add("20栋");
+            data_list.add("21栋");
+            data_list.add("22栋");
+            data_list.add("23栋");
+            data_list.add("24栋");
+            data_list.add("25栋");
+            data_list.add("26栋");
+            data_list.add("27栋");
+            data_list.add("28栋");
+            data_list.add("29栋");
             //适配器
             arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
             //设置样式
@@ -229,131 +217,6 @@ public class AtyAddressMng extends Activity {
                 }
             });
         }
-
-        setContentView(R.layout.aty_address_mng);
-
-        bindView();
-        findViewById(R.id.iv_mng_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-                overridePendingTransition(R.transition.switch_still, R.transition.switch_slide_out_right);
-            }
-        });
-
-        //数据
-        data_list = new ArrayList<String>();
-        data_list.add("东苑");
-        data_list.add("中苑");
-        data_list.add("西苑");
-
-        //适配器
-        arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
-        //加载适配器
-        area_spinner.setAdapter(arr_adapter);
-
-        //数据
-        data_list = new ArrayList<String>();
-        data_list.add("硕园2栋");
-        data_list.add("硕园3栋");
-        data_list.add("硕园4栋");
-        data_list.add("硕园5栋");
-        data_list.add("晖园11栋");
-        data_list.add("晖园12栋");
-        data_list.add("晖园13栋");
-        data_list.add("晖园14栋");
-        data_list.add("沁园30栋");
-        data_list.add("沁园31栋");
-        data_list.add("沁园32栋");
-        data_list.add("沁园33栋");
-        data_list.add("沁园34栋");
-        data_list.add("沁园35栋");
-        data_list.add("沁园36栋");
-        data_list.add("沁园37栋");
-        data_list.add("沁园38栋");
-        data_list.add("沁园39栋");
-        //适配器
-        arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
-        //设置样式
-        arr_adapter.setDropDownViewResource(R.layout.item_spinner_dropdown);
-        //加载适配器
-        building_spinner.setAdapter(arr_adapter);
-
-        //show current address!!!!
-        address = (TextView) findViewById(R.id.tv_mng_address);
-        // 获得phoneNum
-        SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-        String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-        new DownloadAddress(phone, new DownloadAddress.SuccessCallback() {
-
-            @Override
-            public void onSuccess(String school, String area, String building, String room) {
-                address.setText(school + area + building + room);
-                setSpinner(area, building, room);
-            }
-        }, new DownloadAddress.FailCallback() {
-
-            @Override
-            public void onFail() {
-                Toast.makeText(AtyAddressMng.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        //change address!!!!
-        area_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                area = (String) area_spinner.getSelectedItem();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        building_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                building = (String) building_spinner.getSelectedItem();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        findViewById(R.id.btn_mng_submit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                room = room_et.getText().toString();
-                // 获得phoneNum
-                SharedPreferences sharedPreferences = getSharedPreferences(APP_ID, Context.MODE_PRIVATE);
-                String phone = sharedPreferences.getString(Config.KEY_PHONE_NUM, "");
-
-                new UploadAddress(phone, school, area, building, room, new UploadAddress.SuccessCallback() {
-
-                    @Override
-                    public void onSuccess() {
-
-                        Toast.makeText(AtyAddressMng.this, "修改成功！", Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(AtyAddressMng.this, AtyAddressMng.class);
-                        startActivity(i);
-                        finish();
-
-                    }
-                }, new UploadAddress.FailCallback() {
-
-                    @Override
-                    public void onFail() {
-                        Toast.makeText(AtyAddressMng.this, R.string.fail_to_commit, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
     }
 
 

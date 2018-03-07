@@ -17,10 +17,12 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
+import com.example.administrator.bottom.bean.HXContact;
 import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
 import com.example.administrator.bottom.net.DownloadAddress;
 import com.example.administrator.bottom.net.GetCode;
 import com.example.administrator.bottom.net.Login;
+import com.example.administrator.bottom.net.UploadHXContact;
 import com.example.administrator.bottom.tools.MD5Tool;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
@@ -57,14 +59,10 @@ public class AtyLogin extends Activity {
         //---------------------状态栏透明 begin----------------------------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyLogin.this.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }
         //---------------------状态栏透明 end----------------------------------------
 
@@ -182,6 +180,22 @@ public class AtyLogin extends Activity {
 
                         Config.loginStatus = Config.RESULT_STATUS_SUCCESS;
 
+                        String phone = etPhone.getText().toString();
+
+                        HXContact hxContact = new HXContact(phone, phone, "null");
+
+                        new UploadHXContact(hxContact, new UploadHXContact.SuccessCallback() {
+                            @Override
+                            public void onSuccess() {
+                                Log.i(TAG, "upload hx contact on success!");
+                            }
+                        }, new UploadHXContact.FailCallback() {
+                            @Override
+                            public void onFail() {
+
+                            }
+                        });
+
                         // isvalid：用户是否注册的信息
                         if (isvalid == Config.RESULT_STATUS_SUCCESS) {
 
@@ -209,6 +223,7 @@ public class AtyLogin extends Activity {
                             startActivity(i);
                             finish();
                         } else {
+
                             Intent i = new Intent(AtyLogin.this, AtyAddress.class);
                             startActivity(i);
                             finish();

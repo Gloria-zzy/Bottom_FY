@@ -190,7 +190,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:paddingRight="15sp"
-                        android:text="南京信息工程大学东苑硕园2栋124"
+                        android:text="中国UD大学东区20栋124"
                         android:textColor="@color/grey" />
 
                 </RelativeLayout>
@@ -364,7 +364,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginBottom="5sp"
                         android:paddingRight="15sp"
-                        android:text="北门盘锦花园新生活"
+                        android:text="北门菜鸟驿站"
                         android:textColor="@color/grey" />
 
                 </RelativeLayout>
@@ -531,7 +531,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:paddingRight="15sp"
-                        android:text="12345678910"
+                        android:text="暂无"
                         android:textColor="@color/grey" />
 
                 </RelativeLayout>

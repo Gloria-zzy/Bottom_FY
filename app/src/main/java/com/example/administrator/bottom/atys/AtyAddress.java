@@ -38,7 +38,7 @@ public class AtyAddress extends Activity {
     private EditText room_edittext;
     private List<String> data_list;
     private ArrayAdapter<String> arr_adapter;
-    private String school = "南京信息工程大学";
+    private String school = "中国UD大学";
     private String area = "";
     private String building = "";
     private String room = "";
@@ -82,21 +82,18 @@ public class AtyAddress extends Activity {
         //---------------------状态栏透明 begin----------------------------------------
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = AtyAddress.this.getWindow();
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                    | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
-            window.setNavigationBarColor(Color.TRANSPARENT);
         }
         //---------------------状态栏透明 end----------------------------------------
 
         //数据
         data_list = new ArrayList<String>();
-        data_list.add("东苑");
-        data_list.add("中苑");
+        data_list.add("东区");
+        data_list.add("中区");
+        data_list.add("西区");
 
         //适配器
         arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
@@ -107,28 +104,16 @@ public class AtyAddress extends Activity {
 
         //数据
         data_list = new ArrayList<String>();
-//        if(area.equals("东苑")){
-        data_list.add("硕园2栋");
-        data_list.add("硕园3栋");
-        data_list.add("硕园4栋");
-        data_list.add("硕园5栋");
-        data_list.add("晖园11栋");
-        data_list.add("晖园12栋");
-        data_list.add("晖园13栋");
-        data_list.add("晖园14栋");
-//        }
-//        if(area.equals("中苑")){
-        data_list.add("沁园30栋");
-        data_list.add("沁园31栋");
-        data_list.add("沁园32栋");
-        data_list.add("沁园33栋");
-        data_list.add("沁园34栋");
-        data_list.add("沁园35栋");
-        data_list.add("沁园36栋");
-        data_list.add("沁园37栋");
-        data_list.add("沁园38栋");
-        data_list.add("沁园39栋");
-//        }
+        data_list.add("20栋");
+        data_list.add("21栋");
+        data_list.add("22栋");
+        data_list.add("23栋");
+        data_list.add("24栋");
+        data_list.add("25栋");
+        data_list.add("26栋");
+        data_list.add("27栋");
+        data_list.add("28栋");
+        data_list.add("29栋");
 
         //适配器
         arr_adapter = new ArrayAdapter<String>(this, R.layout.item_spinner, data_list);
