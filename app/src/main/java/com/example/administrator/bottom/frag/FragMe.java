@@ -1,25 +1,22 @@
 package com.example.administrator.bottom.frag;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,34 +32,25 @@ import com.aliyuncs.exceptions.ClientException;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.example.administrator.bottom.Config;
-import com.example.administrator.bottom.MainActivity;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
+import com.example.administrator.bottom.atys.AtyAboutUD;
 import com.example.administrator.bottom.atys.AtyAddressMng;
-import com.example.administrator.bottom.atys.AtyGetPosision;
 import com.example.administrator.bottom.atys.AtyJoinUs;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
-import com.example.administrator.bottom.atys.AtyAboutUD;
 import com.example.administrator.bottom.atys.AtyStaffOnly;
 import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.bean.HXContact;
 import com.example.administrator.bottom.net.CompleteOrder;
-import com.example.administrator.bottom.net.DeleteHXFriend;
 import com.example.administrator.bottom.net.DownloadHXContact;
-import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UpdateHXContact;
-import com.example.administrator.bottom.net.UploadPortraitName;
 import com.example.administrator.bottom.utils.DownloadUtil;
 import com.example.administrator.bottom.utils.UploadUtil;
-import com.example.administrator.zxinglibrary.android.CaptureActivity;
-import com.example.administrator.zxinglibrary.bean.ZxingConfig;
 import com.example.administrator.zxinglibrary.common.Constant;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.PermissionListener;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -70,7 +58,6 @@ import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
@@ -156,6 +143,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                 }
             });
+            view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.GONE);
         } else if (TOKEN.equals(PHONE)) {
             linearLayout_id.setVisibility(View.VISIBLE);
             mTextView.setText("退出登录");
@@ -204,21 +192,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
             FileInputStream fis = null;
             if (uri != null && uri != "") {
                 handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
-//
-//                try {
-//                    fis = new FileInputStream(new File(uri));
-//                } catch (FileNotFoundException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                // 压缩图片
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inSampleSize = 2;//图片宽高都为原来的二分之一，即图片为原来的四分之一
-//                Bitmap bitmap = BitmapFactory.decodeStream(fis, null, options);
-//                if (bitmap != null) {
-//                    Log.i(TAG, "avatar width: " + FragMe.this.avatar.getWidth());
-//                    Log.i(TAG, "avatar height: " + FragMe.this.avatar.getHeight());
-//                this.avatar.setImageBitmap(bitmap);
+
                 Glide.with(getActivity()).load(uri).asBitmap()
                         .into(new BitmapImageViewTarget(avatar) {
                             @Override
@@ -235,24 +209,23 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                 handler.sendEmptyMessage(TO_DOWNLOAD_FILE);
 
             }
+
+            // 给员工显示员工通道
+            if (PHONE.equals("18795808378")) {
+                Log.i(TAG, "staff Only visible");
+                view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.VISIBLE);
+            } else {
+                Log.i(TAG, "staff Only gone");
+                view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.GONE);
+            }
         }
 
-        if (PHONE != null && PHONE.equals("18795808378")) {
-            view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.VISIBLE);
-        } else {
-            view.findViewById(R.id.ll_fragMe_staffOnly).setVisibility(View.GONE);
-        }
 
         // 绑定地址管理事件
         view.findViewById(R.id.address_mng).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (Config.loginStatus == 0)
-//                {
-//                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
-//                    startActivity(intent);
-//                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
-//                } else
+
                 {
                     getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
 
@@ -291,9 +264,16 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
         view.findViewById(R.id.ll_fragMe_joinUs).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AtyJoinUs.class);
-                startActivity(intent);
-                getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
+                    Intent intent = new Intent(getActivity(), AtyJoinUs.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                } else {
+                    Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                    startActivity(intent);
+                    getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                }
+
             }
         });
 
@@ -404,25 +384,7 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
 
                         }
                     });
-                    // 从服务器获取头像文件名
-//                    new DownloadPortrait(Config.getCachedPhoneNum(getActivity()), new DownloadPortrait.SuccessCallback() {
-//                        @Override
-//                        public void onSuccess(String portrait) {
-//                            // 获得文件名后向服务器请求下载头像文件
-//                            DownloadUtil downloadUtil = new DownloadUtil();
-//                            downloadUtil.setOnDownloadProcessListener(FragMe.this);
-//                            downloadUtil.downLoad(Config.SERVER_URL_PORTRAITPATH + portrait, portrait);
-//                            // 同时将图片的URL保存为环信头像（此时没有上传头像，因此hxPortraitPath不存在）
-//                            Config.cachePreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE, portrait);
-//                            Log.i("Handler", "download Pics and the PortraitURL:" + Config.SERVER_URL_PORTRAITPATH + portrait);
-//                        }
-//                    }, new DownloadPortrait.FailCallback() {
-//                        @Override
-//                        public void onFail() {
-//                            // 获取文件名失败
-//                            Log.i("Server_portrait", "get portrait failed");
-//                        }
-//                    });
+
                     break;
 
                 case DOWNLOAD_FILE_DONE:
@@ -432,13 +394,6 @@ public class FragMe extends Fragment implements DownloadUtil.OnDownloadProcessLi
                         // 将头像路径保存在本地，便于下次登录时使用（这个更新的前提是本地没有已保存的路径，既然需要从服务器下载就决定了这一点）
                         // 同时在退出登录时需要清空本地保存的路径，因为该路径不支持多用户，只保存了一个用户的头像路径
                         Config.cachePortraitPath(getActivity(), path);
-
-//                        FileInputStream fis = null;
-//                        try {
-//                            fis = new FileInputStream(new File(path));
-//                        } catch (FileNotFoundException e) {
-//                            e.printStackTrace();
-//                        }
 
                         Glide.with(getActivity()).load(Config.SERVER_URL_PORTRAITPATH + Config.getCachedPreference(getActivity(), Config.KEY_HX_PORTRAIT + PHONE)).asBitmap()
                                 .into(new BitmapImageViewTarget(avatar) {

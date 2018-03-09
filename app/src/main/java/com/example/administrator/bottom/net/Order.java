@@ -13,7 +13,7 @@ package com.example.administrator.bottom.net;
 //        备注     note
 //        状态     order_status(int)
 
-import com.example.administrator.bottom.staff.bean.BaseBean;
+import com.example.administrator.bottom.bean.BaseBean;
 
 public class Order extends BaseBean {
 

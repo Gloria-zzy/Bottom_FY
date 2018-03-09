@@ -4,11 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,17 +26,13 @@ import android.widget.Toast;
 
 import com.alibaba.sdk.android.push.CloudPushService;
 import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
-import com.bumptech.glide.Glide;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.frag.FragHome;
 import com.example.administrator.bottom.frag.FragMe;
 import com.example.administrator.bottom.frag.FragOrder;
-import com.example.administrator.bottom.net.DownloadPortrait;
 import com.example.administrator.bottom.net.UploadDeviceId;
-import com.example.administrator.bottom.ui.ChatActivity;
-import com.example.administrator.bottom.ui.FragChatMainActivity;
-import com.example.administrator.bottom.utils.DownloadUtil;
+import com.example.administrator.bottom.frag.FragCommunity;
 import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
@@ -50,8 +42,6 @@ import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.PermissionListener;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -60,7 +50,7 @@ import java.util.Map;
  * Created by Administrator on 2017/10/31.
  */
 
-public class AtyMainFrame extends FragmentActivity implements View.OnClickListener, FragHome.OnFragHomeListener, FragChatMainActivity.OnFragChatListener {
+public class AtyMainFrame extends FragmentActivity implements View.OnClickListener, FragHome.OnFragHomeListener, FragCommunity.OnFragChatListener {
 
     private LinearLayout tabHome;
     private LinearLayout tabOrder;
@@ -72,7 +62,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     private Fragment[] fragments = new Fragment[4];
     private FragHome fragHome;
     private FragOrder fragOrder;
-    private FragChatMainActivity fragCommunity;
+    private FragCommunity fragCommunity;
     private FragMe fragMe;
 
     private TextView unreadMsgCount;
@@ -247,7 +237,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
     //UI组件初始化与事件绑定
     private void bindView() {
         tabHome = (LinearLayout) this.findViewById(R.id.txt_home);
-        tabOrder = (LinearLayout) this.findViewById(R.id.txt_get);
+        tabOrder = (LinearLayout) this.findViewById(R.id.txt_order);
         tabCommunity = (LinearLayout) this.findViewById(R.id.txt_community);
         tabMe = (LinearLayout) this.findViewById(R.id.txt_me);
         ly_content = (FrameLayout) findViewById(R.id.fragment_container);
@@ -305,7 +295,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 }
                 break;
 
-            case R.id.txt_get:
+            case R.id.txt_order:
                 clearSelected();
                 tabOrder.setSelected(true);
                 if (fragOrder == null) {
@@ -320,7 +310,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
                 clearSelected();
                 tabCommunity.setSelected(true);
                 if (fragCommunity == null) {
-                    fragCommunity = new FragChatMainActivity();
+                    fragCommunity = new FragCommunity();
                     fragCommunity.setOnFragChatListener(this);
                     transaction.add(R.id.fragment_container, fragCommunity);
                 } else {
@@ -384,7 +374,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
         hideAllFragment(transaction);
         clearSelected();
         tabCommunity.setSelected(true);
-        fragCommunity = new FragChatMainActivity();
+        fragCommunity = new FragCommunity();
         fragCommunity.setOnFragChatListener(this);
         transaction.add(R.id.fragment_container, fragCommunity);
         transaction.show(fragCommunity);
@@ -481,7 +471,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
             transaction.show(fragCommunity);
             transaction.commit();
         }
-        startActivity(new Intent(getApplicationContext(), ChatActivity.class).putExtra(EaseConstant.EXTRA_USER_ID, "18795808378"));
+        startActivity(new Intent(getApplicationContext(), AtyChat.class).putExtra(EaseConstant.EXTRA_USER_ID, "18795808378"));
     }
 
     //聊天消息
@@ -493,7 +483,7 @@ public class AtyMainFrame extends FragmentActivity implements View.OnClickListen
             public void onMessageReceived(List<EMMessage> messages) {
                 //收到消息
                 handler.sendEmptyMessage(SHOW_UNREADMSG);
-                if (fragCommunity != null && tabCommunity.isSelected()) {
+                if (fragCommunity != null) {
                     Log.i(TAG, "ChatListener onResume");
                     fragCommunity.getConversationListFragment().getHandler().sendEmptyMessage(EaseConversationListFragment.MSG_REFRESH);
                 }

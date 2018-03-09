@@ -1,15 +1,19 @@
 package com.example.administrator.bottom.frag;
 
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,9 +40,12 @@ import com.example.administrator.bottom.atys.AtyTrustOrders;
 import com.example.administrator.bottom.atys.AtyUnlog;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.PermissionListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.administrator.bottom.Config.APP_ID;
@@ -153,44 +160,98 @@ public class FragHome extends Fragment {
 //                Toast.makeText(getActivity(), name[position], Toast.LENGTH_LONG).show();
                 switch (position) {
                     case 0:
-                        Intent intent0 = new Intent(getActivity(), AtyFetch.class);
-                        startActivity(intent0);
-                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)) {
+                            Intent intent0 = new Intent(getActivity(), AtyFetch.class);
+                            startActivity(intent0);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        }
+
                         break;
                     case 1:
-                        Intent intent1 = new Intent(getActivity(), AtyMail.class);
-                        startActivity(intent1);
-                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)){
+                            Intent intent1 = new Intent(getActivity(), AtyMail.class);
+                            startActivity(intent1);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        }
+
                         break;
                     case 2:
-                        Intent intent2 = new Intent(getActivity(), AtyTrustOrders.class);
-                        startActivity(intent2);
-                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)){
+                            Intent intent2 = new Intent(getActivity(), AtyTrustOrders.class);
+                            startActivity(intent2);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        }
+
                         break;
                     case 3://locate
-                        Intent intent = new Intent(getActivity(), AtyLocation.class);
-                        startActivityForResult(intent, REQUEST_CODE);
-//                        Intent intent3 = new Intent(getActivity(), AtyMail.class);
-//                        startActivity(intent3);
-//                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        String permission = Manifest.permission.ACCESS_FINE_LOCATION;
+                        int i = ContextCompat.checkSelfPermission(getActivity(), permission);
+                        if (i != PackageManager.PERMISSION_GRANTED) {
+                            AndPermission.with(getActivity()).permission(Manifest.permission.ACCESS_FINE_LOCATION).callback(new PermissionListener() {
+                                @Override
+                                public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+                                    Intent intent = new Intent(getActivity(), AtyLocation.class);
+                                    startActivityForResult(intent, REQUEST_CODE);
+                                }
+
+                                @Override
+                                public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+                                }
+                            }).start();
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyLocation.class);
+                            startActivityForResult(intent, REQUEST_CODE);
+                        }
+
                         break;
                     case 4:
-                        Intent intent4 = new Intent(getActivity(), AtyAddressMng.class);
-                        startActivity(intent4);
-                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)){
+                            Intent intent4 = new Intent(getActivity(), AtyAddressMng.class);
+                            startActivity(intent4);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        }
                         break;
+
                     case 5:
                         Intent intent5 = new Intent(getActivity(), AtyHelp.class);
                         startActivity(intent5);
                         getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
                         break;
                     case 6:
-                        Intent intent6 = new Intent(getActivity(), AtyJoinUs.class);
-                        startActivity(intent6);
-                        getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)){
+                            Intent intent6 = new Intent(getActivity(), AtyJoinUs.class);
+                            startActivity(intent6);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        }
                         break;
                     case 7://客服
-                        onFragHomeListener.contactCustomerService(0);
+                        if (TOKEN != null && !TOKEN.equals("") && TOKEN.equals(PHONE)){
+                            onFragHomeListener.contactCustomerService(0);
+                        } else {
+                            Intent intent = new Intent(getActivity(), AtyUnlog.class);
+                            startActivity(intent);
+                            getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
+                        }
                         break;
                     case 8:
                         Intent intent8 = new Intent(getActivity(), AtyFeedBack.class);
@@ -205,21 +266,18 @@ public class FragHome extends Fragment {
         //--------------------------九宫格 end--------------------------------------------------------
 
         //bindviews
-        tv_delivering = (TextView) view.findViewById(R.id.tv_fragHome_delivering);
-        tv_history = (TextView) view.findViewById(R.id.tv_fragHome_history);
-        tv_error = (TextView) view.findViewById(R.id.tv_fragHome_error);
-        ll_delivering = (LinearLayout) view.findViewById(R.id.ll_fragHome_delivering);
-        ll_history = (LinearLayout) view.findViewById(R.id.ll_fraghome_history);
-        ll_error = (LinearLayout) view.findViewById(R.id.ll_fragHome_error);
+        tv_delivering = view.findViewById(R.id.tv_fragHome_delivering);
+        tv_history = view.findViewById(R.id.tv_fragHome_history);
+        tv_error = view.findViewById(R.id.tv_fragHome_error);
+        ll_delivering = view.findViewById(R.id.ll_fragHome_delivering);
+        ll_history = view.findViewById(R.id.ll_fraghome_history);
+        ll_error = view.findViewById(R.id.ll_fragHome_error);
 
         ll_delivering.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.i(TAG, "delivering clicked");
                 onFragHomeListener.onItemsClicked(DELIVERING_ORDERS_CLIKED);
-//                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
-//                intent.putExtra("page", "order");
-//                startActivity(intent);
             }
         });
 
@@ -228,9 +286,6 @@ public class FragHome extends Fragment {
             public void onClick(View view) {
                 Log.i(TAG, "history clicked");
                 onFragHomeListener.onItemsClicked(HISTORY_ORDERS_CLIKED);
-//                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
-//                intent.putExtra("page", "order_history");
-//                startActivity(intent);
             }
         });
 
@@ -238,9 +293,6 @@ public class FragHome extends Fragment {
             @Override
             public void onClick(View view) {
                 onFragHomeListener.onItemsClicked(ERROR_ORDERS_CLIKED);
-//                Intent intent = new Intent(getActivity(), AtyMainFrame.class);
-//                intent.putExtra("page", "order");
-//                startActivity(intent);
             }
         });
 

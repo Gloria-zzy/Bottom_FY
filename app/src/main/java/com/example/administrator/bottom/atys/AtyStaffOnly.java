@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,20 +22,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.custom.OrderView;
+import com.example.administrator.bottom.adapter.AbsCommonAdapter;
+import com.example.administrator.bottom.adapter.AbsViewHolder;
+import com.example.administrator.bottom.bean.TableModel;
 import com.example.administrator.bottom.net.CompleteOrder;
 import com.example.administrator.bottom.net.DownloadTakenOrders;
-import com.example.administrator.bottom.net.DownloadTrustOrders;
 import com.example.administrator.bottom.net.Order;
-import com.example.administrator.bottom.staff.base.RefreshParams;
-import com.example.administrator.bottom.staff.base.adapter.AbsCommonAdapter;
-import com.example.administrator.bottom.staff.base.adapter.AbsViewHolder;
-import com.example.administrator.bottom.staff.bean.OnlineSaleBean;
-import com.example.administrator.bottom.staff.bean.TableModel;
-import com.example.administrator.bottom.staff.utils.WeakHandler;
-import com.example.administrator.bottom.staff.widget.SyncHorizontalScrollView;
-import com.example.administrator.bottom.staff.widget.pullrefresh.AbPullToRefreshView;
+import com.example.administrator.bottom.utils.WeakHandler;
+import com.example.administrator.bottom.widget.SyncHorizontalScrollView;
+import com.example.administrator.bottom.widget.pullrefresh.AbPullToRefreshView;
 import com.example.administrator.zxinglibrary.android.CaptureActivity;
 import com.example.administrator.zxinglibrary.bean.ZxingConfig;
 import com.example.administrator.zxinglibrary.common.Constant;
@@ -306,7 +302,7 @@ public class AtyStaffOnly extends AppCompatActivity {
                     @Override
                     public void run() {
                         pageNo = 0;
-                        doGetDatas(0, RefreshParams.REFRESH_DATA);
+                        doGetDatas(0, Config.REFRESH_DATA);
                     }
                 }, 1000);
             }
@@ -317,7 +313,7 @@ public class AtyStaffOnly extends AppCompatActivity {
                 mHandler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        doGetDatas(pageNo, RefreshParams.LOAD_DATA);
+                        doGetDatas(pageNo, Config.LOAD_DATA);
                     }
                 }, 1000);
             }
@@ -333,14 +329,14 @@ public class AtyStaffOnly extends AppCompatActivity {
     }
 
     public void setData() {
-        doGetDatas(0, RefreshParams.REFRESH_DATA);
+        doGetDatas(0, Config.REFRESH_DATA);
     }
 
     //模拟网络请求
     public void doGetDatas(int pageno, int state) {
         final List<Order> orderList = new ArrayList<>();
         final int mystate = state;
-        new DownloadTakenOrders("18752069878", new DownloadTakenOrders.SuccessCallback() {
+        new DownloadTakenOrders(Config.getCachedPhoneNum(this), new DownloadTakenOrders.SuccessCallback() {
 
             @Override
             public void onSuccess(ArrayList<Order> orders) {
@@ -354,7 +350,7 @@ public class AtyStaffOnly extends AppCompatActivity {
 
                 }
                 setDatas(orderList, mystate);
-                if (mystate == RefreshParams.REFRESH_DATA) {
+                if (mystate == Config.REFRESH_DATA) {
                     pulltorefreshview.onHeaderRefreshFinish();
                 } else {
                     pulltorefreshview.onFooterLoadFinish();
@@ -481,7 +477,7 @@ public class AtyStaffOnly extends AppCompatActivity {
                 mDatas.add(tableMode);
             }
             boolean isMore;
-            if (type == RefreshParams.LOAD_DATA) {
+            if (type == Config.LOAD_DATA) {
                 isMore = true;
             } else {
                 isMore = false;
@@ -496,12 +492,12 @@ public class AtyStaffOnly extends AppCompatActivity {
             mDatas.clear();
         } else {
             //数据为null
-            if (type == RefreshParams.REFRESH_DATA) {
+            if (type == Config.REFRESH_DATA) {
                 mLeftAdapter.clearData(true);
                 mRightAdapter.clearData(true);
                 //显示数据为空的视图
                 //                mEmpty.setShowErrorAndPic(getString(R.string.empty_null), 0);
-            } else if (type == RefreshParams.LOAD_DATA) {
+            } else if (type == Config.LOAD_DATA) {
                 Toast.makeText(mContext, "请求json失败", Toast.LENGTH_SHORT).show();
             }
         }

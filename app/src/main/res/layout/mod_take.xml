@@ -47,7 +47,7 @@
         android:orientation="vertical"
         android:padding="1dip" >
 
-        <com.example.administrator.bottom.custom.OrderView
+        <com.example.administrator.bottom.widget.OrderView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/order_view"/>

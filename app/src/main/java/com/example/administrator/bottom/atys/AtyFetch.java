@@ -28,7 +28,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.alipush.PushMessage;
-import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
+import com.example.administrator.bottom.widget.SoftHideKeyBoardUtil;
 import com.example.administrator.bottom.net.UploadOrder;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.net.DownloadHXFriends;

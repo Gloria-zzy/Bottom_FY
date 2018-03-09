@@ -18,8 +18,8 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
-import com.example.administrator.bottom.custom.OrderView;
+import com.example.administrator.bottom.widget.MultiSwipeRefreshLayout;
+import com.example.administrator.bottom.widget.OrderView;
 import com.example.administrator.bottom.net.DownloadTrustOrders;
 import com.example.administrator.bottom.net.Order;
 import com.example.administrator.bottom.Config;

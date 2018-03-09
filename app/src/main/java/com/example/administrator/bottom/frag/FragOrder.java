@@ -10,8 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +20,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -35,8 +31,8 @@ import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.atys.AtyDetails;
 import com.example.administrator.bottom.atys.AtyLogin;
 import com.example.administrator.bottom.atys.AtyMainFrame;
-import com.example.administrator.bottom.custom.MultiSwipeRefreshLayout;
-import com.example.administrator.bottom.custom.OrderView;
+import com.example.administrator.bottom.widget.MultiSwipeRefreshLayout;
+import com.example.administrator.bottom.widget.OrderView;
 import com.example.administrator.bottom.net.DownloadOrders;
 import com.example.administrator.bottom.net.Order;
 
@@ -48,6 +44,7 @@ import java.util.List;
  */
 
 public class FragOrder extends Fragment {
+    private ArrayList<Order> ORDERS;
     private LinearLayout ll;
     private LinearLayout history;
     private ScrollView scrollView1;
@@ -55,7 +52,7 @@ public class FragOrder extends Fragment {
     private MultiSwipeRefreshLayout swipeRefreshLayout;
     private ImageView top;
     private int selection = 0; //0:current page;    1:history page;
-//    protected EditText query;
+    //    protected EditText query;
 //    protected ImageButton clearSearch;
     protected InputMethodManager inputMethodManager;
     private ViewPager pager;
@@ -100,6 +97,7 @@ public class FragOrder extends Fragment {
         View view = null;
         String token = Config.getCachedToken(getActivity());
         String phone = Config.getCachedPhoneNum(getActivity());
+        ORDERS = new ArrayList<>();
         if (token == null || token.equals("")) {
             view = inflater.inflate(R.layout.aty_unlog, container, false);
             view.findViewById(R.id.to_login).setOnClickListener(new View.OnClickListener() {
@@ -140,7 +138,7 @@ public class FragOrder extends Fragment {
             tvs.add(tv2);
 
             //        初始化ViewPager组件
-            Log.i(TAG,selection + "init");
+            Log.i(TAG, selection + "init");
             initView();
             resetTextViewTextColor();
             initViewPager();
@@ -218,35 +216,8 @@ public class FragOrder extends Fragment {
             });
             //---------------------------BACK TO TOP end-------------------------------
 
-            //---------------------------SEARCH begin-------------------------------
             inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            query = (EditText) view.findViewById(com.hyphenate.easeui.R.id.query);
-//            clearSearch = (ImageButton) view.findViewById(com.hyphenate.easeui.R.id.search_clear);
-            // 对搜索框添加监听器
-//            query.addTextChangedListener(new TextWatcher() {
-//                public void onTextChanged(CharSequence s, int start, int before, int count) {
-////                    contactListLayout.filter(s);
-//                    if (s.length() > 0) {
-//                        clearSearch.setVisibility(View.VISIBLE);
-//                    } else {
-//                        clearSearch.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//
-//                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                }
-//
-//                public void afterTextChanged(Editable s) {
-//                }
-//            });
-//            clearSearch.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    query.getText().clear();
-//                    hideSoftKeyboard();
-//                }
-//            });
-            //---------------------------SEARCH end-------------------------------
+
             return view;
         }
         return view;
@@ -262,7 +233,7 @@ public class FragOrder extends Fragment {
         // 获取分辨率宽度
         int screenW = dm.widthPixels;
 
-        bmpW = (screenW/2);
+        bmpW = (screenW / 2);
 
         //设置动画图片宽度
         setBmpW(cursor, bmpW);
@@ -275,9 +246,10 @@ public class FragOrder extends Fragment {
 
     /**
      * 设置动画图片宽度
+     *
      * @param mWidth
      */
-    private void setBmpW(ImageView imageView,int mWidth){
+    private void setBmpW(ImageView imageView, int mWidth) {
         ViewGroup.LayoutParams para;
         para = imageView.getLayoutParams();
         para.width = mWidth;
@@ -307,7 +279,7 @@ public class FragOrder extends Fragment {
 
         if (ll != null) {
             ll.removeAllViews();
-            Log.i(TAG,"ll != null");
+            Log.i(TAG, "ll != null");
         }
         if (history != null) {
             history.removeAllViews();
@@ -325,6 +297,7 @@ public class FragOrder extends Fragment {
                 //        备注     note
 
                 for (Order o : orders) {
+                    ORDERS.add(o);
                     final String orderNumber = o.getOrderNumber();
                     String arriveAddress = o.getArriveAddress();
                     String arriveTime = o.getArriveTime();
@@ -354,8 +327,10 @@ public class FragOrder extends Fragment {
                     newov.getLl_modOrder_allAround().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String orderNum = newov.getTv_orderNumber().getText().toString();
+                            Log.i(TAG, "orderNumber:" + orderNum);
                             Intent intent = new Intent(getActivity(), AtyDetails.class);
-                            intent.putExtra("orderNumber", orderNumber);
+                            intent.putExtra("orderNumber", orderNum);
                             intent.putExtra("pattern", "");
                             startActivityForResult(intent, CODE_REFRESH);
                             getActivity().overridePendingTransition(R.transition.switch_slide_in_right, R.transition.switch_still);
@@ -432,22 +407,22 @@ public class FragOrder extends Fragment {
         // TODO Auto-generated method stub
         PagerAdapter adapter = new FragOrder.MyPagerAdapter();
         pager.setAdapter(adapter);
-        Log.i(TAG,selection + "here");
+        Log.i(TAG, selection + "here");
         tvs.get(selection).setTextColor(getResources().getColor(R.color.white));
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageSelected(int index) {
                 // TODO Auto-generated method stub
-                Animation animation = null ;
+                Animation animation = null;
                 for (int i = 0; i < tvs.size(); i++) {
 
-                    if(selection == 0 && index == 1){
-                        animation = new TranslateAnimation(offset,position_one, 0, 0);
+                    if (selection == 0 && index == 1) {
+                        animation = new TranslateAnimation(offset, position_one, 0, 0);
                         resetTextViewTextColor();
                         tv2.setTextColor(getResources().getColor(R.color.white));
-                    }else if(selection == 1 && index == 0){
-                        animation = new TranslateAnimation(position_one,offset, 0, 0);
+                    } else if (selection == 1 && index == 0) {
+                        animation = new TranslateAnimation(position_one, offset, 0, 0);
                         resetTextViewTextColor();
                         tv1.setTextColor(getResources().getColor(R.color.white));
                     }
@@ -475,7 +450,7 @@ public class FragOrder extends Fragment {
     /**
      * 将顶部文字恢复默认值
      */
-    private void resetTextViewTextColor(){
+    private void resetTextViewTextColor() {
 
         tv1.setTextColor(getResources().getColor(R.color.grey_blue));
         tv2.setTextColor(getResources().getColor(R.color.grey_blue));

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
+import com.example.administrator.bottom.widget.SoftHideKeyBoardUtil;
 import com.example.administrator.bottom.net.UploadAddress;
 
 import java.util.ArrayList;

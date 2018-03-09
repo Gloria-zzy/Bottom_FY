@@ -20,7 +20,6 @@
 
         <activity android:name="com.example.administrator.bottom.atys.AtyLogin"></activity>
         <activity android:name="com.example.administrator.bottom.atys.AtyTimeline"></activity>
-        <activity android:name="com.example.administrator.bottom.atys.AtyMessage"></activity>
         <activity android:name="com.example.administrator.bottom.atys.AtyPubMessage"></activity>
         <activity android:name="com.example.administrator.bottom.atys.AtyMainFrame">
 

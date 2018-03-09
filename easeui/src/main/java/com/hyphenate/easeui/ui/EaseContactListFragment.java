@@ -257,14 +257,10 @@ public class EaseContactListFragment extends EaseBaseFragment {
 
     // refresh ui
     public void refresh() {
-//        refreshContactList();
-//        if (Config.contactPortraitList == null) {
-//            refreshContactList();
-//            return;
-//        }
+        Log.i(TAG, "refresh()");
         getContactList();
-        // 更新界面
         contactListLayout.refresh();
+        // 更新界面
     }
 
 
@@ -280,8 +276,10 @@ public class EaseContactListFragment extends EaseBaseFragment {
      * get contact list and sort, will filter out users in blacklist
      */
     protected void getContactList() {
+        Log.i(TAG, "getContactList");
         contactList.clear();
         if (contactsMap == null) {
+            Log.i(TAG, "comtactsMap == null");
             return;
         }
         synchronized (this.contactsMap) {
@@ -289,6 +287,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
             List<String> blackList = EMClient.getInstance().contactManager()
                     .getBlackListUsernames();
             while (iterator.hasNext()) {
+                Log.i(TAG, "in synchronized");
                 Entry<String, EaseUser> entry = iterator.next();
                 // to make it compatible with data in previous version, you can remove this check
                 // if this is new app
@@ -312,6 +311,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
             @Override
             public int compare(EaseUser lhs, EaseUser rhs) {
                 if (lhs.getInitialLetter().equals(rhs.getInitialLetter())) {
+                    Log.i(TAG, "in sort");
                     return lhs.getNick().compareTo(rhs.getNick());
                 } else {
                     if ("#".equals(lhs.getInitialLetter())) {
@@ -371,6 +371,7 @@ public class EaseContactListFragment extends EaseBaseFragment {
      * @param contactsMap
      */
     public void setContactsMap(Map<String, EaseUser> contactsMap) {
+        Log.i(TAG, "setContactsMap");
         this.contactsMap = contactsMap;
     }
 
@@ -495,7 +496,4 @@ public class EaseContactListFragment extends EaseBaseFragment {
         }
     };
 
-    public void forOutRefresh() {
-        refreshContactList();
-    }
 }

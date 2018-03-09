@@ -1,4 +1,0 @@
-#Fri Feb 09 13:23:55 CST 2018
-base.0=G\:\\AStudio\\GitHub\\Bottom_FY\\simpledemo\\build\\intermediates\\transforms\\dexMerger\\debug\\17
-renamed.0=classes.dex
-file.0=G\:\\AStudio\\GitHub\\Bottom_FY\\simpledemo\\build\\intermediates\\transforms\\dexMerger\\debug\\17\\classes.dex

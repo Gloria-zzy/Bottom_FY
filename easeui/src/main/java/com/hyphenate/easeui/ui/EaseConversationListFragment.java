@@ -181,6 +181,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
                     break;
 
                 case MSG_REFRESH: {
+                    Log.i(TAG, "handler MSG_REFRESH");
                     conversationList.clear();
                     conversationList.addAll(loadConversationList());
                     conversationListView.refresh();
@@ -212,6 +213,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
      */
     public void refresh() {
         if (!handler.hasMessages(MSG_REFRESH)) {
+            Log.i(TAG, "refresh()");
             handler.sendEmptyMessage(MSG_REFRESH);
         }
     }
@@ -290,6 +292,8 @@ public class EaseConversationListFragment extends EaseBaseFragment {
         super.onHiddenChanged(hidden);
         this.hidden = hidden;
         if (!hidden && !isConflict) {
+            Log.i(TAG, "onHiddenChanged");
+            refresh();
             // 其中包括了refresh
             downloadPortrait();
         }
@@ -303,6 +307,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     public void onResume() {
         super.onResume();
         if (!hidden) {
+            refresh();
             Log.i(TAG, "not hidden!");
             downloadPortrait();
         }

@@ -42,7 +42,7 @@
             android:layout_weight="1">
 
             <LinearLayout
-                android:id="@+id/txt_get"
+                android:id="@+id/txt_order"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

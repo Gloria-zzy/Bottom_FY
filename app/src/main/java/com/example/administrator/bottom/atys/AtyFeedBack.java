@@ -42,6 +42,7 @@ public class AtyFeedBack extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AtyFeedBack.this, "提交成功", Toast.LENGTH_LONG).show();
+                findViewById(R.id.iv_atyFeedBack_back).performClick();
             }
         });
 

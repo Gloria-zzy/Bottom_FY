@@ -24,7 +24,6 @@ import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.example.administrator.bottom.R;
 import com.example.administrator.bottom.adapter.SearchPositionAdapter;
-import com.example.administrator.bottom.ui.ChatActivity;
 
 import java.util.ArrayList;
 import java.util.List;

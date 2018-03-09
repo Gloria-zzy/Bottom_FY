@@ -69,6 +69,10 @@ public class Config {
     public static final int RESULT_STATUS_SUCCESS = 1;
     public static final int RESULT_STATUS_FAIL = 0;
     public static final int RESULT_STATUS_INVALID_TOKEN = 2;
+    //上拉加载更多
+    public static final int LOAD_DATA = 2;
+    //下拉刷新
+    public static final int REFRESH_DATA = 1;
 
     public static final int HX_UNRADMSGCOUNT = 4;
 

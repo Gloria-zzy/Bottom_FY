@@ -1,43 +1,28 @@
 package com.example.administrator.bottom.atys;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.example.administrator.bottom.Config;
 import com.example.administrator.bottom.R;
-import com.example.administrator.bottom.alipush.PushMessage;
-import com.example.administrator.bottom.custom.SoftHideKeyBoardUtil;
-import com.example.administrator.bottom.net.UploadOrder;
-import com.hyphenate.easeui.domain.EaseUser;
-import com.hyphenate.easeui.net.DownloadHXFriends;
+import com.example.administrator.bottom.widget.SoftHideKeyBoardUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.example.administrator.bottom.Config.APP_ID;
 

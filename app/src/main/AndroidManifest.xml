@@ -65,7 +65,7 @@
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="11Grayv6Wa3VTLMtAkNqMLj408RIeqRw" />
+            android:value="R9z5yLQ1N3cX3Dfy2B9VxDvphVc5H8TT" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
@@ -79,16 +79,11 @@
             android:value="a1cd71f9bb0232b709d171e509e48866" /> <!-- 请填写你自己的appSecret -->
 
         <activity
-            android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity
             android:name=".atys.AtyLogin"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
             android:name=".atys.AtyAddress"
             android:windowSoftInputMode="adjustResize|stateHidden" />
-        <activity android:name=".atys.AtyMessage" />
-        <activity android:name=".atys.AtyPubMessage" />
         <activity android:name=".atys.AtyMainFrame" />
         <activity android:name=".atys.AtyTest" />
         <activity android:name=".atys.AtyLaunch">
@@ -123,11 +118,9 @@
             android:name=".alipush.MyMessageIntentService"
             android:exported="false">
             <intent-filter>
-                 
                 <action android:name="com.alibaba.push2.action.NOTIFICATION_OPENED" />
             </intent-filter>
             <intent-filter>
-                     
                 <action android:name="com.alibaba.push2.action.NOTIFICATION_REMOVED" />
             </intent-filter>
             <intent-filter>
@@ -179,7 +172,7 @@
         </receiver>
 
         <activity
-            android:name=".ui.ChatActivity"
+            android:name=".atys.AtyChat"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
